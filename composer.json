@@ -1,6 +1,6 @@
 {
   "name": "wearesho-team/yii2-phonet",
-  "description": "Yii2 Phonet integration",
+  "description": "Yii2 Phonet active methods integration",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -11,7 +11,9 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": "^7.1"
+    "php": "^7.1",
+    "horat1us/yii2-base": "^1.14",
+    "wearesho-team/yii-http": "^1.14"
   },
   "autoload": {
     "psr-4": {
@@ -34,5 +36,8 @@
     "phpcbf": "phpcbf --standard=PSR2 ./src ./tests",
     "cover": "phpunit --coverage-clover=coverage.xml",
     "test": "phpunit"
+  },
+  "require-dev": {
+    "vlucas/phpdotenv": "^3.2"
   }
 }
