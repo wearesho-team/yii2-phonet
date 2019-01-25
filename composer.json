@@ -1,0 +1,38 @@
+{
+  "name": "wearesho-team/yii2-phonet",
+  "description": "Yii2 Phonet integration",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kartvaik",
+      "email": "roman.varkuta@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wearesho\\Phonet\\Yii\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Wearesho\\Phonet\\Yii\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "7.1"
+    }
+  },
+  "scripts": {
+    "lint": "phpcs --standard=PSR2 ./src ./tests",
+    "phpcbf": "phpcbf --standard=PSR2 ./src ./tests",
+    "cover": "phpunit --coverage-clover=coverage.xml",
+    "test": "phpunit"
+  }
+}
