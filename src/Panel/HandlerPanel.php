@@ -2,11 +2,14 @@
 
 namespace Wearesho\Phonet\Yii\Panel;
 
+use Horat1us\Yii\Exceptions\ModelException;
+use Horat1us\Yii\Interfaces\ModelExceptionInterface;
 use Horat1us\Yii\Validators\InstanceValidator;
 use Wearesho\Phonet;
 use Wearesho\Yii;
 use yii\filters;
 use yii\web\HttpException;
+use yii\di;
 
 /**
  * Class HandlerPanel
@@ -16,6 +19,17 @@ class HandlerPanel extends Yii\Http\Panel
 {
     /** @var Phonet\Yii\IdentityInterface */
     public $identity = Phonet\Yii\IdentityInterface::class;
+
+    /** @var Phonet\Yii\RepositoryInterface */
+    public $repository = Phonet\Yii\RepositoryInterface::class;
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function init(): void
+    {
+        $this->repository = di\Instance::ensure($this->repository);
+    }
 
     public function behaviors(): array
     {
@@ -40,11 +54,20 @@ class HandlerPanel extends Yii\Http\Panel
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            ['identity', 'required',],
-            ['identity', InstanceValidator::class,]
+            [['identity', 'repository',], 'required',],
+            [
+                'identity',
+                InstanceValidator::class,
+                'className' => Phonet\Yii\IdentityInterface::class,
+            ],
+            [
+                'repository',
+                InstanceValidator::class,
+                'className' => Phonet\Yii\RepositoryInterface::class
+            ],
         ];
     }
 
@@ -54,9 +77,9 @@ class HandlerPanel extends Yii\Http\Panel
      */
     public function generateResponse(): array
     {
-        $isCallEvent = $this->fetch('event') ?? false;
+        $callEvent = $this->fetch('event') ?? false;
 
-        if (!$isCallEvent) {
+        if (!$callEvent) {
             $client = $this->identity::findBy(
                 $this->fetch('otherLegNum'),
                 $this->fetch('request'),
@@ -88,7 +111,29 @@ class HandlerPanel extends Yii\Http\Panel
                 'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
             ]);
         } else {
+            $event = new Phonet\Yii\Model\CallEvent([
+                'subjects' => $this->fetch('otherLegs'),
+                'direction' => $this->fetch('lgDirection'),
+                'uuid' => $this->fetch('uuid'),
+                'domain' => $this->fetch('accountDomain'),
+                'event' => $callEvent,
+                'bridge_at' => $this->fetch('bridgeAt'),
+                'dial_at' => $this->fetch('dialAt'),
+                'employee_call_taker' => $this->fetch('leg2'),
+                'employee_caller' => $this->fetch('leg'),
+                'parent_uuid' => $this->fetch('parentUuid'),
+                'server_time' => $this->fetch('serverTime'),
+                'trunk_name' => $this->fetch('trunkName'),
+                'trunk_number' => $this->fetch('trunkNum'),
+            ]);
 
+            if (!$event->validate()) {
+                throw new HttpException(400, 'Call event did not pass validation');
+            };
+
+            $this->repository->put($event);
+
+            return [];
         }
     }
 
