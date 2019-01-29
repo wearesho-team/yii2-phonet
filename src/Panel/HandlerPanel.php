@@ -2,12 +2,9 @@
 
 namespace Wearesho\Phonet\Yii\Panel;
 
-use Horat1us\Yii\Exceptions\ModelException;
-use Horat1us\Yii\Interfaces\ModelExceptionInterface;
 use Horat1us\Yii\Validators\InstanceValidator;
 use Wearesho\Phonet;
-use Wearesho\Yii;
-use yii\filters;
+use Wearesho\Yii\Http;
 use yii\web\HttpException;
 use yii\di;
 
@@ -15,7 +12,7 @@ use yii\di;
  * Class HandlerPanel
  * @package Wearesho\Phonet\Yii\Panel
  */
-class HandlerPanel extends Yii\Http\Panel
+class HandlerPanel extends Http\Panel
 {
     /** @var Phonet\Yii\IdentityInterface */
     public $identity = Phonet\Yii\IdentityInterface::class;
@@ -35,10 +32,10 @@ class HandlerPanel extends Yii\Http\Panel
     {
         return [
             'ip' => [
-                'class' => filters\AccessControl::class,
+                'class' => Http\Behaviors\AccessControl::class,
                 'rules' => [
                     [
-                        'class' => filters\AccessRule::class,
+                        'class' => Http\AccessRule::class,
                         'allow' => true,
                         'ips' => [
                             '89.184.65.208',
@@ -59,11 +56,6 @@ class HandlerPanel extends Yii\Http\Panel
         return [
             [['identity', 'repository',], 'required',],
             [
-                'identity',
-                InstanceValidator::class,
-                'className' => Phonet\Yii\IdentityInterface::class,
-            ],
-            [
                 'repository',
                 InstanceValidator::class,
                 'className' => Phonet\Yii\RepositoryInterface::class
@@ -77,13 +69,12 @@ class HandlerPanel extends Yii\Http\Panel
      */
     public function generateResponse(): array
     {
-        $callEvent = $this->fetch('event') ?? false;
+        $callEvent = $this->request->post('event') ?? false;
 
         if (!$callEvent) {
             $client = $this->identity::findBy(
-                $this->fetch('otherLegNum'),
-                $this->fetch('request'),
-                $this->fetch('trunkNum')
+                $this->request->post('otherLegNum'),
+                $this->request->post('trunkNum')
             );
 
             if (\is_null($client)) {
@@ -112,19 +103,19 @@ class HandlerPanel extends Yii\Http\Panel
             ]);
         } else {
             $event = new Phonet\Yii\Model\CallEvent([
-                'subjects' => $this->fetch('otherLegs'),
-                'direction' => $this->fetch('lgDirection'),
-                'uuid' => $this->fetch('uuid'),
-                'domain' => $this->fetch('accountDomain'),
+                'subjects' => $this->request->post('otherLegs'),
+                'direction' => $this->request->post('lgDirection'),
+                'uuid' => $this->request->post('uuid'),
+                'domain' => $this->request->post('accountDomain'),
                 'event' => $callEvent,
-                'bridge_at' => $this->fetch('bridgeAt'),
-                'dial_at' => $this->fetch('dialAt'),
-                'employee_call_taker' => $this->fetch('leg2'),
-                'employee_caller' => $this->fetch('leg'),
-                'parent_uuid' => $this->fetch('parentUuid'),
-                'server_time' => $this->fetch('serverTime'),
-                'trunk_name' => $this->fetch('trunkName'),
-                'trunk_number' => $this->fetch('trunkNum'),
+                'bridge_at' => $this->request->post('bridgeAt'),
+                'dial_at' => $this->request->post('dialAt'),
+                'employee_call_taker' => $this->request->post('leg2'),
+                'employee_caller' => $this->request->post('leg'),
+                'parent_uuid' => $this->request->post('parentUuid'),
+                'server_time' => $this->request->post('serverTime'),
+                'trunk_name' => $this->request->post('trunkName'),
+                'trunk_number' => $this->request->post('trunkNum'),
             ]);
 
             if (!$event->validate()) {
@@ -135,15 +126,5 @@ class HandlerPanel extends Yii\Http\Panel
 
             return [];
         }
-    }
-
-    /**
-     * @param string $param
-     *
-     * @return mixed
-     */
-    protected function fetch(string $param)
-    {
-        return isset($_POST[$param]) || \array_key_exists($param, $_POST) ? $_POST[$param] : null;
     }
 }
