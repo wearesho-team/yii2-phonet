@@ -1,18 +1,18 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Panel;
+namespace Wearesho\Phonet\Yii;
 
-use Horat1us\Yii\Validators\InstanceValidator;
-use Wearesho\Phonet;
-use Wearesho\Yii\Http;
-use yii\web\HttpException;
+use yii\base;
 use yii\di;
+use yii\filters;
+use yii\web;
+use Wearesho\Phonet;
 
 /**
- * Class HandlerPanel
- * @package Wearesho\Phonet\Yii\Panel
+ * Class Controller
+ * @package Wearesho\Phonet\Yii
  */
-class HandlerPanel extends Http\Panel
+class Controller extends base\Controller
 {
     /** @var Phonet\Yii\IdentityInterface */
     public $identity = Phonet\Yii\IdentityInterface::class;
@@ -32,10 +32,10 @@ class HandlerPanel extends Http\Panel
     {
         return [
             'ip' => [
-                'class' => Http\Behaviors\AccessControl::class,
+                'class' => filters\AccessControl::class,
                 'rules' => [
                     [
-                        'class' => Http\AccessRule::class,
+                        'class' => filters\AccessRule::class,
                         'allow' => true,
                         'ips' => [
                             '89.184.65.208',
@@ -51,34 +51,25 @@ class HandlerPanel extends Http\Panel
         ];
     }
 
-    public function rules(): array
-    {
-        return [
-            [['identity', 'repository',], 'required',],
-            [
-                'repository',
-                InstanceValidator::class,
-                'className' => Phonet\Yii\RepositoryInterface::class
-            ],
-        ];
-    }
-
     /**
      * @return array
-     * @throws HttpException
+     * @throws web\HttpException
      */
-    public function generateResponse(): array
+    public function actionIndex(): array
     {
-        $callEvent = $this->request->post('event') ?? false;
+        $request = \Yii::$app->request;
+        \Yii::$app->response->format = web\Response::FORMAT_JSON;
+
+        $callEvent = $request->post('event') ?? false;
 
         if (!$callEvent) {
             $client = $this->identity::findBy(
-                $this->request->post('otherLegNum'),
-                $this->request->post('trunkNum')
+                $request->post('otherLegNum'),
+                $request->post('trunkNum')
             );
 
             if (\is_null($client)) {
-                throw new HttpException(400);
+                throw new web\HttpException(400);
             }
 
             $response = [
@@ -103,23 +94,23 @@ class HandlerPanel extends Http\Panel
             ]);
         } else {
             $event = new Phonet\Yii\Model\CallEvent([
-                'subjects' => $this->request->post('otherLegs'),
-                'direction' => $this->request->post('lgDirection'),
-                'uuid' => $this->request->post('uuid'),
-                'domain' => $this->request->post('accountDomain'),
+                'subjects' => $request->post('otherLegs'),
+                'direction' => $request->post('lgDirection'),
+                'uuid' => $request->post('uuid'),
+                'domain' => $request->post('accountDomain'),
                 'event' => $callEvent,
-                'bridge_at' => $this->request->post('bridgeAt'),
-                'dial_at' => $this->request->post('dialAt'),
-                'employee_call_taker' => $this->request->post('leg2'),
-                'employee_caller' => $this->request->post('leg'),
-                'parent_uuid' => $this->request->post('parentUuid'),
-                'server_time' => $this->request->post('serverTime'),
-                'trunk_name' => $this->request->post('trunkName'),
-                'trunk_number' => $this->request->post('trunkNum'),
+                'bridge_at' => $request->post('bridgeAt'),
+                'dial_at' => $request->post('dialAt'),
+                'employee_call_taker' => $request->post('leg2'),
+                'employee_caller' => $request->post('leg'),
+                'parent_uuid' => $request->post('parentUuid'),
+                'server_time' => $request->post('serverTime'),
+                'trunk_name' => $request->post('trunkName'),
+                'trunk_number' => $request->post('trunkNum'),
             ]);
 
             if (!$event->validate()) {
-                throw new HttpException(400, 'Call event did not pass validation');
+                throw new web\HttpException(400, 'Call event did not pass validation');
             };
 
             $this->repository->put($event);

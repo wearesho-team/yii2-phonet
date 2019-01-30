@@ -2,13 +2,13 @@
 
 namespace Wearesho\Phonet\Yii\Tests\Mock;
 
-use Wearesho\Phonet\Yii\IdentityInterface;
+use Wearesho\Phonet;
 
 /**
  * Class User
  * @package Wearesho\Phonet\Yii\Tests\Mock
  */
-class User implements IdentityInterface
+class User extends \yii\web\User implements Phonet\Yii\IdentityInterface, \yii\web\IdentityInterface
 {
     public function getName(): ?string
     {
@@ -35,8 +35,33 @@ class User implements IdentityInterface
         return 'url-text';
     }
 
-    public static function findBy(string $number, ?string $request, ?string $trunk): ?IdentityInterface
+    public static function findBy(string $number, ?string $trunk): ?Phonet\Yii\IdentityInterface
     {
-        return new User();
+        return new static(['identityClass' => static::class]);
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        // nothing
+    }
+
+    public function getId()
+    {
+        return 1;
+    }
+
+    public function getAuthKey()
+    {
+        return 'key';
+    }
+
+    public static function findIdentity($id)
+    {
+        return new static();
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return new static();
     }
 }
