@@ -11,8 +11,16 @@ use Wearesho\Phonet\Yii\RepositoryInterface;
  */
 class Repository implements RepositoryInterface
 {
+    /** @var array */
+    protected $calls;
+
     public function put(CallEvent $call): void
     {
-        // client side logic
+        $this->calls[] = $call;
+    }
+
+    public function getCalls(): array
+    {
+        return $this->calls;
     }
 }

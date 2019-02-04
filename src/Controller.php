@@ -93,25 +93,21 @@ class Controller extends base\Controller
                 'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
             ]);
         } else {
-            $event = new Phonet\Yii\Model\CallEvent([
-                'subjects' => $request->post('otherLegs'),
-                'direction' => $request->post('lgDirection'),
-                'uuid' => $request->post('uuid'),
-                'domain' => $request->post('accountDomain'),
-                'event' => $callEvent,
-                'bridge_at' => $request->post('bridgeAt'),
-                'dial_at' => $request->post('dialAt'),
-                'employee_call_taker' => $request->post('leg2'),
-                'employee_caller' => $request->post('leg'),
-                'parent_uuid' => $request->post('parentUuid'),
-                'server_time' => $request->post('serverTime'),
-                'trunk_name' => $request->post('trunkName'),
-                'trunk_number' => $request->post('trunkNum'),
-            ]);
-
-            if (!$event->validate()) {
-                throw new web\HttpException(400, 'Call event did not pass validation');
-            };
+            $event = new Phonet\Yii\Model\CallEvent(
+                $callEvent,
+                $request->post('uuid'),
+                $request->post('parentUuid'),
+                $request->post('accountDomain'),
+                $request->post('dialAt'),
+                $request->post('bridgeAt'),
+                $request->post('lgDirection'),
+                $request->post('serverTime'),
+                $request->post('leg'),
+                $request->post('leg2'),
+                $request->post('otherLegs'),
+                $request->post('trunkNum'),
+                $request->post('trunkName')
+            );
 
             $this->repository->put($event);
 

@@ -2,70 +2,144 @@
 
 namespace Wearesho\Phonet\Yii\Model;
 
-use yii\base\Model;
-
 /**
  * Class CallEvent
  * @package Wearesho\Phonet\Yii\Model
  *
- * @property int $id
- * @property string $event
- * @property string $uuid
- * @property string $parent_uuid
- * @property string $domain
- * @property int $dial_at
- * @property int|null $bridge_at
- * @property int $direction
- * @property int $server_time
- * @property array $employee_caller
- * @property array|null $employee_call_taker
- * @property array|null $subjects
- * @property string $trunk_number
- * @property string $trunk_name
  */
-class CallEvent extends Model
+class CallEvent
 {
-    public function rules(): array
+    /** @var string */
+    protected $event;
+
+    /** @var string */
+    protected $uuid;
+
+    /** @var string|null */
+    protected $parentUuid;
+
+    /** @var string */
+    protected $domain;
+
+    /** @var int */
+    protected $dialAt;
+
+    /** @var int|null */
+    protected $bridgeAt;
+
+    /** @var int */
+    protected $direction;
+
+    /** @var int|null */
+    protected $serverTime;
+
+    /** @var array */
+    protected $employeeCaller;
+
+    /** @var array|null */
+    protected $employeeCallTaker;
+
+    /** @var array|null */
+    protected $subjects;
+
+    /** @var string */
+    protected $trunkNumber;
+
+    /** @var string */
+    protected $trunkName;
+
+    public function __construct(
+        string $event,
+        string $uuid,
+        ?string $parentUuid,
+        string $domain,
+        int $dialAt,
+        ?int $bridgeAt,
+        int $direction,
+        ?int $serverTime,
+        array $employeeCaller,
+        ?array $employeeCallTaker,
+        ?array $subjects,
+        string $trunkNumber,
+        string $trunkName
+    ) {
+        $this->event = $event;
+        $this->uuid = $uuid;
+        $this->parentUuid = $parentUuid;
+        $this->domain = $domain;
+        $this->dialAt = $dialAt;
+        $this->bridgeAt = $bridgeAt;
+        $this->direction = $direction;
+        $this->serverTime = $serverTime;
+        $this->employeeCaller = $employeeCaller;
+        $this->employeeCallTaker = $employeeCallTaker;
+        $this->subjects = $subjects;
+        $this->trunkNumber = $trunkNumber;
+        $this->trunkName = $trunkName;
+    }
+
+    public function getEvent(): string
     {
-        return [
-            [
-                [
-                    'event',
-                    'uuid',
-                    'parent_uuid',
-                    'domain',
-                    'dial_at',
-                    'bridge_at',
-                    'direction',
-                    'server_time',
-                    'employee_caller',
-                    'employee_call_taker',
-                    'subjects',
-                    'trunk_number',
-                    'trunk_name'
-                ],
-                'required'
-            ],
-            [
-                [
-                    'event',
-                    'uuid',
-                    'parent_uuid',
-                    'domain',
-                    'trunk_number',
-                    'trunk_name'
-                ],
-                'string'
-            ],
-            [
-                [
-                    'dial_at',
-                    'bridge_at',
-                    'server_time',
-                    'direction',
-                ],
-                'integer'
-            ],
-        ];
+        return $this->event;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    public function getParentUuid(): ?string
+    {
+        return $this->parentUuid;
+    }
+
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    public function getDialAt(): int
+    {
+        return $this->dialAt;
+    }
+
+    public function getBridgeAt(): ?int
+    {
+        return $this->bridgeAt;
+    }
+
+    public function getDirection(): int
+    {
+        return $this->direction;
+    }
+
+    public function getServerTime(): ?int
+    {
+        return $this->serverTime;
+    }
+
+    public function getEmployeeCaller(): array
+    {
+        return $this->employeeCaller;
+    }
+
+    public function getEmployeeCallTaker(): ?array
+    {
+        return $this->employeeCallTaker;
+    }
+
+    public function getSubjects(): ?array
+    {
+        return $this->subjects;
+    }
+
+    public function getTrunkNumber(): string
+    {
+        return $this->trunkNumber;
+    }
+
+    public function getTrunkName(): string
+    {
+        return $this->trunkName;
     }
 }
