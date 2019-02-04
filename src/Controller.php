@@ -93,7 +93,7 @@ class Controller extends base\Controller
                 'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
             ]);
         } else {
-            $event = new Phonet\Yii\Model\CallEvent(
+            $event = new Phonet\Yii\CallEvent(
                 $callEvent,
                 $request->post('uuid'),
                 $request->post('parentUuid'),

@@ -1,11 +1,10 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Model;
+namespace Wearesho\Phonet\Yii;
 
 /**
  * Class CallEvent
- * @package Wearesho\Phonet\Yii\Model
- *
+ * @package Wearesho\Phonet\Yii
  */
 class CallEvent
 {

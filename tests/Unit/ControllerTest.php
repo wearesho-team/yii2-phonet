@@ -97,7 +97,7 @@ class ControllerTest extends TestCase
 
         $this->assertEquals(
             [
-                new Yii\Model\CallEvent(
+                new Yii\CallEvent(
                     'call.dial',
                     '47a968893984475b8c20e29dec144ce3',
                     null,

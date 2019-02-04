@@ -2,8 +2,6 @@
 
 namespace Wearesho\Phonet\Yii;
 
-use Wearesho\Phonet\Yii\Model\CallEvent;
-
 /**
  * Interface RepositoryInterface
  * @package Wearesho\Phonet\Yii

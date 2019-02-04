@@ -2,19 +2,18 @@
 
 namespace Wearesho\Phonet\Yii\Tests\Mock;
 
-use Wearesho\Phonet\Yii\Model\CallEvent;
-use Wearesho\Phonet\Yii\RepositoryInterface;
+use Wearesho\Phonet;
 
 /**
  * Class Repository
  * @package Wearesho\Phonet\Yii\Tests\Mock
  */
-class Repository implements RepositoryInterface
+class Repository implements Phonet\Yii\RepositoryInterface
 {
     /** @var array */
     protected $calls;
 
-    public function put(CallEvent $call): void
+    public function put(Phonet\Yii\CallEvent $call): void
     {
         $this->calls[] = $call;
     }
