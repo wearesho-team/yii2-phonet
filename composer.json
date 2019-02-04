@@ -39,6 +39,6 @@
     "lint": "phpcs --standard=PSR2 ./src ./tests",
     "phpcbf": "phpcbf --standard=PSR2 ./src ./tests",
     "cover": "phpunit --coverage-clover=coverage.xml",
-    "test": "phpunit --configuration=./phpunit.xml"
+    "test": "phpunit"
   }
 }
