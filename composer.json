@@ -12,6 +12,8 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^7.1",
+    "nesbot/carbon": "^1.36",
+    "wearesho-team/phonet": "dev-hotfix/abstract-employee",
     "yiisoft/yii2": "~2.0.13"
   },
   "require-dev": {
@@ -35,6 +37,12 @@
       "php": "7.1"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:wearesho-team/phonet.git"
+    }
+  ],
   "scripts": {
     "lint": "phpcs --standard=PSR2 ./src ./tests",
     "phpcbf": "phpcbf --standard=PSR2 ./src ./tests",

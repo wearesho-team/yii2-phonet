@@ -2,8 +2,9 @@
 
 namespace Wearesho\Phonet\Yii\Tests\Unit;
 
+use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
-use Wearesho\Phonet\Yii;
+use Wearesho\Phonet;
 use yii\di\Container;
 use yii\base\Module;
 use yii\web\User;
@@ -23,23 +24,23 @@ class ControllerTest extends TestCase
             'basePath' => \Yii::getAlias('@Wearesho/Phonet/Yii'),
             'components' => [
                 'user' => [
-                    'identityClass' => Yii\Tests\Mock\User::class
+                    'identityClass' => Phonet\Yii\Tests\Mock\User::class
                 ]
             ]
         ]);
 
         (\Yii::$container = new Container())
-            ->setSingleton(Yii\RepositoryInterface::class, Yii\Tests\Mock\Repository::class)
+            ->setSingleton(Phonet\Yii\RepositoryInterface::class, Phonet\Yii\Tests\Mock\Repository::class)
             ->set(User::class, [
                 'class' => User::class,
-                'identityClass' => Yii\Tests\Mock\User::class,
+                'identityClass' => Phonet\Yii\Tests\Mock\User::class,
             ]);
     }
 
     public function testExistClientName(): void
     {
-        $controller = new Yii\Controller('id', $this->createMock(Module::class), [
-            'identity' => Yii\Tests\Mock\User::class,
+        $controller = new Phonet\Yii\Controller('id', $this->createMock(Module::class), [
+            'identity' => Phonet\Yii\Tests\Mock\User::class,
         ]);
 
         \Yii::$app->request->setBodyParams([
@@ -61,8 +62,8 @@ class ControllerTest extends TestCase
 
     public function testPutCall(): void
     {
-        $controller = new Yii\Controller('id', $this->createMock(Module::class), [
-            'identity' => Yii\Tests\Mock\User::class,
+        $controller = new Phonet\Yii\Controller('id', $this->createMock(Module::class), [
+            'identity' => Phonet\Yii\Tests\Mock\User::class,
         ]);
 
         $bodyParams = \json_decode(
@@ -95,37 +96,45 @@ class ControllerTest extends TestCase
 
         $this->assertEmpty($controller->actionIndex());
 
+        /** @var Phonet\Yii\Data\CallEvent $call */
+        $call = \Yii::$container->get(Phonet\Yii\RepositoryInterface::class)->getCalls()[0];
         $this->assertEquals(
-            [
-                new Yii\CallEvent(
-                    'call.dial',
-                    '47a968893984475b8c20e29dec144ce3',
-                    null,
-                    'qwerty.phonet.com.ua',
-                    1431686100,
-                    null,
-                    2,
-                    null,
-                    [
-                        'id' => 36,
-                        'ext' => '001',
-                        'displayName' => 'Иван Иванов',
-                    ],
-                    null,
-                    [
-                        [
-                            'id' => 1,
-                            'name' => 'Анастасия Березкина',
-                            'num' => '+380000000000',
-                            'companyName' => 'Тестовая компания',
-                            'url' => 'http://phonet.com.ua/contacts/1',
-                        ]
-                    ],
-                    '+380442246595',
-                    'www.phonet.com.ua'
-                )
-            ],
-            \Yii::$container->get(Yii\RepositoryInterface::class)->getCalls()
+            new Phonet\Yii\Data\CallEvent(
+                'call.dial',
+                '47a968893984475b8c20e29dec144ce3',
+                null,
+                'qwerty.phonet.com.ua',
+                Carbon::createFromTimestamp(1431686100),
+                null,
+                Phonet\Enum\Direction::OUT(),
+                null,
+                new Phonet\Yii\Data\Employee(
+                    36,
+                    '001',
+                    'Иван Иванов'
+                ),
+                null,
+                new Phonet\Data\Collection\Subject([
+                    new Phonet\Data\Subject(
+                        '+380000000000',
+                        'http://phonet.com.ua/contacts/1',
+                        1,
+                        'Анастасия Березкина',
+                        'Тестовая компания'
+                    )
+                ]),
+                '+380442246595',
+                'www.phonet.com.ua'
+            ),
+            $call
         );
+        $this->assertEquals('call.dial', $call->getEvent());
+        $this->assertEquals('47a968893984475b8c20e29dec144ce3', $call->getUuid());
+        $this->assertNull($call->getParentUuid());
+        $this->assertEquals('qwerty.phonet.com.ua', $call->getDomain());
+        $this->assertEquals(Carbon::createFromTimestamp(1431686100), $call->getDialAt());
+        $this->assertNull($call->getBridgeAt());
+        $this->assertEquals(Phonet\Enum\Direction::OUT(), $call->getDirection());
+        $this->assertNull($call->getServerTime());
     }
 }

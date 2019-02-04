@@ -2,6 +2,7 @@
 
 namespace Wearesho\Phonet\Yii;
 
+use Carbon\Carbon;
 use yii\base;
 use yii\di;
 use yii\filters;
@@ -38,6 +39,7 @@ class Controller extends base\Controller
                         'class' => filters\AccessRule::class,
                         'allow' => true,
                         'ips' => [
+                            // Default hardcode Phonet ips
                             '89.184.65.208',
                             '89.184.82.130',
                             '89.184.67.228',
@@ -93,18 +95,45 @@ class Controller extends base\Controller
                 'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
             ]);
         } else {
-            $event = new Phonet\Yii\CallEvent(
+            $bridgeAt = $request->post('bridgeAt');
+            $employeeCaller = $request->post('leg');
+            $employeeCaller = new Phonet\Yii\Data\Employee(
+                (int)$employeeCaller['id'],
+                $employeeCaller['ext'],
+                $employeeCaller['displayName']
+            );
+            $employeeCallTaker = $request->post('leg2');
+            $employeeCallTaker = $employeeCallTaker
+                ? new Phonet\Yii\Data\Employee(
+                    (int)$employeeCallTaker['id'],
+                    $employeeCallTaker['ext'],
+                    $employeeCallTaker['displayName']
+                )
+                : null;
+
+            $event = new Phonet\Yii\Data\CallEvent(
                 $callEvent,
                 $request->post('uuid'),
                 $request->post('parentUuid'),
                 $request->post('accountDomain'),
-                $request->post('dialAt'),
-                $request->post('bridgeAt'),
-                $request->post('lgDirection'),
+                Carbon::createFromTimestamp($request->post('dialAt')),
+                $bridgeAt ? Carbon::createFromTimestamp($bridgeAt) : null,
+                new Phonet\Enum\Direction((int)$request->post('lgDirection')),
                 $request->post('serverTime'),
-                $request->post('leg'),
-                $request->post('leg2'),
-                $request->post('otherLegs'),
+                $employeeCaller,
+                $employeeCallTaker,
+                new Phonet\Data\Collection\Subject(
+                    \array_map(function ($subject): Phonet\Data\Subject {
+                        return new Phonet\Data\Subject(
+                            $subject['num'],
+                            $subject['url'],
+                            isset($subject['id']) ? (int)$subject['id'] : null,
+                            isset($subject['name']) ? $subject['name'] : null,
+                            isset($subject['companyName']) ? $subject['companyName'] : null,
+                            isset($subject['priority']) ? $subject['priority'] : null
+                        );
+                    }, $request->post('otherLegs') ?? [])
+                ) ?: null,
                 $request->post('trunkNum'),
                 $request->post('trunkName')
             );

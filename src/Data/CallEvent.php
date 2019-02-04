@@ -1,12 +1,15 @@
 <?php
 
-namespace Wearesho\Phonet\Yii;
+namespace Wearesho\Phonet\Yii\Data;
+
+use Carbon\Carbon;
+use Wearesho\Phonet;
 
 /**
  * Class CallEvent
- * @package Wearesho\Phonet\Yii
+ * @package Wearesho\Phonet\Yii\Data
  */
-class CallEvent
+class CallEvent implements \JsonSerializable
 {
     /** @var string */
     protected $event;
@@ -20,25 +23,25 @@ class CallEvent
     /** @var string */
     protected $domain;
 
-    /** @var int */
+    /** @var Carbon */
     protected $dialAt;
 
-    /** @var int|null */
+    /** @var Carbon|null */
     protected $bridgeAt;
 
-    /** @var int */
+    /** @var Phonet\Enum\Direction */
     protected $direction;
 
     /** @var int|null */
     protected $serverTime;
 
-    /** @var array */
+    /** @var Phonet\Yii\Data\Employee */
     protected $employeeCaller;
 
-    /** @var array|null */
+    /** @var Phonet\Yii\Data\Employee|null */
     protected $employeeCallTaker;
 
-    /** @var array|null */
+    /** @var Phonet\Data\Collection\Subject|null */
     protected $subjects;
 
     /** @var string */
@@ -52,13 +55,13 @@ class CallEvent
         string $uuid,
         ?string $parentUuid,
         string $domain,
-        int $dialAt,
-        ?int $bridgeAt,
-        int $direction,
+        Carbon $dialAt,
+        ?Carbon $bridgeAt,
+        Phonet\Enum\Direction $direction,
         ?int $serverTime,
-        array $employeeCaller,
-        ?array $employeeCallTaker,
-        ?array $subjects,
+        Phonet\Yii\Data\Employee $employeeCaller,
+        ?Phonet\Yii\Data\Employee $employeeCallTaker,
+        ?Phonet\Data\Collection\Subject $subjects,
         string $trunkNumber,
         string $trunkName
     ) {
@@ -75,6 +78,25 @@ class CallEvent
         $this->subjects = $subjects;
         $this->trunkNumber = $trunkNumber;
         $this->trunkName = $trunkName;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'event' => $this->event,
+            'uuid' => $this->uuid,
+            'parentUuid' => $this->parentUuid,
+            'domain' => $this->domain,
+            'dialAt' => $this->dialAt,
+            'bridgeAt' => $this->bridgeAt,
+            'direction' => $this->direction,
+            'serverTime' => $this->serverTime,
+            'employeeCaller' => $this->employeeCaller,
+            'employeeCallTaker' => $this->employeeCallTaker,
+            'subjects' => $this->subjects,
+            'trunkName' => $this->trunkName,
+            'trunkNumber' => $this->trunkNumber,
+        ];
     }
 
     public function getEvent(): string
@@ -97,17 +119,17 @@ class CallEvent
         return $this->domain;
     }
 
-    public function getDialAt(): int
+    public function getDialAt(): Carbon
     {
         return $this->dialAt;
     }
 
-    public function getBridgeAt(): ?int
+    public function getBridgeAt(): ?Carbon
     {
         return $this->bridgeAt;
     }
 
-    public function getDirection(): int
+    public function getDirection(): Phonet\Enum\Direction
     {
         return $this->direction;
     }
@@ -117,17 +139,17 @@ class CallEvent
         return $this->serverTime;
     }
 
-    public function getEmployeeCaller(): array
+    public function getEmployeeCaller(): Phonet\Yii\Data\Employee
     {
         return $this->employeeCaller;
     }
 
-    public function getEmployeeCallTaker(): ?array
+    public function getEmployeeCallTaker(): ?Phonet\Yii\Data\Employee
     {
         return $this->employeeCallTaker;
     }
 
-    public function getSubjects(): ?array
+    public function getSubjects(): ?Phonet\Data\Collection\Subject
     {
         return $this->subjects;
     }
