@@ -110,6 +110,7 @@ class Controller extends base\Controller
                     $employeeCallTaker['displayName']
                 )
                 : null;
+            $serverTime = $request->post('serverTime');
 
             $event = new Phonet\Yii\Data\CallEvent(
                 $callEvent,
@@ -119,12 +120,12 @@ class Controller extends base\Controller
                 Carbon::createFromTimestamp($request->post('dialAt')),
                 $bridgeAt ? Carbon::createFromTimestamp($bridgeAt) : null,
                 new Phonet\Enum\Direction((int)$request->post('lgDirection')),
-                $request->post('serverTime'),
+                $serverTime ? Carbon::createFromTimestamp($serverTime) : null,
                 $employeeCaller,
                 $employeeCallTaker,
                 new Phonet\Data\Collection\Subject(
-                    \array_map(function ($subject): Phonet\Data\Subject {
-                        return new Phonet\Data\Subject(
+                    \array_map(function ($subject): Phonet\Yii\Data\Subject {
+                        return new Phonet\Yii\Data\Subject(
                             $subject['num'],
                             $subject['url'],
                             isset($subject['id']) ? (int)$subject['id'] : null,

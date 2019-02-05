@@ -4,12 +4,27 @@ namespace Wearesho\Phonet\Yii\Data;
 
 use Carbon\Carbon;
 use Wearesho\Phonet;
+use yii\base;
 
 /**
  * Class CallEvent
  * @package Wearesho\Phonet\Yii\Data
+ *
+ * @property string $event
+ * @property string $uuid
+ * @property string|null $parentUuid
+ * @property string $domain
+ * @property Carbon $dialAt
+ * @property Carbon|null $bridgeAt
+ * @property Phonet\Enum\Direction $direction
+ * @property Carbon|null $serverTime
+ * @property Employee $employeeCaller
+ * @property Employee $employeeCallTaker
+ * @property Phonet\Data\Collection\Subject $subjects
+ * @property string $trunkNumber
+ * @property string $trunkName
  */
-class CallEvent implements \JsonSerializable
+class CallEvent extends base\Model implements \JsonSerializable
 {
     /** @var string */
     protected $event;
@@ -35,10 +50,10 @@ class CallEvent implements \JsonSerializable
     /** @var int|null */
     protected $serverTime;
 
-    /** @var Phonet\Yii\Data\Employee */
+    /** @var Employee */
     protected $employeeCaller;
 
-    /** @var Phonet\Yii\Data\Employee|null */
+    /** @var Employee|null */
     protected $employeeCallTaker;
 
     /** @var Phonet\Data\Collection\Subject|null */
@@ -58,13 +73,16 @@ class CallEvent implements \JsonSerializable
         Carbon $dialAt,
         ?Carbon $bridgeAt,
         Phonet\Enum\Direction $direction,
-        ?int $serverTime,
-        Phonet\Yii\Data\Employee $employeeCaller,
-        ?Phonet\Yii\Data\Employee $employeeCallTaker,
+        ?Carbon $serverTime,
+        Employee $employeeCaller,
+        ?Employee $employeeCallTaker,
         ?Phonet\Data\Collection\Subject $subjects,
         string $trunkNumber,
-        string $trunkName
+        string $trunkName,
+        array $config = []
     ) {
+        parent::__construct($config);
+
         $this->event = $event;
         $this->uuid = $uuid;
         $this->parentUuid = $parentUuid;
@@ -134,17 +152,17 @@ class CallEvent implements \JsonSerializable
         return $this->direction;
     }
 
-    public function getServerTime(): ?int
+    public function getServerTime(): ?Carbon
     {
         return $this->serverTime;
     }
 
-    public function getEmployeeCaller(): Phonet\Yii\Data\Employee
+    public function getEmployeeCaller(): Employee
     {
         return $this->employeeCaller;
     }
 
-    public function getEmployeeCallTaker(): ?Phonet\Yii\Data\Employee
+    public function getEmployeeCallTaker(): ?Employee
     {
         return $this->employeeCallTaker;
     }

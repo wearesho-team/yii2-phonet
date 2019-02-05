@@ -905,12 +905,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "da6825bb722ad2d51c8963712bfac5b3628d68ab"
+                "reference": "fe7daad55d3c56075f217dff3e665d2c0c01903d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/da6825bb722ad2d51c8963712bfac5b3628d68ab",
-                "reference": "da6825bb722ad2d51c8963712bfac5b3628d68ab",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/fe7daad55d3c56075f217dff3e665d2c0c01903d",
+                "reference": "fe7daad55d3c56075f217dff3e665d2c0c01903d",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "source": "https://github.com/wearesho-team/phonet/tree/hotfix/abstract-employee",
                 "issues": "https://github.com/wearesho-team/phonet/issues"
             },
-            "time": "2019-02-04T16:56:42+00:00"
+            "time": "2019-02-05T12:51:16+00:00"
         },
         {
             "name": "yiisoft/yii2",

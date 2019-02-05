@@ -115,7 +115,7 @@ class ControllerTest extends TestCase
                 ),
                 null,
                 new Phonet\Data\Collection\Subject([
-                    new Phonet\Data\Subject(
+                    new Phonet\Yii\Data\Subject(
                         '+380000000000',
                         'http://phonet.com.ua/contacts/1',
                         1,
@@ -128,13 +128,25 @@ class ControllerTest extends TestCase
             ),
             $call
         );
-        $this->assertEquals('call.dial', $call->getEvent());
-        $this->assertEquals('47a968893984475b8c20e29dec144ce3', $call->getUuid());
+        $this->assertEquals('call.dial', $call->event);
+        $this->assertEquals('47a968893984475b8c20e29dec144ce3', $call->uuid);
         $this->assertNull($call->getParentUuid());
-        $this->assertEquals('qwerty.phonet.com.ua', $call->getDomain());
-        $this->assertEquals(Carbon::createFromTimestamp(1431686100), $call->getDialAt());
-        $this->assertNull($call->getBridgeAt());
-        $this->assertEquals(Phonet\Enum\Direction::OUT(), $call->getDirection());
-        $this->assertNull($call->getServerTime());
+        $this->assertEquals('qwerty.phonet.com.ua', $call->domain);
+        $this->assertEquals(Carbon::createFromTimestamp(1431686100), $call->dialAt);
+        $this->assertNull($call->bridgeAt);
+        $this->assertEquals(Phonet\Enum\Direction::OUT(), $call->direction);
+        $this->assertNull($call->serverTime);
+        $this->assertEquals(36, $call->employeeCaller->id);
+        $this->assertEquals('001', $call->employeeCaller->internalNumber);
+        $this->assertEquals('Иван Иванов', $call->employeeCaller->displayName);
+        $this->assertNull($call->employeeCallTaker);
+        $this->assertCount(1, $call->subjects);
+        /** @var Phonet\Yii\Data\Subject $subject */
+        $subject = $call->subjects[0];
+        $this->assertEquals('+380000000000', $subject->number);
+        $this->assertEquals('http://phonet.com.ua/contacts/1', $subject->uri);
+        $this->assertEquals(1, $subject->id);
+        $this->assertEquals('Анастасия Березкина', $subject->name);
+        $this->assertEquals('Тестовая компания', $subject->company);
     }
 }
