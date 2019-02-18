@@ -113,7 +113,7 @@ class Controller extends base\Controller
             $serverTime = $request->post('serverTime');
 
             $event = new Phonet\Yii\Data\CallEvent(
-                $callEvent,
+                new Phonet\Enum\Event($callEvent),
                 $request->post('uuid'),
                 $request->post('parentUuid'),
                 $request->post('accountDomain'),

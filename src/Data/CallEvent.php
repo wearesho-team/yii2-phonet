@@ -10,7 +10,7 @@ use yii\base;
  * Class CallEvent
  * @package Wearesho\Phonet\Yii\Data
  *
- * @property string $event
+ * @property Phonet\Enum\Event $event
  * @property string $uuid
  * @property string|null $parentUuid
  * @property string $domain
@@ -26,7 +26,7 @@ use yii\base;
  */
 class CallEvent extends base\Model implements \JsonSerializable
 {
-    /** @var string */
+    /** @var Phonet\Enum\Event */
     protected $event;
 
     /** @var string */
@@ -66,7 +66,7 @@ class CallEvent extends base\Model implements \JsonSerializable
     protected $trunkName;
 
     public function __construct(
-        string $event,
+        Phonet\Enum\Event $event,
         string $uuid,
         ?string $parentUuid,
         string $domain,
@@ -117,7 +117,7 @@ class CallEvent extends base\Model implements \JsonSerializable
         ];
     }
 
-    public function getEvent(): string
+    public function getEvent(): Phonet\Enum\Event
     {
         return $this->event;
     }

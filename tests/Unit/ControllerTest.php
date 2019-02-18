@@ -100,7 +100,7 @@ class ControllerTest extends TestCase
         $call = \Yii::$container->get(Phonet\Yii\RepositoryInterface::class)->getCalls()[0];
         $this->assertEquals(
             new Phonet\Yii\Data\CallEvent(
-                'call.dial',
+                Phonet\Enum\Event::DIAL(),
                 '47a968893984475b8c20e29dec144ce3',
                 null,
                 'qwerty.phonet.com.ua',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ebc7e3bcdb8979906fcdca4472d263a",
+    "content-hash": "8028cedad1701988b16a43331758807f",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -905,12 +905,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "fe7daad55d3c56075f217dff3e665d2c0c01903d"
+                "reference": "2fa414e7bff4e56648980c4fc694b680bd0b60f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/fe7daad55d3c56075f217dff3e665d2c0c01903d",
-                "reference": "fe7daad55d3c56075f217dff3e665d2c0c01903d",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/2fa414e7bff4e56648980c4fc694b680bd0b60f2",
+                "reference": "2fa414e7bff4e56648980c4fc694b680bd0b60f2",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "source": "https://github.com/wearesho-team/phonet/tree/hotfix/abstract-employee",
                 "issues": "https://github.com/wearesho-team/phonet/issues"
             },
-            "time": "2019-02-05T12:51:16+00:00"
+            "time": "2019-02-05T14:39:14+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -2753,11 +2753,10 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
-    },
-    "platform-dev": {
+        "php": "^7.1",
         "ext-json": "*"
     },
+    "platform-dev": [],
     "platform-overrides": {
         "php": "7.1"
     }
