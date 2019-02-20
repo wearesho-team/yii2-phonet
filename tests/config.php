@@ -19,6 +19,10 @@ $config = [
             'username' => \getenv("DB_USERNAME"),
             'password' => \getenv("DB_PASSWORD") ?: null,
         ],
+        'user' => [
+            'class' => \Wearesho\Phonet\Yii\Tests\Mock\User::class,
+            'identityClass' => \Wearesho\Phonet\Yii\Tests\Mock\User::class
+        ]
     ],
 ];
 

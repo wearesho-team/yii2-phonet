@@ -8,5 +8,5 @@ namespace Wearesho\Phonet\Yii;
  */
 interface RepositoryInterface
 {
-    public function put(Data\CallEvent $call): void;
+    public function put(Record\CallEvent $call): void;
 }

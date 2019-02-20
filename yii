@@ -17,7 +17,7 @@ $config = [
         'migrate' => [
             'class' => MigrateController::class,
             'migrationNamespaces' => [
-                'Wearesho\\Phonet\\Yii\\Migration',
+                'Wearesho\\Phonet\\Yii\\Migrations',
             ],
             'migrationPath' => null,
         ],

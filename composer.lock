@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8028cedad1701988b16a43331758807f",
+    "content-hash": "88767a104dd49e34880215aa0eb34430",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -493,20 +493,79 @@
             "time": "2018-11-06T15:24:48+00:00"
         },
         {
-            "name": "myclabs/php-enum",
-            "version": "1.6.4",
+            "name": "kartavik/yii2-enum",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "550d2334d77f91b0816a5cbd6965272fe20146b8"
+                "url": "https://github.com/KartaviK/yii2-enum.git",
+                "reference": "f9129e17baa7c347b205e9f2f3fbbb5d79a56394"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/550d2334d77f91b0816a5cbd6965272fe20146b8",
-                "reference": "550d2334d77f91b0816a5cbd6965272fe20146b8",
+                "url": "https://api.github.com/repos/KartaviK/yii2-enum/zipball/f9129e17baa7c347b205e9f2f3fbbb5d79a56394",
+                "reference": "f9129e17baa7c347b205e9f2f3fbbb5d79a56394",
                 "shasum": ""
             },
             "require": {
+                "myclabs/php-enum": "^1.6.6",
+                "yiisoft/yii2": "^2.0.13.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5",
+                "squizlabs/php_codesniffer": "^3.4",
+                "vlucas/phpdotenv": "^3.3",
+                "yiisoft/yii2-phpunit": "dev-master"
+            },
+            "suggest": {
+                "horat1us/yii2-base": "For better validation for ranges of const values"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kartavik\\Yii2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Varkuta",
+                    "email": "roman.varkuta@gmail.com"
+                }
+            ],
+            "description": "Yii2 enum mapping behavior / validator",
+            "keywords": [
+                "enum",
+                "map",
+                "mapping",
+                "validator",
+                "yii2",
+                "yii2 enum",
+                "yii2 enum behavior",
+                "yii2 enum map",
+                "yii2 enum mapping",
+                "yii2 enum validator"
+            ],
+            "time": "2019-02-20T17:54:12+00:00"
+        },
+        {
+            "name": "myclabs/php-enum",
+            "version": "1.6.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/php-enum.git",
+                "reference": "32c4202886c51fbe5cc3a7c34ec5c9a4a790345e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/32c4202886c51fbe5cc3a7c34ec5c9a4a790345e",
+                "reference": "32c4202886c51fbe5cc3a7c34ec5c9a4a790345e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
                 "php": ">=5.4"
             },
             "require-dev": {
@@ -534,7 +593,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2018-10-30T14:36:18+00:00"
+            "time": "2019-02-04T21:18:49+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -905,12 +964,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "2fa414e7bff4e56648980c4fc694b680bd0b60f2"
+                "reference": "b9aa1ba4092b10dce45be46945c8e5c175f82c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/2fa414e7bff4e56648980c4fc694b680bd0b60f2",
-                "reference": "2fa414e7bff4e56648980c4fc694b680bd0b60f2",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/b9aa1ba4092b10dce45be46945c8e5c175f82c3f",
+                "reference": "b9aa1ba4092b10dce45be46945c8e5c175f82c3f",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +1026,7 @@
                 "source": "https://github.com/wearesho-team/phonet/tree/hotfix/abstract-employee",
                 "issues": "https://github.com/wearesho-team/phonet/issues"
             },
-            "time": "2019-02-05T14:39:14+00:00"
+            "time": "2019-02-18T16:50:19+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -1122,6 +1181,44 @@
                 "yii2"
             ],
             "time": "2018-07-05T15:44:47+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-phpunit",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Horat1us/yii2-phpunit.git",
+                "reference": "2f864d917f12462997aef5c891b8d658d0b7a498"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Horat1us/yii2-phpunit/zipball/2f864d917f12462997aef5c891b8d658d0b7a498",
+                "reference": "2f864d917f12462997aef5c891b8d658d0b7a498",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "^2.0.13.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "yii\\phpunit\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Alexander Letnikow",
+                    "email": "reclamme@gmail.com"
+                }
+            ],
+            "description": "Yii 2 PHPUnit compatibility layer and enhancements",
+            "support": {
+                "source": "https://github.com/Horat1us/yii2-phpunit/tree/master"
+            },
+            "time": "2018-05-11T15:21:38+00:00"
         }
     ],
     "packages-dev": [
@@ -2748,7 +2845,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "wearesho-team/phonet": 20
+        "wearesho-team/phonet": 20,
+        "yiisoft/yii2-phpunit": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -97,47 +97,48 @@ class Controller extends base\Controller
         } else {
             $bridgeAt = $request->post('bridgeAt');
             $employeeCaller = $request->post('leg');
-            $employeeCaller = new Phonet\Yii\Data\Employee(
-                (int)$employeeCaller['id'],
-                $employeeCaller['ext'],
-                $employeeCaller['displayName']
-            );
+            $employeeCaller = new Phonet\Yii\Record\Employee([
+                'id' => (int)$employeeCaller['id'],
+                'internal_number' => $employeeCaller['ext'],
+                'display_name' => $employeeCaller['displayName']
+            ]);
             $employeeCallTaker = $request->post('leg2');
             $employeeCallTaker = $employeeCallTaker
-                ? new Phonet\Yii\Data\Employee(
-                    (int)$employeeCallTaker['id'],
-                    $employeeCallTaker['ext'],
-                    $employeeCallTaker['displayName']
-                )
+                ? new Phonet\Yii\Record\Employee([
+                    'id' => (int)$employeeCallTaker['id'],
+                    'internal_number' => $employeeCallTaker['ext'],
+                    'display_name' => $employeeCallTaker['displayName']
+                ])
                 : null;
             $serverTime = $request->post('serverTime');
 
-            $event = new Phonet\Yii\Data\CallEvent(
-                new Phonet\Enum\Event($callEvent),
-                $request->post('uuid'),
-                $request->post('parentUuid'),
-                $request->post('accountDomain'),
-                Carbon::createFromTimestamp($request->post('dialAt')),
-                $bridgeAt ? Carbon::createFromTimestamp($bridgeAt) : null,
-                new Phonet\Enum\Direction((int)$request->post('lgDirection')),
-                $serverTime ? Carbon::createFromTimestamp($serverTime) : null,
-                $employeeCaller,
-                $employeeCallTaker,
-                new Phonet\Data\Collection\Subject(
-                    \array_map(function ($subject): Phonet\Yii\Data\Subject {
-                        return new Phonet\Yii\Data\Subject(
-                            $subject['num'],
-                            $subject['url'],
-                            isset($subject['id']) ? (int)$subject['id'] : null,
-                            isset($subject['name']) ? $subject['name'] : null,
-                            isset($subject['companyName']) ? $subject['companyName'] : null,
-                            isset($subject['priority']) ? $subject['priority'] : null
-                        );
-                    }, $request->post('otherLegs') ?? [])
+            $event = new Phonet\Yii\Record\CallEvent([
+                'event' => new Phonet\Enum\Event($callEvent),
+                'uuid' => $request->post('uuid'),
+                'parent_uuid' => $request->post('parentUuid'),
+                'domain' => $request->post('accountDomain'),
+                'dial_at' => Carbon::createFromTimestamp($request->post('dialAt'))->toDateTimeString(),
+                'bridge_at' => $bridgeAt ? Carbon::createFromTimestamp($bridgeAt)->toDateTimeString() : null,
+                'direction' => new Phonet\Enum\Direction((int)$request->post('lgDirection')),
+                'server_time' => $serverTime ? Carbon::createFromTimestamp($serverTime)->toDateTimeString() : null,
+                'employeeCaller' => $employeeCaller,
+                'employeeCallTaker' => $employeeCallTaker,
+                'subjects' => \array_map(
+                    function (array $subject): Phonet\Yii\Record\Subject {
+                        return new Phonet\Yii\Record\Subject([
+                            'number' => $subject['num'],
+                            'uri' => $subject['url'],
+                            'internal_id' => isset($subject['id']) ? (int)$subject['id'] : null,
+                            'name' => isset($subject['name']) ? $subject['name'] : null,
+                            'company' => isset($subject['companyName']) ? $subject['companyName'] : null,
+                            'priority' => isset($subject['priority']) ? $subject['priority'] : null
+                        ]);
+                    },
+                    $request->post('otherLegs') ?? []
                 ) ?: null,
-                $request->post('trunkNum'),
-                $request->post('trunkName')
-            );
+                'trunk_number' => $request->post('trunkNum'),
+                'trunk_name' => $request->post('trunkName')
+            ]);
 
             $this->repository->put($event);
 

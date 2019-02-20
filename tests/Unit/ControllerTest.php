@@ -3,9 +3,7 @@
 namespace Wearesho\Phonet\Yii\Tests\Unit;
 
 use Carbon\Carbon;
-use PHPUnit\Framework\TestCase;
 use Wearesho\Phonet;
-use yii\di\Container;
 use yii\base\Module;
 use yii\web\User;
 
@@ -13,23 +11,11 @@ use yii\web\User;
  * Class ControllerTest
  * @package Wearesho\Phonet\Yii\Tests\Unit
  */
-class ControllerTest extends TestCase
+class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
-        \Yii::$app = new \yii\web\Application([
-            'id' => 'yii2-phonet',
-            'basePath' => \Yii::getAlias('@Wearesho/Phonet/Yii'),
-            'components' => [
-                'user' => [
-                    'identityClass' => Phonet\Yii\Tests\Mock\User::class
-                ]
-            ]
-        ]);
-
-        (\Yii::$container = new Container())
+        \Yii::$container
             ->setSingleton(Phonet\Yii\RepositoryInterface::class, Phonet\Yii\Tests\Mock\Repository::class)
             ->set(User::class, [
                 'class' => User::class,
@@ -96,10 +82,10 @@ class ControllerTest extends TestCase
 
         $this->assertEmpty($controller->actionIndex());
 
-        /** @var Phonet\Yii\Data\CallEvent $call */
+        /** @var Phonet\Yii\Record\CallEvent $call */
         $call = \Yii::$container->get(Phonet\Yii\RepositoryInterface::class)->getCalls()[0];
         $this->assertEquals(
-            new Phonet\Yii\Data\CallEvent(
+            new Phonet\Yii\Record\CallEvent(
                 Phonet\Enum\Event::DIAL(),
                 '47a968893984475b8c20e29dec144ce3',
                 null,
@@ -108,14 +94,14 @@ class ControllerTest extends TestCase
                 null,
                 Phonet\Enum\Direction::OUT(),
                 null,
-                new Phonet\Yii\Data\Employee(
+                new Phonet\Yii\Record\Employee(
                     36,
                     '001',
                     'Иван Иванов'
                 ),
                 null,
                 new Phonet\Data\Collection\Subject([
-                    new Phonet\Yii\Data\Subject(
+                    new Phonet\Yii\Record\Subject(
                         '+380000000000',
                         'http://phonet.com.ua/contacts/1',
                         1,
@@ -141,7 +127,7 @@ class ControllerTest extends TestCase
         $this->assertEquals('Иван Иванов', $call->employeeCaller->displayName);
         $this->assertNull($call->employeeCallTaker);
         $this->assertCount(1, $call->subjects);
-        /** @var Phonet\Yii\Data\Subject $subject */
+        /** @var Phonet\Yii\Record\Subject $subject */
         $subject = $call->subjects[0];
         $this->assertEquals('+380000000000', $subject->number);
         $this->assertEquals('http://phonet.com.ua/contacts/1', $subject->uri);

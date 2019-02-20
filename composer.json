@@ -13,9 +13,11 @@
   "require": {
     "php": "^7.1",
     "ext-json": "*",
+    "kartavik/yii2-enum": "^2.0",
     "nesbot/carbon": "^1.36",
     "wearesho-team/phonet": "dev-hotfix/abstract-employee",
-    "yiisoft/yii2": "~2.0.13"
+    "yiisoft/yii2": "~2.0.13",
+    "yiisoft/yii2-phpunit": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5",
@@ -41,6 +43,10 @@
     {
       "type": "vcs",
       "url": "git@github.com:wearesho-team/phonet.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:Horat1us/yii2-phpunit.git"
     }
   ],
   "scripts": {
