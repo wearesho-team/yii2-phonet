@@ -18,8 +18,8 @@ class TestCase extends phpunit\TestCase
             [
                 'class' => phpunit\MigrateFixture::class,
                 'migrationNamespaces' => [
-                    'Wearesho\\Phonet\\Yii\\Migrations',
-                ],
+                    'Wearesho\\Phonet\\Yii\\Migrations'
+                ]
             ]
         ];
 

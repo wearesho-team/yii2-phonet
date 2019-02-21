@@ -10,6 +10,7 @@ $name = getenv("DB_NAME");
 $port = getenv("DB_PORT");
 $dsn = "{$dbType}:host={$host};dbname={$name};port={$port}";
 $config = [
+    'class' => \yii\web\Application::class,
     'id' => 'yii2-phonet',
     'basePath' => \dirname(__DIR__),
     'components' => [

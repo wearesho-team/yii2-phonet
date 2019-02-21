@@ -111,6 +111,19 @@ class Controller extends base\Controller
                 ])
                 : null;
             $serverTime = $request->post('serverTime');
+            $subjects = \array_map(
+                function (array $subject): Phonet\Yii\Record\Subject {
+                    return new Phonet\Yii\Record\Subject([
+                        'number' => $subject['num'],
+                        'uri' => $subject['url'],
+                        'internal_id' => ($subject['id'] ?? null) ? (string)$subject['id'] : null,
+                        'name' => isset($subject['name']) ? $subject['name'] : null,
+                        'company' => isset($subject['companyName']) ? $subject['companyName'] : null,
+                        'priority' => isset($subject['priority']) ? $subject['priority'] : null
+                    ]);
+                },
+                $request->post('otherLegs') ?? []
+            );
 
             $event = new Phonet\Yii\Record\CallEvent([
                 'event' => new Phonet\Enum\Event($callEvent),
@@ -122,23 +135,22 @@ class Controller extends base\Controller
                 'direction' => new Phonet\Enum\Direction((int)$request->post('lgDirection')),
                 'server_time' => $serverTime ? Carbon::createFromTimestamp($serverTime)->toDateTimeString() : null,
                 'employeeCaller' => $employeeCaller,
-                'employeeCallTaker' => $employeeCallTaker,
-                'subjects' => \array_map(
-                    function (array $subject): Phonet\Yii\Record\Subject {
-                        return new Phonet\Yii\Record\Subject([
-                            'number' => $subject['num'],
-                            'uri' => $subject['url'],
-                            'internal_id' => isset($subject['id']) ? (int)$subject['id'] : null,
-                            'name' => isset($subject['name']) ? $subject['name'] : null,
-                            'company' => isset($subject['companyName']) ? $subject['companyName'] : null,
-                            'priority' => isset($subject['priority']) ? $subject['priority'] : null
-                        ]);
-                    },
-                    $request->post('otherLegs') ?? []
-                ) ?: null,
                 'trunk_number' => $request->post('trunkNum'),
                 'trunk_name' => $request->post('trunkName')
             ]);
+
+            if (!empty($subjects)) {
+                $event->populateRelation('subjects', $subjects);
+            }
+            $employeeCaller->save();
+            $employeeCallTaker ? $employeeCallTaker->save() : null;
+            $event->employeeCallTaker = $employeeCallTaker ?: null;
+
+            $event->save();
+            foreach ($event->subjects as $subject) {
+                $subject->call_event_id = $event->id;
+                $subject->save();
+            }
 
             $this->repository->put($event);
 

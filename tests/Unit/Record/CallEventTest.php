@@ -77,7 +77,7 @@ class CallEventTest extends Phonet\Yii\Tests\Unit\TestCase
 
     public function testGetEmployeeCaller(): void
     {
-        $this->assertArraySubset(
+        $this->assertEquals(
             (new Phonet\Yii\Record\Employee([
                 'id' => static::EMPLOYEE_CALLER_ID,
                 'internal_number' => static::INTERNAL_NUMBER,
@@ -89,7 +89,7 @@ class CallEventTest extends Phonet\Yii\Tests\Unit\TestCase
 
     public function testGetEmployeeCallTaker(): void
     {
-        $this->assertArraySubset(
+        $this->assertEquals(
             (new Phonet\Yii\Record\Employee([
                 'id' => static::EMPLOYEE_CALL_TAKER_ID,
                 'internal_number' => static::INTERNAL_NUMBER,
@@ -101,7 +101,7 @@ class CallEventTest extends Phonet\Yii\Tests\Unit\TestCase
 
     public function testGetSubjects(): void
     {
-        $this->assertArraySubset(
+        $this->assertEquals(
             (new Phonet\Yii\Record\Subject([
                 'id' => 1,
                 'number' => static::NUMBER,

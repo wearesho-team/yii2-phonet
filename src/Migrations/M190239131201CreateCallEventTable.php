@@ -11,17 +11,25 @@ class M190239131201CreateCallEventTable extends Migration
 {
     public function safeUp(): void
     {
-        $this->execute("create type phonet_direction as enum ('1', '2', '4', '32', '64')");
-        $this->execute("create type phonet_event as enum ('call.dial', 'call.bridge', 'call.hangup')");
+        $directionEnum = "enum ('1', '2', '4', '32', '64')";
+        $eventEnum = "enum ('call.dial', 'call.bridge', 'call.hangup')";
+
+        if ($this->getDb()->getDriverName() === 'pgsql') {
+            $this->execute("create type phonet_direction as $directionEnum");
+            $directionEnum = 'phonet_direction';
+            $this->execute("create type phonet_event as $eventEnum");
+            $eventEnum = 'phonet_event';
+        }
+
         $this->createTable('phonet_call_event', [
             'id' => $this->primaryKey(),
-            'event' => 'phonet_event',
+            'event' => $eventEnum,
             'domain' => $this->string(),
             'uuid' => $this->string(),
             'parent_uuid' => $this->string()->null(),
             'dial_at' => $this->timestamp(),
             'bridge_at' => $this->timestamp()->null(),
-            'direction' => "phonet_direction",
+            'direction' => $directionEnum,
             'server_time' => $this->timestamp(),
             'employee_caller_id' => $this->integer(),
             'employee_call_taker_id' => $this->integer()->null(),
@@ -57,7 +65,10 @@ class M190239131201CreateCallEventTable extends Migration
         $this->dropForeignKey('phonet_call_event_employee_caller', 'phonet_call_event');
         $this->dropForeignKey('phonet_call_event_employee_call_taker', 'phonet_call_event');
         $this->dropTable('phonet_call_event');
-        $this->execute('drop type phonet_direction');
-        $this->execute('drop type phonet_event');
+
+        if ($this->getDb()->getDriverName() === 'pgsql') {
+            $this->execute('drop type phonet_direction');
+            $this->execute('drop type phonet_event');
+        }
     }
 }

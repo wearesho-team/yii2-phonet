@@ -25,7 +25,7 @@ use yii\db;
  * @property string $trunk_number
  * @property string $trunk_name
  *
- * @property Phonet\Data\Collection\Subject $subjects
+ * @property Subject[] $subjects
  * @property Employee $employeeCaller
  * @property Employee $employeeCallTaker
  */
@@ -63,7 +63,6 @@ class CallEvent extends db\ActiveRecord
                     'dial_at',
                     'direction',
                     'employee_caller_id',
-                    'employee_call_taker_id',
                     'trunk_number',
                     'trunk_name'
                 ],
@@ -109,6 +108,10 @@ class CallEvent extends db\ActiveRecord
      */
     public function setSubjects(array $subjects): self
     {
+        foreach ($subjects as $subject) {
+            $subject->call_event_id = $this->id;
+        }
+
         $this->subjects = $subjects;
         $this->populateRelation('subjects', $subjects);
 
@@ -133,10 +136,12 @@ class CallEvent extends db\ActiveRecord
         return $this->hasOne(Employee::class, ['id' => 'employee_call_taker_id']);
     }
 
-    public function setEmployeeCallTaker(Employee $employee): self
+    public function setEmployeeCallTaker(?Employee $employee): self
     {
-        $this->employee_call_taker_id = $employee->id;
-        $this->populateRelation('employeeCallTaker', $employee);
+        if ($employee !== null) {
+            $this->employee_call_taker_id = $employee->id;
+            $this->populateRelation('employeeCallTaker', $employee);
+        }
 
         return $this;
     }
