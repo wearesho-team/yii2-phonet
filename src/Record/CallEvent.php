@@ -25,7 +25,6 @@ use yii\db;
  * @property string $trunk_number
  * @property string $trunk_name
  *
- * @property Subject[] $subjects
  * @property Employee $employeeCaller
  * @property Employee $employeeCallTaker
  */
@@ -94,28 +93,6 @@ class CallEvent extends db\ActiveRecord
                 'targetEnum' => Phonet\Enum\Direction::class,
             ]
         ];
-    }
-
-    public function getSubjects(): db\ActiveQuery
-    {
-        return $this->hasMany(Subject::class, ['call_event_id' => 'id']);
-    }
-
-    /**
-     * @param array|Subject[] $subjects
-     *
-     * @return CallEvent
-     */
-    public function setSubjects(array $subjects): self
-    {
-        foreach ($subjects as $subject) {
-            $subject->call_event_id = $this->id;
-        }
-
-        $this->subjects = $subjects;
-        $this->populateRelation('subjects', $subjects);
-
-        return $this;
     }
 
     public function getEmployeeCaller(): db\ActiveQuery

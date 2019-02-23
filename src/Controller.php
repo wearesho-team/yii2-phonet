@@ -139,18 +139,9 @@ class Controller extends base\Controller
                 'trunk_name' => $request->post('trunkName')
             ]);
 
-            if (!empty($subjects)) {
-                $event->populateRelation('subjects', $subjects);
-            }
             $employeeCaller->save();
             $employeeCallTaker ? $employeeCallTaker->save() : null;
             $event->employeeCallTaker = $employeeCallTaker ?: null;
-
-            $event->save();
-            foreach ($event->subjects as $subject) {
-                $subject->call_event_id = $event->id;
-                $subject->save();
-            }
 
             $this->repository->put($event);
 

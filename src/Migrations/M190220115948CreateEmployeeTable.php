@@ -12,11 +12,11 @@ class M190220115948CreateEmployeeTable extends Migration
     public function safeUp(): void
     {
         $this->createTable('phonet_employee', [
-            'id' => $this->integer(),
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->unsigned()->notNull(),
             'internal_number' => $this->string(),
-            'display_name' => $this->string()
+            'display_name' => $this->string(),
         ]);
-        $this->addPrimaryKey('phonet_employee_pk', 'phonet_employee', ['id']);
     }
 
     public function safeDown(): void
