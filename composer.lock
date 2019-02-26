@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d07adcea01fe15138f089bb7ffe6264",
+    "content-hash": "85303cb60cc50169a6a397a7e3067929",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -2552,16 +2552,16 @@
         },
         {
             "name": "wearesho-team/phonet",
-            "version": "dev-feature/exceptions",
+            "version": "dev-feature/complete-call-status",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "3e59de410d279131afde0dda48f8d487aa8b5c0e"
+                "reference": "829f4b37b438810185a7d100a1671124a1c2bb83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/3e59de410d279131afde0dda48f8d487aa8b5c0e",
-                "reference": "3e59de410d279131afde0dda48f8d487aa8b5c0e",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/829f4b37b438810185a7d100a1671124a1c2bb83",
+                "reference": "829f4b37b438810185a7d100a1671124a1c2bb83",
                 "shasum": ""
             },
             "require": {
@@ -2615,10 +2615,10 @@
             ],
             "description": "Phonet Api Integration",
             "support": {
-                "source": "https://github.com/wearesho-team/phonet/tree/feature/exceptions",
+                "source": "https://github.com/wearesho-team/phonet/tree/feature/complete-call-status",
                 "issues": "https://github.com/wearesho-team/phonet/issues"
             },
-            "time": "2019-02-23T10:43:13+00:00"
+            "time": "2019-02-26T10:09:26+00:00"
         },
         {
             "name": "webmozart/assert",

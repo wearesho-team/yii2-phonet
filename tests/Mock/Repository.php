@@ -13,7 +13,7 @@ class Repository implements Phonet\Yii\RepositoryInterface
     /** @var array */
     protected $calls;
 
-    public function put(Phonet\Yii\Record\CallEvent $call): void
+    public function put(Phonet\Yii\Record\Call $call): void
     {
         $this->calls[] = $call;
     }

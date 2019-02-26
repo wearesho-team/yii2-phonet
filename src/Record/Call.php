@@ -8,31 +8,32 @@ use Wearesho\Phonet;
 use yii\db;
 
 /**
- * Class CallEvent
+ * Class Call
  * @package Wearesho\Phonet\Yii\Record
  *
  * @property int $id
- * @property Phonet\Enum\Event $event
  * @property string $uuid
  * @property string|null $parent_uuid
  * @property string $domain
+ * @property Phonet\Yii\Enum\CallType $type
+ * @property int operator_id
+ * @property Phonet\Yii\Enum\Pause $pause
  * @property string $dial_at
  * @property string|null $bridge_at
- * @property Phonet\Enum\Direction $direction
- * @property string|null $server_time
- * @property int $employee_caller_id
- * @property int $employee_call_taker_id
- * @property string $trunk_number
- * @property string $trunk_name
+ * @property string $updated_at
  *
- * @property Employee $employeeCaller
- * @property Employee $employeeCallTaker
+ * @property bool $isInternal
+ * @property bool $isExternal
+ *
+ * @property Employee $operator
+ * @property CallExternalData|CallInternalData $data
+ * @property CompleteCallData $completeData
  */
-class CallEvent extends db\ActiveRecord
+class Call extends db\ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'phonet_call_event';
+        return 'phonet_call';
     }
 
     public function behaviors(): array
@@ -41,11 +42,12 @@ class CallEvent extends db\ActiveRecord
             'enum' => [
                 'class' => EnumMappingBehavior::class,
                 'map' => [
-                    'event' => Phonet\Enum\Event::class,
-                    'direction' => Phonet\Enum\Direction::class,
+                    'type' => Phonet\Yii\Enum\CallType::class,
+                    'pause' => Phonet\Yii\Enum\Pause::class,
                 ],
                 'attributesType' => [
-                    'direction' => 'integer',
+                    'type' => 'integer',
+                    'pause' => 'integer',
                 ]
             ],
         ];
@@ -56,7 +58,6 @@ class CallEvent extends db\ActiveRecord
         return [
             [
                 [
-                    'event',
                     'uuid',
                     'domain',
                     'dial_at',
@@ -78,48 +79,47 @@ class CallEvent extends db\ActiveRecord
                 'string'
             ],
             [
-                ['dial_at', 'bridge_at', 'server_time'],
+                ['dial_at', 'bridge_at', 'updated_at'],
                 'datetime',
                 'format' => 'php:Y-m-d H:i:s'
             ],
             [
-                'event',
+                'type',
                 EnumValidator::class,
-                'targetEnum' => Phonet\Enum\Event::class,
+                'targetEnum' => Phonet\Yii\Enum\CallType::class,
             ],
             [
-                'direction',
+                'pause',
                 EnumValidator::class,
-                'targetEnum' => Phonet\Enum\Direction::class,
+                'targetEnum' => Phonet\Yii\Enum\Pause::class,
             ]
         ];
     }
 
-    public function getEmployeeCaller(): db\ActiveQuery
+    public function getOperator(): db\ActiveQuery
     {
-        return $this->hasOne(Employee::class, ['id' => 'employee_caller_id']);
+        return $this->hasOne(Employee::class, ['id' => 'operator_id']);
     }
 
-    public function setEmployeeCaller(Employee $employee): self
+    public function getIsInternal(): bool
     {
-        $this->employee_caller_id = $employee->id;
-        $this->populateRelation('employeeCaller', $employee);
-
-        return $this;
+        return $this->type->equals(Phonet\Yii\Enum\CallType::INTERNAL());
     }
 
-    public function getEmployeeCallTaker(): db\ActiveQuery
+    public function getIsExternal(): bool
     {
-        return $this->hasOne(Employee::class, ['id' => 'employee_call_taker_id']);
+        return $this->type->equals(Phonet\Yii\Enum\CallType::EXTERNAL_IN())
+            || $this->type->equals(Phonet\Yii\Enum\CallType::EXTERNAL_OUT());
     }
 
-    public function setEmployeeCallTaker(?Employee $employee): self
+    public function getData(): db\ActiveQuery
     {
-        if ($employee !== null) {
-            $this->employee_call_taker_id = $employee->id;
-            $this->populateRelation('employeeCallTaker', $employee);
+        $relation = ['call_id' => 'id'];
+
+        if ($this->isInternal) {
+            return $this->hasOne(CallInternalData::class, $relation);
+        } else {
+            return $this->hasOne(CallExternalData::class, $relation);
         }
-
-        return $this;
     }
 }

@@ -9,6 +9,7 @@ use yii\db;
  * @package Wearesho\Phonet\Yii\Record
  *
  * @property int $id
+ * @property int|null $user_id
  * @property string $internal_number
  * @property string $display_name
  */
@@ -23,7 +24,7 @@ class Employee extends db\ActiveRecord
     {
         return [
             [['id', 'internal_number', 'display_name'], 'required'],
-            ['id', 'integer'],
+            [['id', 'user_id'], 'integer'],
             [['display_name', 'internal_number'], 'string']
         ];
     }

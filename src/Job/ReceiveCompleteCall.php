@@ -44,17 +44,26 @@ class ReceiveCompleteCall implements JobInterface
 
         while (!empty($calls)) {
             /** @var Phonet\Data\CompleteCall[]|array $needCall */
-            $needCall = array_filter($calls->getArrayCopy(), function (Phonet\Data\CompleteCall $call): bool {
+            $needCall = \array_filter($calls->getArrayCopy(), function (Phonet\Data\CompleteCall $call): bool {
                 return $call->getUuid() === $this->uuid;
             });
 
-            if (empty($needCall) and count($calls) <= 50) {
+            if (empty($needCall) and \count($calls) <= 50) {
                 $offset += 50;
                 $calls = $this->getCalls($offset);
             } else {
-                $needCall = array_shift($needCall); // shift find unique call from array
+                $needCall = \array_shift($needCall); // shift find unique call from array
 
-                // todo: save call data;
+                $completeCallData = new Phonet\Yii\Record\CompleteCallData([
+                    'uuid' => $needCall->getUuid(),
+                    'transfer_history' => $needCall->getTransferHistory(),
+                    'status' => $needCall->getStatus(),
+                    'duration' => $needCall->getDuration(),
+                    'bill_secs' => $needCall->getBillSecs(),
+                    'trunk' => $needCall->getTrunk(),
+                    'audio_rec_url' => $needCall->getAudioRecUrl(),
+                ]);
+                $completeCallData->save();
             }
         }
     }

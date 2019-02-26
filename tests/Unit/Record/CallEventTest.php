@@ -30,7 +30,7 @@ class CallEventTest extends Phonet\Yii\Tests\Unit\TestCase
     protected const TRUNK_NUMBER = 'test-trunk-number';
     protected const TRUNK_NAME = 'test-trunk-name';
 
-    /** @var Phonet\Yii\Record\CallEvent */
+    /** @var Phonet\Yii\Record\Call */
     protected $callEvent;
 
     protected function setUp(): void
@@ -126,7 +126,7 @@ class CallEventTest extends Phonet\Yii\Tests\Unit\TestCase
         $this->assertEquals(static::TRUNK_NAME, $this->callEvent->trunk_name);
     }
 
-    protected function createCallEvent(): Phonet\Yii\Record\CallEvent
+    protected function createCallEvent(): Phonet\Yii\Record\Call
     {
         $employeeCaller = new Phonet\Yii\Record\Employee([
             'id' => static::EMPLOYEE_CALLER_ID,
@@ -140,7 +140,7 @@ class CallEventTest extends Phonet\Yii\Tests\Unit\TestCase
             'display_name' => static::DISPLAY_NAME
         ]);
         $this->assertTrue($employeeCallTaker->save(), $this->formModelErrors($employeeCallTaker));
-        $event = new Phonet\Yii\Record\CallEvent([
+        $event = new Phonet\Yii\Record\Call([
             'event' => Phonet\Enum\Event::DIAL(),
             'uuid' => static::UUID,
             'parent_uuid' => static::PARENT_UUID,

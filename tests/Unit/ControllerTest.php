@@ -84,9 +84,9 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
 
         $this->assertEmpty($controller->actionIndex());
 
-        /** @var Phonet\Yii\Record\CallEvent $call */
+        /** @var Phonet\Yii\Record\Call $call */
         $call = \Yii::$container->get(Phonet\Yii\RepositoryInterface::class)->getCalls()[0];
-        $callEvent = new Phonet\Yii\Record\CallEvent([
+        $callEvent = new Phonet\Yii\Record\Call([
             'id' => 1,
             'event' => Phonet\Enum\Event::DIAL(),
             'uuid' => '47a968893984475b8c20e29dec144ce3',
