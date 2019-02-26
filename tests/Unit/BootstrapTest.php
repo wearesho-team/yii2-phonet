@@ -2,8 +2,8 @@
 
 namespace Wearesho\Phonet\Yii\Tests\Unit;
 
+use Wearesho\Phonet\Repository;
 use Wearesho\Phonet\Yii\Bootstrap;
-use yii\console\Application;
 
 /**
  * Class BootstrapTest
@@ -21,5 +21,6 @@ class BootstrapTest extends TestCase
             \Yii::getAlias('@vendor/wearesho-team/yii2-phonet/src'),
             \Yii::getAlias('@Wearesho\Phonet\Yii')
         );
+        $this->assertTrue(\Yii::$container->has(Repository::class));
     }
 }

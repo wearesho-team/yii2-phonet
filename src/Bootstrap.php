@@ -16,7 +16,9 @@ class Bootstrap implements BootstrapInterface
     use BootstrapMigrations;
 
     /** @var string */
-    protected $phonetRepository = Repository::class;
+    protected $phonetRepository = [
+        'class' => Repository::class,
+    ];
 
     public function bootstrap($app)
     {

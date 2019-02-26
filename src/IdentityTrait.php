@@ -9,6 +9,9 @@ namespace Wearesho\Phonet\Yii;
  */
 trait IdentityTrait
 {
+    /** @var int */
+    protected $id;
+
     /** @var string|null */
     protected $name;
 
@@ -23,6 +26,14 @@ trait IdentityTrait
 
     /** @var string|null */
     protected $responsibleEmployeeEmail;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * {@inheritdoc}

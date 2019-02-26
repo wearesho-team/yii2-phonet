@@ -12,6 +12,9 @@ use yii\db;
  * @property int|null $user_id
  * @property string $internal_number
  * @property string $display_name
+ *
+ * @property-read Call[] $calls
+ * @property-read CallInternalData[] $internalCallsData
  */
 class Employee extends db\ActiveRecord
 {
@@ -27,5 +30,15 @@ class Employee extends db\ActiveRecord
             [['id', 'user_id'], 'integer'],
             [['display_name', 'internal_number'], 'string']
         ];
+    }
+
+    public function getCalls(): db\ActiveQuery
+    {
+        return $this->hasMany(Call::class, ['operator_id' => 'id']);
+    }
+
+    public function getInternalCallsData(): db\ActiveQuery
+    {
+        return $this->hasMany(CallInternalData::class, ['operator_id' => 'id']);
     }
 }

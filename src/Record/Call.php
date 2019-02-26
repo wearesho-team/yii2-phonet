@@ -21,6 +21,7 @@ use yii\db;
  * @property string $dial_at
  * @property string|null $bridge_at
  * @property string $updated_at
+ * @property Phonet\Enum\Event $state
  *
  * @property bool $isInternal
  * @property bool $isExternal
@@ -61,10 +62,10 @@ class Call extends db\ActiveRecord
                     'uuid',
                     'domain',
                     'dial_at',
-                    'direction',
-                    'employee_caller_id',
-                    'trunk_number',
-                    'trunk_name'
+                    'type',
+                    'pause',
+                    'updated_at',
+                    'operator_id',
                 ],
                 'required'
             ],
@@ -73,8 +74,6 @@ class Call extends db\ActiveRecord
                     'uuid',
                     'parent_uuid',
                     'domain',
-                    'trunk_number',
-                    'trunk_name'
                 ],
                 'string'
             ],
@@ -121,5 +120,10 @@ class Call extends db\ActiveRecord
         } else {
             return $this->hasOne(CallExternalData::class, $relation);
         }
+    }
+
+    public function getCompleteData(): db\ActiveQuery
+    {
+        return $this->hasOne(CompleteCallData::class, ['uuid' => 'uuid']);
     }
 }

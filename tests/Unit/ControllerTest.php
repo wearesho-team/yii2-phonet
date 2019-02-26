@@ -3,8 +3,11 @@
 namespace Wearesho\Phonet\Yii\Tests\Unit;
 
 use Carbon\Carbon;
+use chillerlan\SimpleCache;
+use GuzzleHttp;
 use Wearesho\Phonet;
 use yii\base\Module;
+use yii\queue\Queue;
 use yii\web\User;
 
 /**
@@ -13,12 +16,40 @@ use yii\web\User;
  */
 class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
 {
+    protected const DOMAIN = 'test4.domain.com.ua';
+    protected const API_KEY = 'test-api-key';
+
+    /** @var GuzzleHttp\Handler\MockHandler */
+    protected $mock;
+
+    /** @var array */
+    protected $container;
+
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->container = [];
+        $history = GuzzleHttp\Middleware::history($this->container);
+        $this->mock = new GuzzleHttp\Handler\MockHandler();
+        $stack = GuzzleHttp\HandlerStack::create($this->mock);
+        $stack->push($history);
+        $config = new Phonet\Config(
+            static::DOMAIN,
+            static::API_KEY
+        );
+        $client = new GuzzleHttp\Client(['handler' => $stack,]);
+        $provider = new Phonet\Authorization\CacheProvider(
+            new SimpleCache\Cache(
+                new SimpleCache\Drivers\MemoryCacheDriver()
+            ),
+            $client
+        );
         \Yii::$container
-            ->setSingleton(Phonet\Yii\RepositoryInterface::class, Phonet\Yii\Tests\Mock\Repository::class)
+            ->set(GuzzleHttp\ClientInterface::class, $client)
+            ->set(Phonet\ConfigInterface::class, $config)
+            ->set(Queue::class, $this->createMock(\yii\queue\file\Queue::class))
+            ->set(Phonet\Authorization\ProviderInterface::class, $provider)
             ->set(User::class, [
                 'class' => User::class,
                 'identityClass' => Phonet\Yii\Tests\Mock\User::class,
@@ -48,7 +79,7 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
         );
     }
 
-    public function testPutCall(): void
+    public function testHandleDial(): void
     {
         $controller = new Phonet\Yii\Controller('id', $this->createMock(Module::class), [
             'identity' => Phonet\Yii\Tests\Mock\User::class,
@@ -83,58 +114,5 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
         $_SERVER['REMOTE_ADDR'] = '00.000.00.000';
 
         $this->assertEmpty($controller->actionIndex());
-
-        /** @var Phonet\Yii\Record\Call $call */
-        $call = \Yii::$container->get(Phonet\Yii\RepositoryInterface::class)->getCalls()[0];
-        $callEvent = new Phonet\Yii\Record\Call([
-            'id' => 1,
-            'event' => Phonet\Enum\Event::DIAL(),
-            'uuid' => '47a968893984475b8c20e29dec144ce3',
-            'parent_uuid' => null,
-            'domain' => 'qwerty.phonet.com.ua',
-            'dial_at' => Carbon::createFromTimestamp(1431686100)->toDateTimeString(),
-            'bridge_at' => null,
-            'direction' => Phonet\Enum\Direction::OUT(),
-            'server_time' => null,
-            'employeeCaller' => new Phonet\Yii\Record\Employee([
-                'id' => 36,
-                'internal_number' => '001',
-                'display_name' => 'Иван Иванов'
-            ]),
-            'subjects' => [
-                new Phonet\Yii\Record\Subject([
-                    'number' => '+380000000000',
-                    'uri' => 'http://phonet.com.ua/contacts/1',
-                    'internal_id' => 1,
-                    'name' => 'Анастасия Березкина',
-                    'company' => 'Тестовая компания'
-                ])
-            ],
-            'employeeCallTaker' => null,
-            'trunk_number' => '+380442246595',
-            'trunk_name' => 'www.phonet.com.ua'
-        ]);
-
-        $this->assertEquals($callEvent->attributes, $call->attributes);
-        $this->assertEquals('call.dial', $call->event);
-        $this->assertEquals('47a968893984475b8c20e29dec144ce3', $call->uuid);
-        $this->assertNull($call->parent_uuid);
-        $this->assertEquals('qwerty.phonet.com.ua', $call->domain);
-        $this->assertEquals(Carbon::createFromTimestamp(1431686100), $call->dial_at);
-        $this->assertNull($call->bridge_at);
-        $this->assertEquals(Phonet\Enum\Direction::OUT(), $call->direction);
-        $this->assertNull($call->server_time);
-        $this->assertEquals(36, $call->employeeCaller->id);
-        $this->assertEquals('001', $call->employeeCaller->internal_number);
-        $this->assertEquals('Иван Иванов', $call->employeeCaller->display_name);
-        $this->assertNull($call->employeeCallTaker);
-        $this->assertCount(1, $call->subjects);
-        /** @var Phonet\Yii\Record\Subject $subject */
-        $subject = $call->subjects[0];
-        $this->assertEquals('+380000000000', $subject->number);
-        $this->assertEquals('http://phonet.com.ua/contacts/1', $subject->uri);
-        $this->assertEquals(1, $subject->internal_id);
-        $this->assertEquals('Анастасия Березкина', $subject->name);
-        $this->assertEquals('Тестовая компания', $subject->company);
     }
 }

@@ -19,6 +19,13 @@ interface IdentityInterface
     public static function findBy(string $number, ?string $trunk): ?IdentityInterface;
 
     /**
+     * Unique id of user in your crm system
+     *
+     * @return int
+     */
+    public function getId(): int;
+
+    /**
      * Customer name to which the number transferred belongs.
      *
      * @return string|null
@@ -32,7 +39,7 @@ interface IdentityInterface
      *
      * @return string
      */
-    public function getUrl(): string;
+    public function getUrl(): ?string;
 
     /**
      * link text to open a customer card. If a contact exists, it is best to set his name in this field; if the contact
@@ -40,7 +47,7 @@ interface IdentityInterface
      *
      * @return string
      */
-    public function getUrlText(): string;
+    public function getUrlText(): ?string;
 
     /**
      * internal number of the responsible employee, is used to route the call to this employee in case of a regular

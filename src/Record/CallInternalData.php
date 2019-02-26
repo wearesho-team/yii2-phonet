@@ -11,6 +11,8 @@ use yii\db;
  * @property int $id
  * @property int $operator_id
  * @property int $call_id
+ *
+ * @property-read Call $call
  */
 class CallInternalData extends db\ActiveRecord
 {
@@ -25,5 +27,10 @@ class CallInternalData extends db\ActiveRecord
             [['operator_id', 'call_id'], 'required'],
             [['operator_id', 'call_id'], 'integer'],
         ];
+    }
+
+    public function getCall(): db\ActiveQuery
+    {
+        return $this->hasOne(Call::class, ['id' => 'call_id']);
     }
 }

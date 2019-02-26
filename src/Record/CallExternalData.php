@@ -13,6 +13,8 @@ use yii\db;
  * @property string $trunk_name
  * @property string $trunk_number
  * @property int $call_id
+ *
+ * @property-read Call $call
  */
 class CallExternalData extends db\ActiveRecord
 {
@@ -28,5 +30,10 @@ class CallExternalData extends db\ActiveRecord
             [['subject_number', 'trunk_number', 'trunk_name'], 'string'],
             ['call_id', 'integer'],
         ];
+    }
+
+    public function getCall(): db\ActiveQuery
+    {
+        return $this->hasOne(Call::class, ['id' => 'call_id']);
     }
 }

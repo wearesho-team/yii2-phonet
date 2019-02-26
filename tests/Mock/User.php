@@ -45,7 +45,7 @@ class User extends \yii\web\User implements Phonet\Yii\IdentityInterface, \yii\w
         // nothing
     }
 
-    public function getId()
+    public function getId(): int
     {
         return 1;
     }

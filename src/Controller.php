@@ -70,35 +70,7 @@ class Controller extends base\Controller
         $callEvent = $request->post('event') ?? false;
 
         if (!$callEvent) {
-            $client = $this->identity::findBy(
-                $request->post('otherLegNum'),
-                $request->post('trunkNum')
-            );
-
-            if (\is_null($client)) {
-                throw new web\HttpException(400);
-            }
-
-            $response = [
-                'name' => $client->getName(),
-                'url' => $client->getUrl(),
-                'urlText' => $client->getUrlText(),
-            ];
-
-            if (\is_null($response['name'])) {
-                return \array_merge($response, [
-                    'name' => null,
-                    'newEntity' => true,
-                    'responsibleEmployeeExt' => null,
-                    'responsibleEmployeeEmail' => null
-                ]);
-            }
-
-            return \array_merge($response, [
-                'newEntity' => false,
-                'responsibleEmployeeExt' => $client->getResponsibleEmployeeExt(),
-                'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
-            ]);
+            return $this->handleClientRequest($request);
         } else {
             $uuid = $request->post('uuid');
             $event = new Phonet\Enum\Event($callEvent);
@@ -106,7 +78,8 @@ class Controller extends base\Controller
             $bridge = Phonet\Enum\Event::BRIDGE();
             $hangup = Phonet\Enum\Event::HANGUP();
 
-            // Events from Phonet can duplicates, so if `call` with unique uuid already exist we do not need handle it
+            // Events from Phonet can duplicates.
+            // So if `call` with unique uuid and equal type already exist we do not need handle it
             if (!$this->isEventDuplicated($uuid, $dial) && $event->equals($dial)) {
                 $this->handleDial($request, $uuid);
             }
@@ -125,6 +98,45 @@ class Controller extends base\Controller
 
     /**
      * @param web\Request $request
+     *
+     * @return array
+     * @throws web\HttpException
+     */
+    protected function handleClientRequest(web\Request $request): array
+    {
+        $client = $this->identity::findBy(
+            $request->post('otherLegNum'),
+            $request->post('trunkNum')
+        );
+
+        if (\is_null($client)) {
+            throw new web\HttpException(400);
+        }
+
+        $response = [
+            'name' => $client->getName(),
+            'url' => $client->getUrl(),
+            'urlText' => $client->getUrlText(),
+        ];
+
+        if (\is_null($response['name'])) {
+            return \array_merge($response, [
+                'name' => null,
+                'newEntity' => true,
+                'responsibleEmployeeExt' => null,
+                'responsibleEmployeeEmail' => null
+            ]);
+        }
+
+        return \array_merge($response, [
+            'newEntity' => false,
+            'responsibleEmployeeExt' => $client->getResponsibleEmployeeExt(),
+            'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
+        ]);
+    }
+
+    /**
+     * @param web\Request $request
      * @param string $uuid
      *
      * @throws web\HttpException
@@ -139,7 +151,7 @@ class Controller extends base\Controller
             $operator = new Phonet\Yii\Record\Employee([
                 'id' => $id,
                 'internal_number' => $employeeCaller['ext'],
-                'display_name' => $employeeCaller['displayName']
+                'display_name' => $employeeCaller['displayName'],
             ]);
 
             if (!$operator->save()) {
@@ -158,25 +170,28 @@ class Controller extends base\Controller
             'dial_at' => Carbon::createFromTimestamp($request->post('dialAt'))->toDateTimeString(),
             'bridge_at' => null,
             'updated_at' => $this->fetchServerTime($request),
+            'state' => Phonet\Enum\Event::DIAL(),
         ]);
 
         if (!$call->save()) {
             throw new web\HttpException(400, 'Failed handle call.dial event, call data validation errors');
         }
 
-        $employeeCallTaker = $request->post('leg2');
-        $id = (int)$employeeCallTaker['id'];
-        $target = Phonet\Yii\Record\Employee::find()->andWhere(['id' => $id])->one();
+        if ($type->equals(Phonet\Yii\Enum\CallType::INTERNAL())) {
+            $employeeCallTaker = $request->post('leg2');
+            $id = (int)$employeeCallTaker['id'];
+            $target = Phonet\Yii\Record\Employee::find()->andWhere(['id' => $id])->one();
 
-        if (!$target) {
-            $target = new Phonet\Yii\Record\Employee([
-                'id' => $id,
-                'internal_number' => $employeeCallTaker['ext'],
-                'display_name' => $employeeCallTaker['displayName']
-            ]);
+            if (!$target) {
+                $target = new Phonet\Yii\Record\Employee([
+                    'id' => $id,
+                    'internal_number' => $employeeCallTaker['ext'],
+                    'display_name' => $employeeCallTaker['displayName']
+                ]);
 
-            if (!$target->save()) {
-                throw new web\HttpException(400, 'Failed handle call.dial event, target (leg2) validation errors');
+                if (!$target->save()) {
+                    throw new web\HttpException(400, 'Failed handle call.dial event, target (leg2) validation errors');
+                }
             }
         }
 
@@ -224,11 +239,12 @@ class Controller extends base\Controller
             );
         }
 
+        $call->updated_at = $this->fetchServerTime($request);
         $call->bridge_at = Carbon::createFromTimestamp($request->post('bridgeAt'))->toDateTimeString();
+        $call->state = Phonet\Enum\Event::BRIDGE();
         $direction = $request->post('lgDirection');
-        $isPauseStatus = \in_array($direction, Phonet\Yii\Enum\Pause::toArray());
 
-        if ($isPauseStatus) {
+        if (Phonet\Yii\Enum\Pause::isValid($direction)) {
             $call->pause = new Phonet\Yii\Enum\Pause($direction);
         }
 
@@ -263,6 +279,15 @@ class Controller extends base\Controller
             );
         }
 
+        $call->updated_at = $this->fetchServerTime($request);
+        $call->state = Phonet\Enum\Event::HANGUP();
+
+        try {
+            $call->update();
+        } catch (\Throwable $exception) {
+            throw new web\HttpException(500, "Internal error with update data for [$uuid]");
+        }
+
         $job = new Phonet\Yii\Job\ReceiveCompleteCall(
             $this->repository,
             $uuid,
@@ -277,7 +302,7 @@ class Controller extends base\Controller
     {
         $serverTime = $request->post('serverTime');
 
-        return $serverTime ? Carbon::createFromTimestamp($serverTime)->toDateTimeString() : null;
+        return ($serverTime ? Carbon::createFromTimestamp($serverTime) : Carbon::now())->toDateTimeString();
     }
 
     protected function getCall(string $uuid): ?Phonet\Yii\Record\Call
@@ -287,6 +312,6 @@ class Controller extends base\Controller
 
     protected function isEventDuplicated(string $uuid, Phonet\Enum\Event $event): bool
     {
-        return Phonet\Yii\Record\Call::find()->andWhere(['uuid' => $uuid, 'type' => $event->getValue()])->count() > 0;
+        return Phonet\Yii\Record\Call::find()->andWhere(['uuid' => $uuid, 'state' => $event->getValue()])->count() > 0;
     }
 }

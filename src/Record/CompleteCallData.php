@@ -2,8 +2,7 @@
 
 namespace Wearesho\Phonet\Yii\Record;
 
-use Kartavik\Yii2\Behaviors\EnumMappingBehavior;
-use Kartavik\Yii2\Validators\EnumValidator;
+use Kartavik\Yii2;
 use Wearesho\Phonet\Enum\CompleteCallStatus;
 use yii\db;
 
@@ -22,6 +21,8 @@ use yii\db;
  * @property string $audio_rec_url
  * @property string $subject_number
  * @property string $subject_name
+ *
+ * @property-read Call $call
  */
 class CompleteCallData extends db\ActiveRecord
 {
@@ -34,7 +35,7 @@ class CompleteCallData extends db\ActiveRecord
     {
         return [
             'enum' => [
-                'class' => EnumMappingBehavior::class,
+                'class' => Yii2\Behaviors\EnumMappingBehavior::class,
                 'map' => [
                     'status' => CompleteCallStatus::class
                 ],
@@ -73,9 +74,14 @@ class CompleteCallData extends db\ActiveRecord
             [['duration', 'bill_secs'], 'integer'],
             [
                 'status',
-                EnumValidator::class,
+                Yii2\Validators\EnumValidator::class,
                 'targetEnum' => CompleteCallStatus::class
             ]
         ];
+    }
+
+    public function getCall(): db\ActiveQuery
+    {
+        return $this->hasOne(Call::class, ['id' => 'call_id']);
     }
 }
