@@ -193,9 +193,7 @@ class Controller extends base\Controller
                     throw new web\HttpException(400, 'Failed handle call.dial event, target (leg2) validation errors');
                 }
             }
-        }
 
-        if ($type->equals(Phonet\Yii\Enum\CallType::INTERNAL())) {
             $internalData = new Phonet\Yii\Record\CallInternalData([
                 'call_id' => $call->id,
                 'operator_id' => $target->id,
