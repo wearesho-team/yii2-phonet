@@ -64,6 +64,7 @@ class ReceiveCompleteCall implements JobInterface
                     'audio_rec_url' => $needCall->getAudioRecUrl(),
                 ]);
                 $completeCallData->save();
+                break;
             }
         }
     }
