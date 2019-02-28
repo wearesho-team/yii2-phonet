@@ -48,7 +48,7 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
         \Yii::$container
             ->set(GuzzleHttp\ClientInterface::class, $client)
             ->set(Phonet\ConfigInterface::class, $config)
-            ->set(Queue::class, $this->createMock(\yii\queue\file\Queue::class))
+            ->set('queue', $this->createMock(\yii\queue\file\Queue::class))
             ->set(Phonet\Authorization\ProviderInterface::class, $provider)
             ->set(User::class, [
                 'class' => User::class,

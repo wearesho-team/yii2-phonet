@@ -12,6 +12,8 @@ use yii\queue\JobInterface;
  */
 class ReceiveCompleteCall implements JobInterface
 {
+    public const CONTEXT = 'phonet\\job\\receiveCall';
+
     /** @var Phonet\Repository */
     protected $repository;
 
@@ -63,7 +65,17 @@ class ReceiveCompleteCall implements JobInterface
                     'trunk' => $needCall->getTrunk(),
                     'audio_rec_url' => $needCall->getAudioRecUrl(),
                 ]);
-                $completeCallData->save();
+
+                if (!$completeCallData->save()) {
+                    \Yii::error(
+                        "Failed save complete call data. Errors: " . implode(
+                            '; ',
+                            $completeCallData->getErrorSummary(true)
+                        ),
+                        [static::CONTEXT]
+                    );
+                }
+
                 break;
             }
         }
@@ -85,13 +97,19 @@ class ReceiveCompleteCall implements JobInterface
             Phonet\Enum\Direction::IN(),
         ]);
 
-        return $this->repository->companyCalls(
-            $from,
-            $to,
-            $directions,
-            50,
-            $offset
-        );
+        try {
+            return $this->repository->companyCalls(
+                $from,
+                $to,
+                $directions,
+                50,
+                $offset
+            );
+        } catch (Phonet\Exception $exception) {
+            \Yii::error($exception->getMessage(), [static::CONTEXT]);
+
+            throw $exception;
+        }
     }
 
     protected function fetchNeedCall(Phonet\Data\Collection\CompleteCall $calls): ?Phonet\Data\CompleteCall

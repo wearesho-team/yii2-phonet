@@ -23,7 +23,7 @@ class Controller extends base\Controller
     public $repository = Phonet\Repository::class;
 
     /** @var queue\Queue */
-    public $queue = queue\Queue::class;
+    public $queue = 'queue';
 
     /**
      * @throws \yii\base\InvalidConfigException

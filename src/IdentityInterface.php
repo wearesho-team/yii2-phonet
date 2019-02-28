@@ -19,13 +19,6 @@ interface IdentityInterface
     public static function findBy(string $number, ?string $trunk): ?IdentityInterface;
 
     /**
-     * Unique id of user in your crm system
-     *
-     * @return int
-     */
-    public function getId(): int;
-
-    /**
      * Customer name to which the number transferred belongs.
      *
      * @return string|null
