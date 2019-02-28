@@ -19,9 +19,6 @@ class Controller extends base\Controller
     /** @var Phonet\Yii\IdentityInterface */
     public $identity = Phonet\Yii\IdentityInterface::class;
 
-    /** @var Phonet\Repository */
-    public $repository = Phonet\Repository::class;
-
     /** @var queue\Queue */
     public $queue = 'queue';
 
@@ -30,7 +27,6 @@ class Controller extends base\Controller
      */
     public function init(): void
     {
-        $this->repository = di\Instance::ensure($this->repository);
         $this->queue = di\Instance::ensure($this->queue);
     }
 
@@ -287,7 +283,6 @@ class Controller extends base\Controller
         }
 
         $job = new Phonet\Yii\Job\Call\Complete\Receive(
-            $this->repository,
             $uuid,
             Carbon::make($call->dial_at),
             Carbon::make($request->post('serverTime')) ?? Carbon::now()

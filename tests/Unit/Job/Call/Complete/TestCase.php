@@ -69,7 +69,7 @@ abstract class TestCase extends Phonet\Yii\Tests\Unit\TestCase
 
     protected function createJob(string $uuid): Phonet\Yii\Job\Call\Complete\Receive
     {
-        return new Phonet\Yii\Job\Call\Complete\Receive($this->repository, $uuid, Carbon::now(), Carbon::now());
+        return new Phonet\Yii\Job\Call\Complete\Receive($uuid, Carbon::now(), Carbon::now());
     }
 
     protected function createCompleteCallData(string $uuid): Phonet\Call\Complete

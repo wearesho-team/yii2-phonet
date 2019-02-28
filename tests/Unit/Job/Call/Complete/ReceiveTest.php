@@ -19,6 +19,7 @@ class ReceiveTest extends TestCase
         $this->repository->expects($this->once())
             ->method('companyCalls')
             ->willReturn($calls);
+        \Yii::$container->set(Phonet\Repository::class, $this->repository);
 
         $job = $this->createJob(static::UUID);
 
@@ -56,6 +57,7 @@ class ReceiveTest extends TestCase
         $this->repository->expects($this->exactly(2))
             ->method('companyCalls')
             ->willReturn($firstCallsBatch, $secondCallsBatch);
+        \Yii::$container->set(Phonet\Repository::class, $this->repository);
 
         $job = $this->createJob(static::UUID);
 

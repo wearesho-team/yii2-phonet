@@ -14,9 +14,6 @@ class Receive implements JobInterface
 {
     public const CONTEXT = 'phonet\\job\\call\\complete\\receive';
 
-    /** @var Phonet\Repository */
-    protected $repository;
-
     /** @var string */
     protected $uuid;
 
@@ -27,12 +24,10 @@ class Receive implements JobInterface
     protected $hangupAt;
 
     public function __construct(
-        Phonet\Repository $repository,
         string $uuid,
         \DateTimeInterface $createdAt,
         \DateTimeInterface $hangupAt
     ) {
-        $this->repository = $repository;
         $this->uuid = $uuid;
         $this->createdAt = $createdAt;
         $this->hangupAt = $hangupAt;
@@ -42,19 +37,23 @@ class Receive implements JobInterface
      * @param \yii\queue\Queue $queue
      *
      * @throws Phonet\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
      * @todo: If Phonet implement method that can help fetch call data by uuid - need refactor of logic!
      */
     public function execute($queue)
     {
+        /** @var Phonet\Repository $repository */
+        $repository = \Yii::$container->get(Phonet\Repository::class);
         $offset = 0;
-        $calls = $this->getCalls($offset);
+        $calls = $this->getCalls($repository, $offset);
 
         while (!empty($calls)) {
             $needCall = $this->fetchNeedCall($calls);
 
             if (!$needCall and \count($calls) <= 50) {
                 $offset += 50;
-                $calls = $this->getCalls($offset);
+                $calls = $this->getCalls($repository, $offset);
             } else {
                 $completeCallData = new Phonet\Yii\Record\Call\Complete\Data([
                     'uuid' => $needCall->getUuid(),
@@ -85,12 +84,13 @@ class Receive implements JobInterface
     }
 
     /**
+     * @param Phonet\Repository $repository
      * @param int $offset
      *
      * @return Phonet\Call\Complete\Collection
      * @throws Phonet\Exception
      */
-    protected function getCalls($offset = 0): Phonet\Call\Complete\Collection
+    protected function getCalls(Phonet\Repository $repository, $offset = 0): Phonet\Call\Complete\Collection
     {
         $from = Carbon::make($this->createdAt)->subHour();
         $to = Carbon::make($this->hangupAt)->addHour();
@@ -101,7 +101,7 @@ class Receive implements JobInterface
         ]);
 
         try {
-            return $this->repository->companyCalls(
+            return $repository->companyCalls(
                 $from,
                 $to,
                 $directions,

@@ -3,6 +3,7 @@
 namespace Wearesho\Phonet\Yii\Tests\Unit\Job\Call\Complete\Receive;
 
 use Wearesho\Phonet\Exception;
+use Wearesho\Phonet\Repository;
 use Wearesho\Phonet\Yii\Tests\Unit\Job\Call\Complete\TestCase;
 
 /**
@@ -18,6 +19,8 @@ class RepositoryExceptionLogTest extends TestCase
         $this->repository->expects($this->once())
             ->method('companyCalls')
             ->willThrowException(new Exception(static::MESSAGE));
+
+        \Yii::$container->set(Repository::class, $this->repository);
 
         $job = $this->createJob(static::UUID);
 
