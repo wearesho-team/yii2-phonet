@@ -2,7 +2,7 @@
 
 namespace Wearesho\Phonet\Yii\Record\Call\Internal;
 
-use Wearesho\Phonet\Yii\Record\Call;
+use Wearesho\Phonet\Yii\Record;
 use yii\db;
 
 /**
@@ -13,7 +13,8 @@ use yii\db;
  * @property int $operator_id
  * @property int $call_id
  *
- * @property-read Call $call
+ * @property-read Record\Call $call
+ * @property-read Record\Employee $operator
  */
 class Data extends db\ActiveRecord
 {
@@ -32,6 +33,11 @@ class Data extends db\ActiveRecord
 
     public function getCall(): db\ActiveQuery
     {
-        return $this->hasOne(Call::class, ['id' => 'call_id']);
+        return $this->hasOne(Record\Call::class, ['id' => 'call_id']);
+    }
+
+    public function getOperator(): db\ActiveQuery
+    {
+        return $this->hasOne(Record\Employee::class, ['id' => 'operator_id']);
     }
 }

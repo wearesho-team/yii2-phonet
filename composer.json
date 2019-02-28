@@ -34,8 +34,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Wearesho\\Phonet\\Yii\\Tests\\": "tests/",
-      "Wearesho\\Phonet\\Tests\\Unit\\Api\\": "./vendor/wearesho-team/phonet/tests/Unit/Api/"
+      "Wearesho\\Phonet\\Yii\\Tests\\": "tests/"
     }
   },
   "config": {
