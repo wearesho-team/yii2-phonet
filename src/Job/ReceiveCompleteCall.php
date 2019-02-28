@@ -84,17 +84,17 @@ class ReceiveCompleteCall implements JobInterface
     /**
      * @param int $offset
      *
-     * @return Phonet\Data\Collection\CompleteCall
+     * @return Phonet\Call\Complete\Collection
      * @throws Phonet\Exception
      */
-    protected function getCalls($offset = 0): Phonet\Data\Collection\CompleteCall
+    protected function getCalls($offset = 0): Phonet\Call\Complete\Collection
     {
         $from = Carbon::make($this->createdAt)->subHour();
         $to = Carbon::make($this->hangupAt)->addHour();
-        $directions = new Phonet\Data\Collection\Direction([
-            Phonet\Enum\Direction::INTERNAL(),
-            Phonet\Enum\Direction::OUT(),
-            Phonet\Enum\Direction::IN(),
+        $directions = new Phonet\Call\Direction\Collection([
+            Phonet\Call\Direction::INTERNAL(),
+            Phonet\Call\Direction::OUT(),
+            Phonet\Call\Direction::IN(),
         ]);
 
         try {
@@ -112,9 +112,9 @@ class ReceiveCompleteCall implements JobInterface
         }
     }
 
-    protected function fetchNeedCall(Phonet\Data\Collection\CompleteCall $calls): ?Phonet\Data\CompleteCall
+    protected function fetchNeedCall(Phonet\Call\Complete\Collection $calls): ?Phonet\Call\Complete
     {
-        $needCall = \array_filter($calls->getArrayCopy(), function (Phonet\Data\CompleteCall $call): bool {
+        $needCall = \array_filter($calls->getArrayCopy(), function (Phonet\Call\Complete $call): bool {
             return $call->getUuid() === $this->uuid;
         });
 

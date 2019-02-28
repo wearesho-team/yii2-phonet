@@ -3,7 +3,7 @@
 namespace Wearesho\Phonet\Yii\Tests\Unit\Record;
 
 use Carbon\Carbon;
-use Wearesho\Phonet\Enum\CompleteCallStatus;
+use Wearesho\Phonet\Call\Complete\Status;
 use Wearesho\Phonet\Yii;
 
 /**
@@ -48,8 +48,8 @@ class CallTest extends Yii\Tests\Unit\TestCase
             'uuid' => static::UUID,
             'domain' => static::DOMAIN,
             'dial_at' => Carbon::make(static::DIAL_AT)->toDateTimeString(),
-            'type' => Yii\Enum\CallType::INTERNAL(),
-            'pause' => Yii\Enum\Pause::OFF(),
+            'type' => Yii\Call\Type::INTERNAL(),
+            'pause' => Yii\Call\Pause::OFF(),
             'updated_at' => Carbon::make(static::UPDATED_AT)->toDateTimeString(),
             'operator_id' => $operator->id,
             'bridge_at' => Carbon::make(static::BRIDGE_AT)->toDateTimeString()
@@ -57,7 +57,7 @@ class CallTest extends Yii\Tests\Unit\TestCase
         $this->assertTrue($call->save());
         $data = new Yii\Record\CompleteCallData([
             'uuid' => static::UUID,
-            'status' => CompleteCallStatus::TARGET_RESPONDED(),
+            'status' => Status::TARGET_RESPONDED(),
             'subject_number' => static::SUBJECT_NUMBER,
             'bill_secs' => static::BILL_SECS,
             'duration' => static::DURATION,
@@ -99,12 +99,12 @@ class CallTest extends Yii\Tests\Unit\TestCase
 
     public function testGetType(): void
     {
-        $this->assertEquals(Yii\Enum\CallType::INTERNAL(), $this->call->type);
+        $this->assertEquals(Yii\Call\Type::INTERNAL(), $this->call->type);
     }
 
     public function testGetPause(): void
     {
-        $this->assertEquals(Yii\Enum\Pause::OFF(), $this->call->pause);
+        $this->assertEquals(Yii\Call\Pause::OFF(), $this->call->pause);
     }
 
     public function testGetUpdatedAt(): void
@@ -137,7 +137,7 @@ class CallTest extends Yii\Tests\Unit\TestCase
         $this->assertEquals(
             [
                 'uuid' => static::UUID,
-                'status' => CompleteCallStatus::TARGET_RESPONDED(),
+                'status' => Status::TARGET_RESPONDED(),
                 'subject_number' => static::SUBJECT_NUMBER,
                 'bill_secs' => static::BILL_SECS,
                 'duration' => static::DURATION,

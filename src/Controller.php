@@ -73,10 +73,10 @@ class Controller extends base\Controller
             return $this->handleClientRequest($request);
         } else {
             $uuid = $request->post('uuid');
-            $event = new Phonet\Enum\Event($callEvent);
-            $dial = Phonet\Enum\Event::DIAL();
-            $bridge = Phonet\Enum\Event::BRIDGE();
-            $hangup = Phonet\Enum\Event::HANGUP();
+            $event = new Phonet\Call\Event($callEvent);
+            $dial = Phonet\Call\Event::DIAL();
+            $bridge = Phonet\Call\Event::BRIDGE();
+            $hangup = Phonet\Call\Event::HANGUP();
 
             // Events from Phonet can duplicates.
             // So if `call` with unique uuid and equal type already exist we do not need handle it
@@ -159,25 +159,25 @@ class Controller extends base\Controller
             }
         }
 
-        $type = new Phonet\Yii\Enum\CallType((int)$request->post('lgDirection'));
+        $type = new Phonet\Yii\Call\Type((int)$request->post('lgDirection'));
         $call = new Phonet\Yii\Record\Call([
             'uuid' => $uuid,
             'parent_uuid' => $request->post('parentUuid'),
             'domain' => $request->post('accountDomain'),
             'type' => $type,
             'operator_id' => $operator->id,
-            'pause' => Phonet\Yii\Enum\Pause::OFF(),
+            'pause' => Phonet\Yii\Call\Pause::OFF(),
             'dial_at' => Carbon::createFromTimestamp($request->post('dialAt'))->toDateTimeString(),
             'bridge_at' => null,
             'updated_at' => $this->fetchServerTime($request),
-            'state' => Phonet\Enum\Event::DIAL(),
+            'state' => Phonet\Call\Event::DIAL(),
         ]);
 
         if (!$call->save()) {
             throw new web\HttpException(400, 'Failed handle call.dial event, call data validation errors');
         }
 
-        if ($type->equals(Phonet\Yii\Enum\CallType::INTERNAL())) {
+        if ($type->equals(Phonet\Yii\Call\Type::INTERNAL())) {
             $employeeCallTaker = $request->post('leg2');
             $id = (int)$employeeCallTaker['id'];
             $target = Phonet\Yii\Record\Employee::find()->andWhere(['id' => $id])->one();
@@ -199,8 +199,8 @@ class Controller extends base\Controller
                 'operator_id' => $target->id,
             ]);
             $internalData->save();
-        } elseif ($type->equals(Phonet\Yii\Enum\CallType::EXTERNAL_OUT())
-            || $type->equals(Phonet\Yii\Enum\CallType::EXTERNAL_IN())
+        } elseif ($type->equals(Phonet\Yii\Call\Type::EXTERNAL_OUT())
+            || $type->equals(Phonet\Yii\Call\Type::EXTERNAL_IN())
         ) {
             $subjects = $request->post('otherLegs');
             $subject = array_shift($subjects);
@@ -239,11 +239,11 @@ class Controller extends base\Controller
 
         $call->updated_at = $this->fetchServerTime($request);
         $call->bridge_at = Carbon::createFromTimestamp($request->post('bridgeAt'))->toDateTimeString();
-        $call->state = Phonet\Enum\Event::BRIDGE();
+        $call->state = Phonet\Call\Event::BRIDGE();
         $direction = $request->post('lgDirection');
 
-        if (Phonet\Yii\Enum\Pause::isValid($direction)) {
-            $call->pause = new Phonet\Yii\Enum\Pause($direction);
+        if (Phonet\Yii\Call\Pause::isValid($direction)) {
+            $call->pause = new Phonet\Yii\Call\Pause($direction);
         }
 
         if (!$call->bridge_at) {
@@ -278,7 +278,7 @@ class Controller extends base\Controller
         }
 
         $call->updated_at = $this->fetchServerTime($request);
-        $call->state = Phonet\Enum\Event::HANGUP();
+        $call->state = Phonet\Call\Event::HANGUP();
 
         try {
             $call->update();
@@ -308,7 +308,7 @@ class Controller extends base\Controller
         return Phonet\Yii\Record\Call::find()->andWhere(['uuid' => $uuid])->one();
     }
 
-    protected function isEventDuplicated(string $uuid, Phonet\Enum\Event $event): bool
+    protected function isEventDuplicated(string $uuid, Phonet\Call\Event $event): bool
     {
         return Phonet\Yii\Record\Call::find()->andWhere(['uuid' => $uuid, 'state' => $event->getValue()])->count() > 0;
     }

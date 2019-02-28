@@ -3,7 +3,7 @@
 namespace Wearesho\Phonet\Yii\Record;
 
 use Kartavik\Yii2;
-use Wearesho\Phonet\Enum\CompleteCallStatus;
+use Wearesho\Phonet\Call\Complete\Status;
 use yii\db;
 
 /**
@@ -13,7 +13,7 @@ use yii\db;
  * @property int $id
  * @property string $uuid
  * @property string $transfer_history
- * @property CompleteCallStatus $status
+ * @property Status $status
  * @property int $duration
  * @property int $bill_secs
  * @property string $trunk
@@ -37,7 +37,7 @@ class CompleteCallData extends db\ActiveRecord
             'enum' => [
                 'class' => Yii2\Behaviors\EnumMappingBehavior::class,
                 'map' => [
-                    'status' => CompleteCallStatus::class
+                    'status' => Status::class
                 ],
                 'attributesType' => [
                     'status' => 'integer',
@@ -75,7 +75,7 @@ class CompleteCallData extends db\ActiveRecord
             [
                 'status',
                 Yii2\Validators\EnumValidator::class,
-                'targetEnum' => CompleteCallStatus::class
+                'targetEnum' => Status::class
             ]
         ];
     }

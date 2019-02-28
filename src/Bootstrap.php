@@ -16,7 +16,7 @@ class Bootstrap implements BootstrapInterface
     use BootstrapMigrations;
 
     /** @var string */
-    protected $phonetRepository = [
+    protected $repository = [
         'class' => Repository::class,
     ];
 
@@ -28,6 +28,6 @@ class Bootstrap implements BootstrapInterface
             $this->appendMigrations($app, 'Wearesho/Phonet/Yii/Migrations');
         }
 
-        \Yii::$container->set(Repository::class, $this->phonetRepository);
+        \Yii::$container->set(Repository::class, $this->repository);
     }
 }

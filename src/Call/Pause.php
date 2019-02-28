@@ -1,9 +1,9 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Enum;
+namespace Wearesho\Phonet\Yii\Call;
 
 use MyCLabs\Enum\Enum;
-use Wearesho\Phonet\Enum\Direction;
+use Wearesho\Phonet\Call\Direction;
 
 /**
  * Class Pause

@@ -15,9 +15,9 @@ use yii\db;
  * @property string $uuid
  * @property string|null $parent_uuid
  * @property string $domain
- * @property Phonet\Yii\Enum\CallType $type
+ * @property Phonet\Yii\Call\Type $type
  * @property int operator_id
- * @property Phonet\Yii\Enum\Pause $pause
+ * @property Phonet\Yii\Call\Pause $pause
  * @property string $dial_at
  * @property string|null $bridge_at
  * @property string $updated_at
@@ -43,8 +43,8 @@ class Call extends db\ActiveRecord
             'enum' => [
                 'class' => EnumMappingBehavior::class,
                 'map' => [
-                    'type' => Phonet\Yii\Enum\CallType::class,
-                    'pause' => Phonet\Yii\Enum\Pause::class,
+                    'type' => Phonet\Yii\Call\Type::class,
+                    'pause' => Phonet\Yii\Call\Pause::class,
                 ],
                 'attributesType' => [
                     'type' => 'integer',
@@ -85,12 +85,12 @@ class Call extends db\ActiveRecord
             [
                 'type',
                 EnumValidator::class,
-                'targetEnum' => Phonet\Yii\Enum\CallType::class,
+                'targetEnum' => Phonet\Yii\Call\Type::class,
             ],
             [
                 'pause',
                 EnumValidator::class,
-                'targetEnum' => Phonet\Yii\Enum\Pause::class,
+                'targetEnum' => Phonet\Yii\Call\Pause::class,
             ]
         ];
     }
@@ -102,13 +102,13 @@ class Call extends db\ActiveRecord
 
     public function getIsInternal(): bool
     {
-        return $this->type->equals(Phonet\Yii\Enum\CallType::INTERNAL());
+        return $this->type->equals(Phonet\Yii\Call\Type::INTERNAL());
     }
 
     public function getIsExternal(): bool
     {
-        return $this->type->equals(Phonet\Yii\Enum\CallType::EXTERNAL_IN())
-            || $this->type->equals(Phonet\Yii\Enum\CallType::EXTERNAL_OUT());
+        return $this->type->equals(Phonet\Yii\Call\Type::EXTERNAL_IN())
+            || $this->type->equals(Phonet\Yii\Call\Type::EXTERNAL_OUT());
     }
 
     public function getData(): db\ActiveQuery

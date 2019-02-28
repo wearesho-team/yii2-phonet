@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2a421dac0f76e5d04cb0d2302440f7d",
+    "content-hash": "faf6219360336240b065802871ae977e",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -598,20 +598,21 @@
         },
         {
             "name": "kartavik/yii2-enum",
-            "version": "2.0.0",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KartaviK/yii2-enum.git",
-                "reference": "f9129e17baa7c347b205e9f2f3fbbb5d79a56394"
+                "reference": "be5b31b050c97544dcefe64c2af9f48ebbc2fbd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KartaviK/yii2-enum/zipball/f9129e17baa7c347b205e9f2f3fbbb5d79a56394",
-                "reference": "f9129e17baa7c347b205e9f2f3fbbb5d79a56394",
+                "url": "https://api.github.com/repos/KartaviK/yii2-enum/zipball/be5b31b050c97544dcefe64c2af9f48ebbc2fbd7",
+                "reference": "be5b31b050c97544dcefe64c2af9f48ebbc2fbd7",
                 "shasum": ""
             },
             "require": {
                 "myclabs/php-enum": "^1.6.6",
+                "php": "^7.1",
                 "yiisoft/yii2": "^2.0.13.1"
             },
             "require-dev": {
@@ -636,23 +637,24 @@
             "authors": [
                 {
                     "name": "Roman Varkuta",
-                    "email": "roman.varkuta@gmail.com"
+                    "email": "roman.varkuta@gmail.com",
+                    "role": "Developer"
                 }
             ],
-            "description": "Yii2 enum mapping behavior / validator",
+            "description": "Yii2 enum mapping behavior / validator / database column type",
             "keywords": [
+                "Behavior",
+                "column",
                 "enum",
-                "map",
                 "mapping",
+                "migration",
+                "mysql",
+                "pgsql",
+                "type",
                 "validator",
-                "yii2",
-                "yii2 enum",
-                "yii2 enum behavior",
-                "yii2 enum map",
-                "yii2 enum mapping",
-                "yii2 enum validator"
+                "yii2"
             ],
-            "time": "2019-02-20T17:54:12+00:00"
+            "time": "2019-02-27T13:38:35+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2552,16 +2554,16 @@
         },
         {
             "name": "wearesho-team/phonet",
-            "version": "dev-feature/complete-call-status",
+            "version": "1.0.0-RC1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "829f4b37b438810185a7d100a1671124a1c2bb83"
+                "reference": "d1f55d660aafc5ff4ceba00d1892876a0f714475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/829f4b37b438810185a7d100a1671124a1c2bb83",
-                "reference": "829f4b37b438810185a7d100a1671124a1c2bb83",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/d1f55d660aafc5ff4ceba00d1892876a0f714475",
+                "reference": "d1f55d660aafc5ff4ceba00d1892876a0f714475",
                 "shasum": ""
             },
             "require": {
@@ -2615,10 +2617,10 @@
             ],
             "description": "Phonet Api Integration",
             "support": {
-                "source": "https://github.com/wearesho-team/phonet/tree/feature/complete-call-status",
+                "source": "https://github.com/wearesho-team/phonet/tree/1.0.0-RC1",
                 "issues": "https://github.com/wearesho-team/phonet/issues"
             },
-            "time": "2019-02-26T10:09:26+00:00"
+            "time": "2019-02-28T09:18:22+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -3250,7 +3252,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "wearesho-team/phonet": 20,
+        "wearesho-team/phonet": 5,
         "yiisoft/yii2-phpunit": 20
     },
     "prefer-stable": false,
