@@ -46,6 +46,7 @@ class Call extends db\ActiveRecord
                 'map' => [
                     'type' => Phonet\Yii\Call\Type::class,
                     'pause' => Phonet\Yii\Call\Pause::class,
+                    'state' => Phonet\Call\Event::class,
                 ],
                 'attributesType' => [
                     'type' => 'integer',
@@ -67,6 +68,7 @@ class Call extends db\ActiveRecord
                     'pause',
                     'updated_at',
                     'operator_id',
+                    'state',
                 ],
                 'required'
             ],
@@ -92,6 +94,11 @@ class Call extends db\ActiveRecord
                 'pause',
                 EnumValidator::class,
                 'targetEnum' => Phonet\Yii\Call\Pause::class,
+            ],
+            [
+                'state',
+                EnumValidator::class,
+                'targetEnum' => Phonet\Call\Event::class,
             ]
         ];
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "faf6219360336240b065802871ae977e",
+    "content-hash": "ccd5ed48e902b1f6449adbe3925d04f5",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -2554,16 +2554,16 @@
         },
         {
             "name": "wearesho-team/phonet",
-            "version": "1.0.0-RC1",
+            "version": "dev-feature/api-test-case-trait",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "d1f55d660aafc5ff4ceba00d1892876a0f714475"
+                "reference": "9d9a829a3a0335339ac42a1671fb1c31101fb0d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/d1f55d660aafc5ff4ceba00d1892876a0f714475",
-                "reference": "d1f55d660aafc5ff4ceba00d1892876a0f714475",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/9d9a829a3a0335339ac42a1671fb1c31101fb0d7",
+                "reference": "9d9a829a3a0335339ac42a1671fb1c31101fb0d7",
                 "shasum": ""
             },
             "require": {
@@ -2617,10 +2617,10 @@
             ],
             "description": "Phonet Api Integration",
             "support": {
-                "source": "https://github.com/wearesho-team/phonet/tree/1.0.0-RC1",
+                "source": "https://github.com/wearesho-team/phonet/tree/feature/api-test-case-trait",
                 "issues": "https://github.com/wearesho-team/phonet/issues"
             },
-            "time": "2019-02-28T09:18:22+00:00"
+            "time": "2019-02-28T12:01:31+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -3252,7 +3252,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "wearesho-team/phonet": 5,
+        "wearesho-team/phonet": 20,
         "yiisoft/yii2-phpunit": 20
     },
     "prefer-stable": false,

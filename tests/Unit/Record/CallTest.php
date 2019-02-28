@@ -4,6 +4,7 @@ namespace Wearesho\Phonet\Yii\Tests\Unit\Record;
 
 use Carbon\Carbon;
 use Wearesho\Phonet\Call\Complete\Status;
+use Wearesho\Phonet\Call\Event;
 use Wearesho\Phonet\Yii;
 
 /**
@@ -52,7 +53,8 @@ class CallTest extends Yii\Tests\Unit\TestCase
             'pause' => Yii\Call\Pause::OFF(),
             'updated_at' => Carbon::make(static::UPDATED_AT)->toDateTimeString(),
             'operator_id' => $operator->id,
-            'bridge_at' => Carbon::make(static::BRIDGE_AT)->toDateTimeString()
+            'bridge_at' => Carbon::make(static::BRIDGE_AT)->toDateTimeString(),
+            'state' => Event::DIAL,
         ]);
         $this->assertTrue($call->save());
         $data = new Yii\Record\Call\Complete\Data([

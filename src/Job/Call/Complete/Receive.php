@@ -12,7 +12,7 @@ use yii\queue\JobInterface;
  */
 class Receive implements JobInterface
 {
-    public const CONTEXT = 'phonet\\job\\receiveCall';
+    public const CONTEXT = 'phonet\\job\\call\\complete\\receive';
 
     /** @var Phonet\Repository */
     protected $repository;
@@ -72,7 +72,7 @@ class Receive implements JobInterface
                             '; ',
                             $completeCallData->getErrorSummary(true)
                         ),
-                        [static::CONTEXT]
+                        static::CONTEXT
                     );
                 }
 
@@ -106,7 +106,7 @@ class Receive implements JobInterface
                 $offset
             );
         } catch (Phonet\Exception $exception) {
-            \Yii::error($exception->getMessage(), [static::CONTEXT]);
+            \Yii::error($exception->getMessage(), static::CONTEXT);
 
             throw $exception;
         }

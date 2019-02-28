@@ -16,7 +16,7 @@
     "horat1us/yii2-base": "^1.14",
     "kartavik/yii2-enum": "^2.0",
     "nesbot/carbon": "^1.36",
-    "wearesho-team/phonet": "1.0.0-RC1",
+    "wearesho-team/phonet": "dev-feature/api-test-case-trait",
     "yiisoft/yii2": "~2.0.13",
     "yiisoft/yii2-phpunit": "dev-master",
     "yiisoft/yii2-queue": "^2.1"
@@ -34,7 +34,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Wearesho\\Phonet\\Yii\\Tests\\": "tests/"
+      "Wearesho\\Phonet\\Yii\\Tests\\": "tests/",
+      "Wearesho\\Phonet\\Tests\\Unit\\Api\\": "./vendor/wearesho-team/phonet/tests/Unit/Api/"
     }
   },
   "config": {
