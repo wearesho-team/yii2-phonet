@@ -30,14 +30,27 @@ class M190221131201CreateCallTable extends Migration
 
         $this->createTable('phonet_call', [
             'id' => $this->primaryKey(),
-            'uuid' => $this->string(36)->unique()->notNull(),
-            'parent_uuid' => $this->string()->null(),
-            'domain' => $this->string()->notNull(),
+            'uuid' => $this->string(36)
+                ->unique()
+                ->notNull()
+                ->comment('Unique id of call in phonet service'),
+            'parent_uuid' => $this->string(36)
+                ->null()
+                ->comment('Unique id of parent call (to users group)'),
+            'domain' => $this->string(255)
+                ->notNull()
+                ->comment('Domain name on wish event happened'),
             'type' => "$typeEnum not null",
-            'operator_id' => $this->integer()->notNull(),
+            'operator_id' => $this->integer()
+                ->notNull()
+                ->comment('Relation to employee who do call or take a call'),
             'pause' => "{$pauseEnum} not null default 'OFF'",
-            'dial_at' => $this->timestamp()->notNull(),
-            'bridge_at' => $this->timestamp()->null(),
+            'dial_at' => $this->timestamp()
+                ->notNull()
+                ->comment('Time when call start (NOT target answer)'),
+            'bridge_at' => $this->timestamp()
+                ->null()
+                ->comment('Time when target answer'),
             'updated_at' => $this->timestamp()->notNull(),
             'state' => "$stateEnum not null"
         ]);

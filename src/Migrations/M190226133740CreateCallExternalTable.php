@@ -17,8 +17,12 @@ class M190226133740CreateCallExternalTable extends Migration
         $this->createTable('phonet_call_external', [
             'id' => $this->primaryKey(),
             'subject_number' => $this->string()->notNull(),
-            'trunk_name' => $this->string()->notNull(),
-            'trunk_number' => $this->string()->notNull(),
+            'trunk_name' => $this->string()
+                ->notNull()
+                ->comment('External number'),
+            'trunk_number' => $this->string()
+                ->notNull()
+                ->comment('Name of eternal number'),
             'call_id' => $this->integer()->notNull()
         ]);
         $this->addForeignKey(

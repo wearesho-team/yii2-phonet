@@ -16,11 +16,13 @@ class M190220115948CreateEmployeeTable extends Migration
             'user_id' => $this->integer()
                 ->unsigned()
                 ->null()
-                ->comment('Unique id of employee of your cms system'),
+                ->comment('Unique id of employee in your cms system'),
             'internal_number' => $this->string()
                 ->notNull()
-                ->comment('Internal number'),
-            'display_name' => $this->string()->notNull(),
+                ->comment('Internal number of employee'),
+            'display_name' => $this->string()
+                ->notNull()
+                ->comment('Name of employee'),
         ]);
     }
 

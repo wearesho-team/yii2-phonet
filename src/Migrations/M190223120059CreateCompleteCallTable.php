@@ -31,16 +31,35 @@ class M190223120059CreateCompleteCallTable extends Migration
 
         $this->createTable('phonet_complete_call', [
             'id' => $this->primaryKey(),
-            'uuid' => $this->string(36)->unique()->notNull(),
-            'transfer_history' => $this->string()->null(),
+            'uuid' => $this->string(36)
+                ->unique()
+                ->notNull()
+                ->comment('Unique id of call in phonet service'),
+            'transfer_history' => $this->string()
+                ->null()
+                ->comment('Way of call transferring'),
             'status' => "$statusEnum not null",
-            'duration' => $this->integer()->notNull(),
-            'bill_secs' => $this->integer()->notNull(),
-            'trunk' => $this->string()->null(),
-            'end_at' => $this->timestamp()->notNull(),
-            'audio_rec_url' => $this->string()->null(),
-            'subject_number' => $this->string()->null(),
-            'subject_name' => $this->string()->null(),
+            'duration' => $this->integer()
+                ->notNull()
+                ->comment('Call duration starts from dial_at'),
+            'bill_secs' => $this->integer()
+                ->notNull()
+                ->comment('Call duration starts from target answer'),
+            'trunk' => $this->string(256)
+                ->null()
+                ->comment('External number'),
+            'end_at' => $this->timestamp()
+                ->notNull()
+                ->comment('Time when call end'),
+            'audio_rec_url' => $this->string(256)
+                ->null()
+                ->comment('Url to audio of call'),
+            'subject_number' => $this->string(256)
+                ->null()
+                ->comment('Internal number of client'),
+            'subject_name' => $this->string(256)
+                ->null()
+                ->comment('Display name of subject'),
         ]);
 
         $this->addForeignKey(
