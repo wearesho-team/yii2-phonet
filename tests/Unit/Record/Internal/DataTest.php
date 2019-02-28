@@ -32,7 +32,7 @@ class DataTest extends Yii\Tests\Unit\TestCase
     /** @var Yii\Record\Employee */
     protected $operator;
 
-    /** @var Yii\Record\Call\Internal\Data */
+    /** @var Yii\Record\Call\Internal */
     protected $data;
 
     protected function setUp(): void
@@ -56,12 +56,12 @@ class DataTest extends Yii\Tests\Unit\TestCase
             'state' => Event::DIAL,
         ]);
         $this->assertTrue($call->save());
-        $this->data = new Yii\Record\Call\Internal\Data([
+        $this->data = new Yii\Record\Call\Internal([
             'operator_id' => $this->operator->id,
             'call_id' => $call->id
         ]);
         $this->assertTrue($this->data->save());
-        $this->data = Yii\Record\Call\Internal\Data::find()->andWhere(['id' => $this->data->id])->one();
+        $this->data = Yii\Record\Call\Internal::find()->andWhere(['id' => $this->data->id])->one();
     }
 
     public function testGetOperator(): void

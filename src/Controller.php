@@ -190,7 +190,7 @@ class Controller extends base\Controller
                 }
             }
 
-            $internalData = new Phonet\Yii\Record\Call\Internal\Data([
+            $internalData = new Phonet\Yii\Record\Call\Internal([
                 'call_id' => $call->id,
                 'operator_id' => $target->id,
             ]);
@@ -200,7 +200,7 @@ class Controller extends base\Controller
         ) {
             $subjects = $request->post('otherLegs');
             $subject = array_shift($subjects);
-            $externalData = new Phonet\Yii\Record\Call\External\Data([
+            $externalData = new Phonet\Yii\Record\Call\External([
                 'call_id' => $call->id,
                 'trunk_name' => $request->post('trunkName'),
                 'trunk_number' => $request->post('trunkNum'),

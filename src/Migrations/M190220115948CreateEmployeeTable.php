@@ -13,8 +13,13 @@ class M190220115948CreateEmployeeTable extends Migration
     {
         $this->createTable('phonet_employee', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->unsigned()->null(),
-            'internal_number' => $this->string()->notNull(),
+            'user_id' => $this->integer()
+                ->unsigned()
+                ->null()
+                ->comment('Unique id of employee of your cms system'),
+            'internal_number' => $this->string()
+                ->notNull()
+                ->comment('Internal number'),
             'display_name' => $this->string()->notNull(),
         ]);
     }

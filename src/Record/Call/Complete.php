@@ -1,19 +1,19 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Record\Call\Complete;
+namespace Wearesho\Phonet\Yii\Record\Call;
 
-use Wearesho\Phonet\Call\Complete\Status;
-use Wearesho\Phonet\Yii\Record\Call;
+use Horat1us\Yii\Validators\ConstRangeValidator;
+use Wearesho\Phonet;
 use yii\db;
 
 /**
- * Class Data
- * @package Wearesho\Phonet\Yii\Record\Call\Complete
+ * Class Complete
+ * @package Wearesho\Phonet\Yii\Record\Call
  *
  * @property int $id
  * @property string $uuid
  * @property string $transfer_history
- * @property int $status
+ * @property string $status
  * @property int $duration
  * @property int $bill_secs
  * @property string $trunk
@@ -22,13 +22,13 @@ use yii\db;
  * @property string $subject_number
  * @property string $subject_name
  *
- * @property-read Call $call
+ * @property-read Phonet\Yii\Record\Call $call
  */
-class Data extends db\ActiveRecord
+class Complete extends db\ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'phonet_complete_call_data';
+        return 'phonet_complete_call';
     }
 
     public function rules(): array
@@ -64,6 +64,6 @@ class Data extends db\ActiveRecord
 
     public function getCall(): db\ActiveQuery
     {
-        return $this->hasOne(Call::class, ['id' => 'call_id']);
+        return $this->hasOne(Phonet\Yii\Record\Call::class, ['id' => 'call_id']);
     }
 }

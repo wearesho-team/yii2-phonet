@@ -5,30 +5,30 @@ namespace Wearesho\Phonet\Yii\Migrations;
 use yii\db\Migration;
 
 /**
- * Class M190226094729CreateCallInternalDataTable
+ * Class M190226094729CreateCallInternalTable
  */
-class M190226094729CreateCallInternalDataTable extends Migration
+class M190226094729CreateCallInternalTable extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('phonet_call_internal_data', [
+        $this->createTable('phonet_call_internal', [
             'id' => $this->primaryKey(),
             'operator_id' => $this->integer()->notNull(),
             'call_id' => $this->integer()->notNull()
         ]);
         $this->addForeignKey(
-            'phonet_call_internal_data_operator_fk',
-            'phonet_call_internal_data',
+            'phonet_call_internal_operator_fk',
+            'phonet_call_internal',
             'operator_id',
             'phonet_employee',
             'id'
         );
         $this->addForeignKey(
-            'phonet_call_internal_data_call_fk',
-            'phonet_call_internal_data',
+            'phonet_call_internal_call_fk',
+            'phonet_call_internal',
             'id',
             'phonet_call',
             'id'
@@ -40,8 +40,8 @@ class M190226094729CreateCallInternalDataTable extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('phonet_call_internal_data_operator_fk', 'phonet_call_internal_data');
-        $this->dropForeignKey('phonet_call_internal_data_call_fk', 'phonet_call_internal_data');
-        $this->dropTable('phonet_call_internal_data');
+        $this->dropForeignKey('phonet_call_internal_operator_fk', 'phonet_call_internal');
+        $this->dropForeignKey('phonet_call_internal_call_fk', 'phonet_call_internal');
+        $this->dropTable('phonet_call_internal');
     }
 }

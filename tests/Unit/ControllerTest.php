@@ -397,6 +397,6 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
 
         $this->assertNotNull($call);
         $this->assertEquals(Phonet\Call\Event::DIAL(), $call->state);
-        $this->assertNotEmpty($call->internalData);
+        $this->assertNotEmpty($call->internal);
     }
 }

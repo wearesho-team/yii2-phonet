@@ -25,7 +25,7 @@ class ReceiveTest extends TestCase
 
         $job->execute('queue');
 
-        $completeCallData = Phonet\Yii\Record\Call\Complete\Data::find()->andWhere(['uuid' => static::UUID])->all();
+        $completeCallData = Phonet\Yii\Record\Call\Complete::find()->andWhere(['uuid' => static::UUID])->all();
 
         $this->assertCount(1, $completeCallData);
         $data = $completeCallData[0];
@@ -63,7 +63,7 @@ class ReceiveTest extends TestCase
 
         $job->execute('queue');
 
-        $completeCallData = Phonet\Yii\Record\Call\Complete\Data::find()->andWhere(['uuid' => static::UUID])->all();
+        $completeCallData = Phonet\Yii\Record\Call\Complete::find()->andWhere(['uuid' => static::UUID])->all();
 
         $this->assertCount(1, $completeCallData);
         $data = $completeCallData[0];

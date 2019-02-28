@@ -1,13 +1,13 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Record\Call\Internal;
+namespace Wearesho\Phonet\Yii\Record\Call;
 
 use Wearesho\Phonet\Yii\Record;
 use yii\db;
 
 /**
- * Class Data
- * @package Wearesho\Phonet\Yii\Record\Call\Internal
+ * Class Complete
+ * @package Wearesho\Phonet\Yii\Record\Call
  *
  * @property int $id
  * @property int $operator_id
@@ -16,11 +16,11 @@ use yii\db;
  * @property-read Record\Call $call
  * @property-read Record\Employee $operator
  */
-class Data extends db\ActiveRecord
+class Internal extends db\ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'phonet_call_internal_data';
+        return 'phonet_call_internal';
     }
 
     public function rules(): array

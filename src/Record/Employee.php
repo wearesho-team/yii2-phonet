@@ -2,7 +2,7 @@
 
 namespace Wearesho\Phonet\Yii\Record;
 
-use Wearesho\Phonet\Yii\Record\Call\Internal\Data;
+use Wearesho\Phonet\Yii\Record\Call\Internal\Internal;
 use yii\db;
 
 /**
@@ -15,7 +15,7 @@ use yii\db;
  * @property string $display_name
  *
  * @property-read Call[] $calls
- * @property-read Data[] $internalCallsData
+ * @property-read Internal[] $internalCallsData
  */
 class Employee extends db\ActiveRecord
 {
@@ -40,6 +40,6 @@ class Employee extends db\ActiveRecord
 
     public function getInternalCallsData(): db\ActiveQuery
     {
-        return $this->hasMany(Data::class, ['operator_id' => 'id']);
+        return $this->hasMany(Internal::class, ['operator_id' => 'id']);
     }
 }

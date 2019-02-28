@@ -5,9 +5,9 @@ namespace Wearesho\Phonet\Yii\Migrations;
 use yii\db\Migration;
 
 /**
- * Class M190223120059CreateCompleteCallDataTable
+ * Class M190223120059CreateCompleteCallTable
  */
-class M190223120059CreateCompleteCallDataTable extends Migration
+class M190223120059CreateCompleteCallTable extends Migration
 {
     protected const ENUM_CALL_STATUS = 'phonet_call_status';
 
@@ -29,7 +29,7 @@ class M190223120059CreateCompleteCallDataTable extends Migration
             $statusEnum = static::ENUM_CALL_STATUS;
         }
 
-        $this->createTable('phonet_complete_call_data', [
+        $this->createTable('phonet_complete_call', [
             'id' => $this->primaryKey(),
             'uuid' => $this->string(36)->unique()->notNull(),
             'transfer_history' => $this->string()->null(),
@@ -44,8 +44,8 @@ class M190223120059CreateCompleteCallDataTable extends Migration
         ]);
 
         $this->addForeignKey(
-            'phonet_complete_call_data_call_fk',
-            'phonet_complete_call_data',
+            'phonet_complete_call_call_fk',
+            'phonet_complete_call',
             'uuid',
             'phonet_call',
             'uuid'
@@ -57,8 +57,8 @@ class M190223120059CreateCompleteCallDataTable extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('phonet_complete_call_data_call_fk', 'phonet_complete_call_data');
-        $this->dropTable('phonet_complete_call_data');
+        $this->dropForeignKey('phonet_complete_call_call_fk', 'phonet_complete_call');
+        $this->dropTable('phonet_complete_call');
 
         if ($this->getDb()->getDriverName() === 'pgsql') {
             $this->execute('drop type ' . static::ENUM_CALL_STATUS);

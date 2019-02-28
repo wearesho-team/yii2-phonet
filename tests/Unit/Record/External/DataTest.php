@@ -32,7 +32,7 @@ class DataTest extends Yii\Tests\Unit\TestCase
     /** @var Yii\Record\Employee */
     protected $operator;
 
-    /** @var Yii\Record\Call\External\Data */
+    /** @var Yii\Record\Call\External */
     protected $data;
 
     protected function setUp(): void
@@ -56,14 +56,14 @@ class DataTest extends Yii\Tests\Unit\TestCase
             'state' => Event::DIAL,
         ]);
         $this->assertTrue($call->save());
-        $this->data = new Yii\Record\Call\External\Data([
+        $this->data = new Yii\Record\Call\External([
             'subject_number' => 'number',
             'trunk_name' => 'name',
             'trunk_number' => 'number',
             'call_id' => $call->id
         ]);
         $this->assertTrue($this->data->save());
-        $this->data = Yii\Record\Call\External\Data::find()->andWhere(['id' => $this->data->id])->one();
+        $this->data = Yii\Record\Call\External::find()->andWhere(['id' => $this->data->id])->one();
     }
 
     public function testGetSubjectNumber(): void

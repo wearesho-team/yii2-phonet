@@ -27,9 +27,9 @@ composer require wearesho-team/yii2-phonet
 - Records:
     - [Call](./src/Record/Call.php) - Represent call
     - [Employee](./src/Record/Employee.php) - Represent operators in your system (contain `user_id` wish you can relate to your user table)
-    - [Call\Complete\Data](./src/Record/Call/Complete/Data.php) - Represent data of call that already end
-    - [Call\External\Data](./src/Record/Call/External/Data.php) - Represent data of external call
-    - [Call\Internal\Data](./src/Record/Call/Internal/Data.php) - Represent data of internal call
+    - [Call\Complete\Data](src/Record/Call/Complete.php) - Represent data of call that already end
+    - [Call\External\Data](src/Record/Call/External.php) - Represent data of external call
+    - [Call\Internal\Data](src/Record/Call/Internal.php) - Represent data of internal call
 - [Migrations](./src/Migrations) - need tables for package work
 
 ## Usage

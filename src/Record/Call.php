@@ -25,9 +25,9 @@ use yii\db;
  * @property bool $isExternal
  *
  * @property Employee $operator
- * @property Call\External\Data|null $externalData
- * @property Call\Internal\Data|null $internalData
- * @property Call\Complete\Data|null $completeData
+ * @property Call\External|null $external
+ * @property Call\Internal|null $internal
+ * @property Call\Complete|null $completeData
  */
 class Call extends db\ActiveRecord
 {
@@ -84,18 +84,18 @@ class Call extends db\ActiveRecord
             || $this->type === Phonet\Yii\Call\Type::EXTERNAL_OUT()->getKey();
     }
 
-    public function getExternalData(): db\ActiveQuery
+    public function getExternal(): db\ActiveQuery
     {
-        return $this->hasOne(Call\External\Data::class, ['call_id' => 'id']);
+        return $this->hasOne(Call\External::class, ['call_id' => 'id']);
     }
 
-    public function getInternalData(): db\ActiveQuery
+    public function getInternal(): db\ActiveQuery
     {
-        return $this->hasOne(Call\Internal\Data::class, ['call_id' => 'id']);
+        return $this->hasOne(Call\Internal::class, ['call_id' => 'id']);
     }
 
     public function getCompleteData(): db\ActiveQuery
     {
-        return $this->hasOne(Call\Complete\Data::class, ['uuid' => 'uuid']);
+        return $this->hasOne(Call\Complete::class, ['uuid' => 'uuid']);
     }
 }

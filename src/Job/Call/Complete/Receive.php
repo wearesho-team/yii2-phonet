@@ -55,7 +55,7 @@ class Receive implements JobInterface
                 $offset += 50;
                 $calls = $this->getCalls($repository, $offset);
             } else {
-                $completeCallData = new Phonet\Yii\Record\Call\Complete\Data([
+                $completeCallData = new Phonet\Yii\Record\Call\Complete([
                     'uuid' => $needCall->getUuid(),
                     'transfer_history' => $needCall->getTransferHistory(),
                     'status' => $needCall->getStatus()->getKey(),
