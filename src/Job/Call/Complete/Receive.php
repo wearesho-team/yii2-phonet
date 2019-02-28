@@ -64,6 +64,7 @@ class Receive implements JobInterface
                     'bill_secs' => $needCall->getBillSecs(),
                     'trunk' => $needCall->getTrunk(),
                     'audio_rec_url' => $needCall->getAudioRecUrl(),
+                    'end_at' => $needCall->getEndAt()->toDateTimeString(),
                 ]);
 
                 if (!$completeCallData->save()) {

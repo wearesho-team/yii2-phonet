@@ -36,6 +36,7 @@ class ReceiveTest extends Phonet\Yii\Tests\Unit\TestCase
     {
         parent::setUp();
         \Yii::setLogger(new Logger());
+        Carbon::setTestNow(Carbon::now());
 
         $this->repository = $this->createMock(Phonet\Repository::class);
 
@@ -56,6 +57,13 @@ class ReceiveTest extends Phonet\Yii\Tests\Unit\TestCase
             'updated_at' => Carbon::now()->toDateTimeString(),
         ]);
         $this->assertTrue($call->save(), implode($call->getErrorSummary(true)));
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        Carbon::setTestNow();
     }
 
     public function testSuccessFindInFirstBatch50(): void
@@ -85,7 +93,7 @@ class ReceiveTest extends Phonet\Yii\Tests\Unit\TestCase
                 'duration' => 10,
                 'bill_secs' => 10,
                 'trunk' => 'trunk',
-                'end_at' => null,
+                'end_at' => Carbon::getTestNow()->toDateTimeString(),
                 'audio_rec_url' => 'audio-rec-url',
                 'subject_number' => null,
                 'subject_name' => null,
@@ -118,7 +126,7 @@ class ReceiveTest extends Phonet\Yii\Tests\Unit\TestCase
                 static::TYPE,
                 static::EMAIL
             ),
-            Carbon::now(),
+            Carbon::getTestNow(),
             Phonet\Call\Complete\Status::TARGET_RESPONDED(),
             static::BILL_SECS,
             static::DURATION,

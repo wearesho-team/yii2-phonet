@@ -57,6 +57,7 @@ class Data extends db\ActiveRecord
                     'duration',
                     'duration',
                     'bill_secs',
+                    'end_at',
                 ],
                 'required'
             ],
@@ -72,6 +73,7 @@ class Data extends db\ActiveRecord
                 ],
                 'string'
             ],
+            ['end_at', 'datetime', 'format' => 'php:Y-m-d H:i:s'],
             [['duration', 'bill_secs'], 'integer'],
             [
                 'status',
