@@ -20,7 +20,7 @@ class User extends \yii\web\User implements Phonet\Yii\IdentityInterface, \yii\w
         return 'email';
     }
 
-    public function getResponsibleEmployeeExt(): ?string
+    public function getResponsibleEmployeeInternalNumber(): ?string
     {
         return 'number';
     }

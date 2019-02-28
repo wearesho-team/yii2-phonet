@@ -19,7 +19,7 @@ trait IdentityTrait
     protected $urlText;
 
     /** @var string|null */
-    protected $responsibleEmployeeExt;
+    protected $responsibleEmployeeInternalNumber;
 
     /** @var string|null */
     protected $responsibleEmployeeEmail;
@@ -51,9 +51,9 @@ trait IdentityTrait
     /**
      * {@inheritdoc}
      */
-    public function getResponsibleEmployeeExt(): ?string
+    public function getResponsibleEmployeeInternalNumber(): ?string
     {
-        return $this->responsibleEmployeeExt;
+        return $this->responsibleEmployeeInternalNumber;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Wearesho\Phonet\Yii\Record;
 
+use Wearesho\Phonet\Yii\Record\Call\Internal\Data;
 use yii\db;
 
 /**

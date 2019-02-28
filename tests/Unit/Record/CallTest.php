@@ -49,8 +49,8 @@ class CallTest extends Yii\Tests\Unit\TestCase
             'uuid' => static::UUID,
             'domain' => static::DOMAIN,
             'dial_at' => Carbon::make(static::DIAL_AT)->toDateTimeString(),
-            'type' => Yii\Call\Type::INTERNAL(),
-            'pause' => Yii\Call\Pause::OFF(),
+            'type' => Yii\Call\Type::INTERNAL()->getKey(),
+            'pause' => Yii\Call\Pause::OFF()->getKey(),
             'updated_at' => Carbon::make(static::UPDATED_AT)->toDateTimeString(),
             'operator_id' => $operator->id,
             'bridge_at' => Carbon::make(static::BRIDGE_AT)->toDateTimeString(),
@@ -59,7 +59,7 @@ class CallTest extends Yii\Tests\Unit\TestCase
         $this->assertTrue($call->save());
         $data = new Yii\Record\Call\Complete\Data([
             'uuid' => static::UUID,
-            'status' => Status::TARGET_RESPONDED(),
+            'status' => Status::TARGET_RESPONDED()->getKey(),
             'subject_number' => static::SUBJECT_NUMBER,
             'bill_secs' => static::BILL_SECS,
             'duration' => static::DURATION,
@@ -101,12 +101,12 @@ class CallTest extends Yii\Tests\Unit\TestCase
 
     public function testGetType(): void
     {
-        $this->assertEquals(Yii\Call\Type::INTERNAL(), $this->call->type);
+        $this->assertEquals(Yii\Call\Type::INTERNAL()->getKey(), $this->call->type);
     }
 
     public function testGetPause(): void
     {
-        $this->assertEquals(Yii\Call\Pause::OFF(), $this->call->pause);
+        $this->assertEquals(Yii\Call\Pause::OFF()->getKey(), $this->call->pause);
     }
 
     public function testGetUpdatedAt(): void
@@ -139,7 +139,7 @@ class CallTest extends Yii\Tests\Unit\TestCase
         $this->assertEquals(
             [
                 'uuid' => static::UUID,
-                'status' => Status::TARGET_RESPONDED(),
+                'status' => Status::TARGET_RESPONDED()->getKey(),
                 'subject_number' => static::SUBJECT_NUMBER,
                 'bill_secs' => static::BILL_SECS,
                 'duration' => static::DURATION,

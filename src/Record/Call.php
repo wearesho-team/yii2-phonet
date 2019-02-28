@@ -2,8 +2,6 @@
 
 namespace Wearesho\Phonet\Yii\Record;
 
-use Kartavik\Yii2\Behaviors\EnumMappingBehavior;
-use Kartavik\Yii2\Validators\EnumValidator;
 use Wearesho\Phonet;
 use yii\db;
 
@@ -38,24 +36,6 @@ class Call extends db\ActiveRecord
         return 'phonet_call';
     }
 
-    public function behaviors(): array
-    {
-        return [
-            'enum' => [
-                'class' => EnumMappingBehavior::class,
-                'map' => [
-                    'type' => Phonet\Yii\Call\Type::class,
-                    'pause' => Phonet\Yii\Call\Pause::class,
-                    'state' => Phonet\Call\Event::class,
-                ],
-                'attributesType' => [
-                    'type' => 'integer',
-                    'pause' => 'integer',
-                ]
-            ],
-        ];
-    }
-
     public function rules(): array
     {
         return [
@@ -85,21 +65,6 @@ class Call extends db\ActiveRecord
                 'datetime',
                 'format' => 'php:Y-m-d H:i:s'
             ],
-            [
-                'type',
-                EnumValidator::class,
-                'targetEnum' => Phonet\Yii\Call\Type::class,
-            ],
-            [
-                'pause',
-                EnumValidator::class,
-                'targetEnum' => Phonet\Yii\Call\Pause::class,
-            ],
-            [
-                'state',
-                EnumValidator::class,
-                'targetEnum' => Phonet\Call\Event::class,
-            ]
         ];
     }
 
@@ -110,13 +75,13 @@ class Call extends db\ActiveRecord
 
     public function getIsInternal(): bool
     {
-        return $this->type->equals(Phonet\Yii\Call\Type::INTERNAL());
+        return $this->type === Phonet\Yii\Call\Type::INTERNAL()->getKey();
     }
 
     public function getIsExternal(): bool
     {
-        return $this->type->equals(Phonet\Yii\Call\Type::EXTERNAL_IN())
-            || $this->type->equals(Phonet\Yii\Call\Type::EXTERNAL_OUT());
+        return $this->type === Phonet\Yii\Call\Type::EXTERNAL_IN()->getKey()
+            || $this->type === Phonet\Yii\Call\Type::EXTERNAL_OUT()->getKey();
     }
 
     public function getExternalData(): db\ActiveQuery

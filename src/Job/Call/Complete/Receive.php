@@ -58,7 +58,7 @@ class Receive implements JobInterface
                 $completeCallData = new Phonet\Yii\Record\Call\Complete\Data([
                     'uuid' => $needCall->getUuid(),
                     'transfer_history' => $needCall->getTransferHistory(),
-                    'status' => $needCall->getStatus(),
+                    'status' => $needCall->getStatus()->getKey(),
                     'duration' => $needCall->getDuration(),
                     'bill_secs' => $needCall->getBillSecs(),
                     'trunk' => $needCall->getTrunk(),

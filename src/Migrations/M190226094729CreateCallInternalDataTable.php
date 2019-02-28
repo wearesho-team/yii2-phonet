@@ -16,8 +16,8 @@ class M190226094729CreateCallInternalDataTable extends Migration
     {
         $this->createTable('phonet_call_internal_data', [
             'id' => $this->primaryKey(),
-            'operator_id' => $this->integer(),
-            'call_id' => $this->integer()
+            'operator_id' => $this->integer()->notNull(),
+            'call_id' => $this->integer()->notNull()
         ]);
         $this->addForeignKey(
             'phonet_call_internal_data_operator_fk',

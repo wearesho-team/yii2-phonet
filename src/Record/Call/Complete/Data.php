@@ -2,7 +2,6 @@
 
 namespace Wearesho\Phonet\Yii\Record\Call\Complete;
 
-use Kartavik\Yii2;
 use Wearesho\Phonet\Call\Complete\Status;
 use Wearesho\Phonet\Yii\Record\Call;
 use yii\db;
@@ -14,7 +13,7 @@ use yii\db;
  * @property int $id
  * @property string $uuid
  * @property string $transfer_history
- * @property Status $status
+ * @property int $status
  * @property int $duration
  * @property int $bill_secs
  * @property string $trunk
@@ -30,21 +29,6 @@ class Data extends db\ActiveRecord
     public static function tableName(): string
     {
         return 'phonet_complete_call_data';
-    }
-
-    public function behaviors(): array
-    {
-        return [
-            'enum' => [
-                'class' => Yii2\Behaviors\EnumMappingBehavior::class,
-                'map' => [
-                    'status' => Status::class
-                ],
-                'attributesType' => [
-                    'status' => 'integer',
-                ]
-            ]
-        ];
     }
 
     public function rules(): array
@@ -75,11 +59,6 @@ class Data extends db\ActiveRecord
             ],
             ['end_at', 'datetime', 'format' => 'php:Y-m-d H:i:s'],
             [['duration', 'bill_secs'], 'integer'],
-            [
-                'status',
-                Yii2\Validators\EnumValidator::class,
-                'targetEnum' => Status::class
-            ]
         ];
     }
 

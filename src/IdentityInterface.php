@@ -32,7 +32,7 @@ interface IdentityInterface
      *
      * @return string
      */
-    public function getUrl(): ?string;
+    public function getUrl(): string;
 
     /**
      * link text to open a customer card. If a contact exists, it is best to set his name in this field; if the contact
@@ -40,7 +40,7 @@ interface IdentityInterface
      *
      * @return string
      */
-    public function getUrlText(): ?string;
+    public function getUrlText(): string;
 
     /**
      * internal number of the responsible employee, is used to route the call to this employee in case of a regular
@@ -48,7 +48,7 @@ interface IdentityInterface
      *
      * @return string|null
      */
-    public function getResponsibleEmployeeExt(): ?string;
+    public function getResponsibleEmployeeInternalNumber(): ?string;
 
     /**
      * E-mail of the responsible employee, is used to route the call to this employee in case of a regular customer

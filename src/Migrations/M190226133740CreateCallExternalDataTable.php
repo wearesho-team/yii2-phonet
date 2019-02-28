@@ -16,10 +16,10 @@ class M190226133740CreateCallExternalDataTable extends Migration
     {
         $this->createTable('phonet_call_external_data', [
             'id' => $this->primaryKey(),
-            'subject_number' => $this->string(),
-            'trunk_name' => $this->string(),
-            'trunk_number' => $this->string(),
-            'call_id' => $this->integer()
+            'subject_number' => $this->string()->notNull(),
+            'trunk_name' => $this->string()->notNull(),
+            'trunk_number' => $this->string()->notNull(),
+            'call_id' => $this->integer()->notNull()
         ]);
         $this->addForeignKey(
             'phonet_call_external_data_call_fk',

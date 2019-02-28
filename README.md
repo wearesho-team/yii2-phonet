@@ -9,6 +9,11 @@ Uses `wearesho-team/phonet` to receive data of complete call
 composer require wearesho-team/yii2-phonet
 ```
 
+## Structure
+
+- [Controller](./src/Controller.php) - Handles requests from Phonet
+- [Bootstrap](./src/Bootstrap.php) - Main 
+
 ## Usage
 
 ### Bootstrap

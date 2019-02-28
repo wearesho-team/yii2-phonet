@@ -14,7 +14,6 @@
     "php": "^7.2",
     "ext-json": "*",
     "horat1us/yii2-base": "^1.14",
-    "kartavik/yii2-enum": "^2.0",
     "nesbot/carbon": "^1.36",
     "wearesho-team/phonet": "1.0.0-RC1",
     "yiisoft/yii2": "~2.0.13",

@@ -126,7 +126,7 @@ class Controller extends base\Controller
 
         return \array_merge($response, [
             'newEntity' => false,
-            'responsibleEmployeeExt' => $client->getResponsibleEmployeeExt(),
+            'responsibleEmployeeExt' => $client->getResponsibleEmployeeInternalNumber(),
             'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
         ]);
     }
@@ -160,13 +160,13 @@ class Controller extends base\Controller
             'uuid' => $uuid,
             'parent_uuid' => $request->post('parentUuid'),
             'domain' => $request->post('accountDomain'),
-            'type' => $type,
+            'type' => $type->getKey(),
             'operator_id' => $operator->id,
-            'pause' => Phonet\Yii\Call\Pause::OFF(),
+            'pause' => Phonet\Yii\Call\Pause::OFF()->getKey(),
             'dial_at' => Carbon::createFromTimestamp($request->post('dialAt'))->toDateTimeString(),
             'bridge_at' => null,
             'updated_at' => $this->fetchServerTime($request),
-            'state' => Phonet\Call\Event::DIAL(),
+            'state' => Phonet\Call\Event::DIAL()->getValue(),
         ]);
 
         if (!$call->save()) {
@@ -235,11 +235,11 @@ class Controller extends base\Controller
 
         $call->updated_at = $this->fetchServerTime($request);
         $call->bridge_at = Carbon::createFromTimestamp($request->post('bridgeAt'))->toDateTimeString();
-        $call->state = Phonet\Call\Event::BRIDGE();
+        $call->state = Phonet\Call\Event::BRIDGE()->getValue();
         $direction = $request->post('lgDirection');
 
         if (Phonet\Yii\Call\Pause::isValid($direction)) {
-            $call->pause = new Phonet\Yii\Call\Pause($direction);
+            $call->pause = (new Phonet\Yii\Call\Pause($direction))->getKey();
         }
 
         if (!$call->bridge_at) {

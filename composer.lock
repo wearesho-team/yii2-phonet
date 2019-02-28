@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "faf6219360336240b065802871ae977e",
+    "content-hash": "ef5fea7d13ed3e9cdcd5299cc161d0ab",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -595,66 +595,6 @@
                 "yii2"
             ],
             "time": "2018-10-30T13:03:02+00:00"
-        },
-        {
-            "name": "kartavik/yii2-enum",
-            "version": "2.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KartaviK/yii2-enum.git",
-                "reference": "be5b31b050c97544dcefe64c2af9f48ebbc2fbd7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KartaviK/yii2-enum/zipball/be5b31b050c97544dcefe64c2af9f48ebbc2fbd7",
-                "reference": "be5b31b050c97544dcefe64c2af9f48ebbc2fbd7",
-                "shasum": ""
-            },
-            "require": {
-                "myclabs/php-enum": "^1.6.6",
-                "php": "^7.1",
-                "yiisoft/yii2": "^2.0.13.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.5",
-                "squizlabs/php_codesniffer": "^3.4",
-                "vlucas/phpdotenv": "^3.3",
-                "yiisoft/yii2-phpunit": "dev-master"
-            },
-            "suggest": {
-                "horat1us/yii2-base": "For better validation for ranges of const values"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Kartavik\\Yii2\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Varkuta",
-                    "email": "roman.varkuta@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Yii2 enum mapping behavior / validator / database column type",
-            "keywords": [
-                "Behavior",
-                "column",
-                "enum",
-                "mapping",
-                "migration",
-                "mysql",
-                "pgsql",
-                "type",
-                "validator",
-                "yii2"
-            ],
-            "time": "2019-02-27T13:38:35+00:00"
         },
         {
             "name": "myclabs/deep-copy",

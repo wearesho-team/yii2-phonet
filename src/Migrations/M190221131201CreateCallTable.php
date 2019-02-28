@@ -15,8 +15,8 @@ class M190221131201CreateCallTable extends Migration
 
     public function safeUp(): void
     {
-        $typeEnum = "enum ('1', '2', '4')";
-        $pauseEnum = "enum ('32', '64')";
+        $typeEnum = "enum ('INTERNAL', 'EXTERNAL_OUT', 'EXTERNAL_IN')";
+        $pauseEnum = "enum ('ON', 'OFF')";
         $stateEnum = "enum ('call.dial', 'call.bridge', 'call.hangup')";
 
         if ($this->getDb()->getDriverName() === 'pgsql') {
@@ -30,16 +30,16 @@ class M190221131201CreateCallTable extends Migration
 
         $this->createTable('phonet_call', [
             'id' => $this->primaryKey(),
-            'uuid' => $this->string()->unique(),
+            'uuid' => $this->string(36)->unique()->notNull(),
             'parent_uuid' => $this->string()->null(),
-            'domain' => $this->string(),
-            'type' => $typeEnum,
-            'operator_id' => $this->integer(),
-            'pause' => "{$pauseEnum} default '64'",
-            'dial_at' => $this->timestamp(),
+            'domain' => $this->string()->notNull(),
+            'type' => "$typeEnum not null",
+            'operator_id' => $this->integer()->notNull(),
+            'pause' => "{$pauseEnum} not null default 'OFF'",
+            'dial_at' => $this->timestamp()->notNull(),
             'bridge_at' => $this->timestamp()->null(),
-            'updated_at' => $this->timestamp(),
-            'state' => $stateEnum
+            'updated_at' => $this->timestamp()->notNull(),
+            'state' => "$stateEnum not null"
         ]);
         $this->addForeignKey(
             'phonet_call_operator_employee_fk',

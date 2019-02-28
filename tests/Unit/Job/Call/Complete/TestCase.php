@@ -52,8 +52,8 @@ abstract class TestCase extends Phonet\Yii\Tests\Unit\TestCase
             'state' => Phonet\Call\Event::HANGUP,
             'domain' => 'domain',
             'dial_at' => Carbon::now()->toDateTimeString(),
-            'type' => Phonet\Call\Direction::IN,
-            'pause' => Phonet\Yii\Call\Pause::OFF,
+            'type' => Phonet\Yii\Call\Type::EXTERNAL_IN()->getKey(),
+            'pause' => Phonet\Yii\Call\Pause::OFF()->getKey(),
             'operator_id' => $operator->id,
             'updated_at' => Carbon::now()->toDateTimeString(),
         ]);
