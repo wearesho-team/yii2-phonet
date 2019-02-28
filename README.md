@@ -1,5 +1,9 @@
 # Yii2 phonet api integration
 
+Library for integration Phonet api with https protocol (active participant data exchange)
+
+Uses `wearesho-team/phonet` to receive data of complete call
+
 ## Installation
 ```bash
 composer require wearesho-team/yii2-phonet
