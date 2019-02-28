@@ -11,8 +11,26 @@ composer require wearesho-team/yii2-phonet
 
 ## Structure
 
-- [Controller](./src/Controller.php) - Handles requests from Phonet
-- [Bootstrap](./src/Bootstrap.php) - Main 
+- [Controller](./src/Controller.php) - Handles requests from Phonet:
+1) `Controller::handleClientRequest` - When service send request for client in your system;
+2) `Controller::handleDial` - When service send event when call created;
+3) `Controller::handleBridge` - When service send event when call bridged (client answered etc);
+4) `Controller::handleHangup` - When service send event when call end. Create new [Job](./src/Job/Call/Complete/Receive.php) and put in to queue
+ to receive data of complete call;
+- [Bootstrap](./src/Bootstrap.php) - Configurations for app
+- [Identity](./src/Identity.php) - Abstract class of identity (need to receive clients from cms):
+    - Implements [IdentityInterface](./src/IdentityInterface.php);
+    - Attributes and getters in [IdentityTrait](./src/IdentityTrait.php);
+- [Call\Pause](./src/Call/Pause.php) - Enum that represent is call on pause or not;
+- [Call\Type](./src/Call/Type.php) - Enum that represent is call internal or external;
+- [Job\Call\Complete\Receive](./src/Job/Call/Complete/Receive.php) - Job to receive data of complete call to database
+- Records:
+    - [Call](./src/Record/Call.php) - Represent call
+    - [Employee](./src/Record/Employee.php) - Represent operators in your system (contain `user_id` wish you can relate to your user table)
+    - [Call\Complete\Data](./src/Record/Call/Complete/Data.php) - Represent data of call that already end
+    - [Call\External\Data](./src/Record/Call/External/Data.php) - Represent data of external call
+    - [Call\Internal\Data](./src/Record/Call/Internal/Data.php) - Represent data of internal call
+- [Migrations](./src/Migrations) - need tables for package work
 
 ## Usage
 
@@ -40,7 +58,6 @@ return [
         'phonet' => [
             'class' => \Wearesho\Phonet\Yii\Controller::class,
             'identity' => \Wearesho\Phonet\Yii\IdentityInterface::class,
-            'repository' => \Wearesho\Phonet\Repository::class,
             'queue' => \yii\queue\Queue::class,
         ]
     ]
@@ -65,13 +82,13 @@ class User implements Phonet\Yii\IdentityInterface
     public function __construct(
         $url, $urlText,
         $name = null,
-        $responsibleEmployeeExt = null,
+        $responsibleEmployeeInternalNumber = null,
         $responsibleEmployeeEmail = null
     ) {
         $this->url = $url;
         $this->name = $name;
         $this->urlText = $urlText;
-        $this->responsibleEmployeeExt = $responsibleEmployeeExt;
+        $this->responsibleEmployeeInternalNumber = $responsibleEmployeeInternalNumber;
         $this->responsibleEmployeeEmail = $responsibleEmployeeEmail;
     }
 
@@ -83,7 +100,7 @@ class User implements Phonet\Yii\IdentityInterface
              $name,
              $url,
              $urlText,
-             $responsibleEmployeeExt,
+             $responsibleEmployeeInternalNumber,
              $responsibleEmployeeEmail
          );
     }
