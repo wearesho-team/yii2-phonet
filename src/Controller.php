@@ -194,7 +194,7 @@ class Controller extends base\Controller
                 }
             }
 
-            $internalData = new Phonet\Yii\Record\CallInternalData([
+            $internalData = new Phonet\Yii\Record\Call\Internal\Data([
                 'call_id' => $call->id,
                 'operator_id' => $target->id,
             ]);
@@ -204,7 +204,7 @@ class Controller extends base\Controller
         ) {
             $subjects = $request->post('otherLegs');
             $subject = array_shift($subjects);
-            $externalData = new Phonet\Yii\Record\CallExternalData([
+            $externalData = new Phonet\Yii\Record\Call\External\Data([
                 'call_id' => $call->id,
                 'trunk_name' => $request->post('trunkName'),
                 'trunk_number' => $request->post('trunkNum'),
@@ -286,7 +286,7 @@ class Controller extends base\Controller
             throw new web\HttpException(500, "Internal error with update data for [$uuid]");
         }
 
-        $job = new Phonet\Yii\Job\ReceiveCompleteCall(
+        $job = new Phonet\Yii\Job\Call\Complete\Receive(
             $this->repository,
             $uuid,
             Carbon::make($call->dial_at),

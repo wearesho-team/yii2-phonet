@@ -1,14 +1,15 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Record;
+namespace Wearesho\Phonet\Yii\Record\Call\Complete;
 
 use Kartavik\Yii2;
 use Wearesho\Phonet\Call\Complete\Status;
+use Wearesho\Phonet\Yii\Record\Call;
 use yii\db;
 
 /**
- * Class CompleteCallData
- * @package Wearesho\Phonet\Yii\Record
+ * Class Data
+ * @package Wearesho\Phonet\Yii\Record\Call\Complete
  *
  * @property int $id
  * @property string $uuid
@@ -24,7 +25,7 @@ use yii\db;
  *
  * @property-read Call $call
  */
-class CompleteCallData extends db\ActiveRecord
+class Data extends db\ActiveRecord
 {
     public static function tableName(): string
     {

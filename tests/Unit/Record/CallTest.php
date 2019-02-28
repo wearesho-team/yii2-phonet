@@ -55,7 +55,7 @@ class CallTest extends Yii\Tests\Unit\TestCase
             'bridge_at' => Carbon::make(static::BRIDGE_AT)->toDateTimeString()
         ]);
         $this->assertTrue($call->save());
-        $data = new Yii\Record\CompleteCallData([
+        $data = new Yii\Record\Call\Complete\Data([
             'uuid' => static::UUID,
             'status' => Status::TARGET_RESPONDED(),
             'subject_number' => static::SUBJECT_NUMBER,

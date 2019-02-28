@@ -1,16 +1,16 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Job;
+namespace Wearesho\Phonet\Yii\Job\Call\Complete;
 
 use Carbon\Carbon;
 use Wearesho\Phonet;
 use yii\queue\JobInterface;
 
 /**
- * Class ReceiveCompleteCall
- * @package Wearesho\Phonet\Yii\Hangup
+ * Class Receive
+ * @package Wearesho\Phonet\Yii\Job\Call\Complete
  */
-class ReceiveCompleteCall implements JobInterface
+class Receive implements JobInterface
 {
     public const CONTEXT = 'phonet\\job\\receiveCall';
 
@@ -56,7 +56,7 @@ class ReceiveCompleteCall implements JobInterface
                 $offset += 50;
                 $calls = $this->getCalls($offset);
             } else {
-                $completeCallData = new Phonet\Yii\Record\CompleteCallData([
+                $completeCallData = new Phonet\Yii\Record\Call\Complete\Data([
                     'uuid' => $needCall->getUuid(),
                     'transfer_history' => $needCall->getTransferHistory(),
                     'status' => $needCall->getStatus(),

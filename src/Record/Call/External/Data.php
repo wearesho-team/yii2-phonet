@@ -1,12 +1,13 @@
 <?php
 
-namespace Wearesho\Phonet\Yii\Record;
+namespace Wearesho\Phonet\Yii\Record\Call\External;
 
+use Wearesho\Phonet\Yii\Record\Call;
 use yii\db;
 
 /**
- * Class CallExternalData
- * @package Wearesho\Phonet\Yii\Record
+ * Class Data
+ * @package Wearesho\Phonet\Yii\Record\Call\External
  *
  * @property int $id
  * @property string $subject_number
@@ -16,7 +17,7 @@ use yii\db;
  *
  * @property-read Call $call
  */
-class CallExternalData extends db\ActiveRecord
+class Data extends db\ActiveRecord
 {
     public static function tableName(): string
     {

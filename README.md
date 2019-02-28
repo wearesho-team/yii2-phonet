@@ -87,7 +87,7 @@ class User implements Phonet\Yii\IdentityInterface
 
 ### Queue
 
-When Phonet service send event with status that call is end, controller will add to queue [Job\ReceiveCompleteCall](./src/Job/ReceiveCompleteCall.php).
+When Phonet service send event with status that call is end, controller will add to queue [Job\ReceiveCompleteCall](src/Job/Call/Complete/Receive.php).
 
 It will fetch data of that call and save to database
 
