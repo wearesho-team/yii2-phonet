@@ -5,13 +5,28 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Kartvaik",
-      "email": "roman.varkuta@gmail.com"
+      "name": "Roman Varkuta",
+      "email": "roman.varkuta@gmail.com",
+      "role": "Developer"
     }
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": "^7.1"
+    "php": "^7.2",
+    "ext-json": "*",
+    "horat1us/yii2-base": "^1.14",
+    "nesbot/carbon": "^1.36",
+    "wearesho-team/phonet": "1.0.0-RC1",
+    "yiisoft/yii2": "~2.0.13",
+    "yiisoft/yii2-phpunit": "dev-master",
+    "yiisoft/yii2-queue": "^2.1"
+  },
+  "require-dev": {
+    "brainmaestro/composer-git-hooks": "^2.6",
+    "chillerlan/php-cache": "^1.0",
+    "phpunit/phpunit": "^8",
+    "squizlabs/php_codesniffer": "^3.4",
+    "vlucas/phpdotenv": "^3.3"
   },
   "autoload": {
     "psr-4": {
@@ -24,15 +39,29 @@
     }
   },
   "config": {
-    "sort-packages": true,
-    "platform": {
-      "php": "7.1"
-    }
+    "sort-packages": true
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:wearesho-team/phonet.git"
+    }
+  ],
   "scripts": {
     "lint": "phpcs --standard=PSR2 ./src ./tests",
     "phpcbf": "phpcbf --standard=PSR2 ./src ./tests",
     "cover": "phpunit --coverage-clover=coverage.xml",
-    "test": "phpunit"
+    "test": "phpunit",
+    "post-install-cmd": "cghooks add --ignore-lock",
+    "post-update-cmd": "cghooks update"
+  },
+  "extra": {
+    "hooks": {
+      "pre-commit": [
+        "composer lint",
+        "composer test"
+      ],
+      "post-merge": "composer update --lock"
+    }
   }
 }
