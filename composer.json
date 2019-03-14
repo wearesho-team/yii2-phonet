@@ -16,9 +16,8 @@
     "ext-json": "*",
     "horat1us/yii2-base": "^1.14",
     "nesbot/carbon": "^1.36",
-    "wearesho-team/phonet": "1.0.0-RC1",
+    "wearesho-team/phonet": "^1.0.0-RC1",
     "yiisoft/yii2": "~2.0.13",
-    "yiisoft/yii2-phpunit": "dev-master",
     "yiisoft/yii2-queue": "^2.1"
   },
   "require-dev": {
@@ -26,7 +25,8 @@
     "chillerlan/php-cache": "^1.0",
     "phpunit/phpunit": "^8",
     "squizlabs/php_codesniffer": "^3.4",
-    "vlucas/phpdotenv": "^3.3"
+    "vlucas/phpdotenv": "^3.3",
+    "yiisoft/yii2-phpunit": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -44,7 +44,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:wearesho-team/phonet.git"
+      "url": "git@github.com:Horat1us/yii2-phpunit.git"
     }
   ],
   "scripts": {
