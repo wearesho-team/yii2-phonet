@@ -22,10 +22,10 @@ class Bootstrap implements BootstrapInterface
 
     public function bootstrap($app)
     {
-        \Yii::setAlias('@Wearesho\Phonet\Yii', '@vendor/wearesho-team/yii2-phonet/src');
+        \Yii::setAlias('Wearesho/Phonet/Yii', '@vendor/wearesho-team/yii2-phonet/src');
 
         if ($app instanceof console\Application) {
-            $this->appendMigrations($app, 'Wearesho/Phonet/Yii/Migrations');
+            $this->appendMigrations($app, 'Wearesho\\Phonet\\Yii\\Migrations');
         }
 
         \Yii::$container->set(Repository::class, $this->repository);
