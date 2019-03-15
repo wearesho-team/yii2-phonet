@@ -214,6 +214,8 @@ class Controller extends base\Controller
                 );
             }
         }
+
+        $call->trigger(Phonet\Yii\Record\Call::EVENT_AFTER_CREATE);
     }
 
     /**

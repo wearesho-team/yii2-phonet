@@ -19,7 +19,7 @@ use yii\db;
  * @property string $dial_at
  * @property string|null $bridge_at
  * @property string $updated_at
- * @property Phonet\Enum\Event $state
+ * @property Phonet\Call\Event $state
  *
  * @property bool $isInternal
  * @property bool $isExternal
@@ -31,6 +31,8 @@ use yii\db;
  */
 class Call extends db\ActiveRecord
 {
+    public const EVENT_AFTER_CREATE = 'afterCreate';
+
     public static function tableName(): string
     {
         return 'phonet_call';

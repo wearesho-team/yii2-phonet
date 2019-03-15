@@ -19,7 +19,7 @@ class BootstrapTest extends TestCase
 
         $this->assertEquals(
             \Yii::getAlias('@vendor/wearesho-team/yii2-phonet/src'),
-            \Yii::getAlias('@Wearesho\Phonet\Yii')
+            \Yii::getAlias('Wearesho/Phonet/Yii')
         );
         $this->assertTrue(\Yii::$container->has(Repository::class));
     }
