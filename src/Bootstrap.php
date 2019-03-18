@@ -3,7 +3,7 @@
 namespace Wearesho\Phonet\Yii;
 
 use Horat1us\Yii\Traits\BootstrapMigrations;
-use Wearesho\Phonet\Repository;
+use Wearesho\Phonet;
 use yii\base\BootstrapInterface;
 use yii\console;
 
@@ -17,7 +17,7 @@ class Bootstrap implements BootstrapInterface
 
     /** @var string */
     protected $repository = [
-        'class' => Repository::class,
+        'class' => Phonet\Repository::class,
     ];
 
     public function bootstrap($app)
@@ -28,6 +28,9 @@ class Bootstrap implements BootstrapInterface
             $this->appendMigrations($app, 'Wearesho\\Phonet\\Yii\\Migrations');
         }
 
-        \Yii::$container->set(Repository::class, $this->repository);
+        \Yii::$container->setDefinitions([
+            Phonet\ConfigInterface::class => Phonet\EnvironmentConfig::class,
+            Phonet\Repository::class => $this->repository,
+        ]);
     }
 }
