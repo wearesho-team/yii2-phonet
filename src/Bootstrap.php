@@ -29,6 +29,7 @@ class Bootstrap implements BootstrapInterface
         }
 
         \Yii::$container->setDefinitions([
+            Phonet\Authorization\ProviderInterface::class => Phonet\Authorization\Provider::class,
             Phonet\ConfigInterface::class => Phonet\EnvironmentConfig::class,
             Phonet\Repository::class => $this->repository,
         ]);
