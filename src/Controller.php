@@ -96,7 +96,6 @@ class Controller extends base\Controller
      * @param web\Request $request
      *
      * @return array
-     * @throws web\HttpException
      */
     protected function handleClientRequest(web\Request $request): array
     {
@@ -106,7 +105,14 @@ class Controller extends base\Controller
         );
 
         if (\is_null($client)) {
-            throw new web\HttpException(400);
+            return [
+                'name' => null,
+                'newEntity' => true,
+                'url' => '',
+                'urlText' => '',
+                'responsibleEmployeeExt' => null,
+                'responsibleEmployeeEmail' => null
+            ];
         }
 
         $response = [
