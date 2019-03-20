@@ -104,28 +104,22 @@ class Controller extends base\Controller
             $request->post('trunkNum')
         );
 
-        if (\is_null($client)) {
-            return [
+        return is_null($client)
+            ? [
                 'name' => null,
                 'newEntity' => true,
                 'url' => '',
                 'urlText' => '',
                 'responsibleEmployeeExt' => null,
                 'responsibleEmployeeEmail' => null
+            ] : [
+                'name' => $client->getName(),
+                'url' => $client->getUrl(),
+                'urlText' => $client->getUrlText(),
+                'newEntity' => false,
+                'responsibleEmployeeExt' => $client->getResponsibleEmployeeInternalNumber(),
+                'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
             ];
-        }
-
-        $response = [
-            'name' => $client->getName(),
-            'url' => $client->getUrl(),
-            'urlText' => $client->getUrlText(),
-        ];
-
-        return \array_merge($response, [
-            'newEntity' => false,
-            'responsibleEmployeeExt' => $client->getResponsibleEmployeeInternalNumber(),
-            'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
-        ]);
     }
 
     /**
