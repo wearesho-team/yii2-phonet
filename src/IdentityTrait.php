@@ -9,7 +9,7 @@ namespace Wearesho\Phonet\Yii;
  */
 trait IdentityTrait
 {
-    /** @var string|null */
+    /** @var string */
     protected $name;
 
     /** @var string */

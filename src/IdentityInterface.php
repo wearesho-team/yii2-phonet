@@ -21,7 +21,7 @@ interface IdentityInterface
     /**
      * Customer name to which the number transferred belongs.
      *
-     * @return string|null
+     * @return string
      */
     public function getName(): string;
 
