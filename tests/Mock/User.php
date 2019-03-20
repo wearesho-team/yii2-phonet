@@ -35,7 +35,7 @@ class User extends \yii\web\User implements Phonet\Yii\IdentityInterface, \yii\w
         return 'url-text';
     }
 
-    public static function findBy(string $number, ?string $trunk): Phonet\Yii\IdentityInterface
+    public static function findBy(string $number, ?string $trunk): ?Phonet\Yii\IdentityInterface
     {
         return new static(['identityClass' => static::class]);
     }

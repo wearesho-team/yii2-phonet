@@ -16,7 +16,7 @@ interface IdentityInterface
      *
      * @return IdentityInterface|null Return null if customer is not exist in cms system
      */
-    public static function findBy(string $number, ?string $trunk): IdentityInterface;
+    public static function findBy(string $number, ?string $trunk): ?IdentityInterface;
 
     /**
      * Customer name to which the number transferred belongs.
