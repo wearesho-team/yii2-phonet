@@ -121,15 +121,6 @@ class Controller extends base\Controller
             'urlText' => $client->getUrlText(),
         ];
 
-        if (\is_null($response['name'])) {
-            return \array_merge($response, [
-                'name' => null,
-                'newEntity' => true,
-                'responsibleEmployeeExt' => null,
-                'responsibleEmployeeEmail' => null
-            ]);
-        }
-
         return \array_merge($response, [
             'newEntity' => false,
             'responsibleEmployeeExt' => $client->getResponsibleEmployeeInternalNumber(),

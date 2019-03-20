@@ -16,14 +16,14 @@ interface IdentityInterface
      *
      * @return IdentityInterface|null Return null if customer is not exist in cms system
      */
-    public static function findBy(string $number, ?string $trunk): ?IdentityInterface;
+    public static function findBy(string $number, ?string $trunk): IdentityInterface;
 
     /**
      * Customer name to which the number transferred belongs.
      *
      * @return string|null
      */
-    public function getName(): ?string;
+    public function getName(): string;
 
     /**
      * Reference to the opening of the client card that was found by phone number or creating a new one if the contact
