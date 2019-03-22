@@ -31,7 +31,7 @@ class M190226094729CreateCallInternalTable extends Migration
         $this->addForeignKey(
             'phonet_call_internal_call_fk',
             'phonet_call_internal',
-            'id',
+            'call_id',
             'phonet_call',
             'id'
         );

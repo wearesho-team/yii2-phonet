@@ -131,13 +131,13 @@ class Controller extends base\Controller
     protected function handleDial(web\Request $request, string $uuid): void
     {
         $employeeCaller = $request->post('leg');
-        $id = (int)$employeeCaller['id'];
-        $operator = Phonet\Yii\Record\Employee::find()->andWhere(['id' => $id])->one();
+        $internalNumber = (string)$employeeCaller['ext'];
+        $operator = Phonet\Yii\Record\Employee::find()->andWhere(['internal_number' => $internalNumber])->one();
 
         if (!$operator) {
             $operator = new Phonet\Yii\Record\Employee([
-                'id' => $id,
-                'internal_number' => $employeeCaller['ext'],
+                'id' => $employeeCaller['id'],
+                'internal_number' => $internalNumber,
                 'display_name' => $employeeCaller['displayName'],
             ]);
 
@@ -166,13 +166,13 @@ class Controller extends base\Controller
 
         if ($type->equals(Phonet\Yii\Call\Type::INTERNAL())) {
             $employeeCallTaker = $request->post('leg2');
-            $id = (int)$employeeCallTaker['id'];
-            $target = Phonet\Yii\Record\Employee::find()->andWhere(['id' => $id])->one();
+            $internalNumber = (string)$employeeCallTaker['ext'];
+            $target = Phonet\Yii\Record\Employee::find()->andWhere(['internal_number' => $internalNumber])->one();
 
             if (!$target) {
                 $target = new Phonet\Yii\Record\Employee([
-                    'id' => $id,
-                    'internal_number' => $employeeCallTaker['ext'],
+                    'id' => $employeeCallTaker['id'],
+                    'internal_number' => $internalNumber,
                     'display_name' => $employeeCallTaker['displayName']
                 ]);
 
