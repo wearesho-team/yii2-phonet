@@ -21,9 +21,9 @@ interface IdentityInterface
     /**
      * Customer name to which the number transferred belongs.
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string;
+    public function getName(): string;
 
     /**
      * Reference to the opening of the client card that was found by phone number or creating a new one if the contact

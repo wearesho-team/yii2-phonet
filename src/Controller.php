@@ -96,7 +96,6 @@ class Controller extends base\Controller
      * @param web\Request $request
      *
      * @return array
-     * @throws web\HttpException
      */
     protected function handleClientRequest(web\Request $request): array
     {
@@ -105,30 +104,22 @@ class Controller extends base\Controller
             $request->post('trunkNum')
         );
 
-        if (\is_null($client)) {
-            throw new web\HttpException(400);
-        }
-
-        $response = [
-            'name' => $client->getName(),
-            'url' => $client->getUrl(),
-            'urlText' => $client->getUrlText(),
-        ];
-
-        if (\is_null($response['name'])) {
-            return \array_merge($response, [
+        return is_null($client)
+            ? [
                 'name' => null,
                 'newEntity' => true,
+                'url' => '',
+                'urlText' => '',
                 'responsibleEmployeeExt' => null,
                 'responsibleEmployeeEmail' => null
-            ]);
-        }
-
-        return \array_merge($response, [
-            'newEntity' => false,
-            'responsibleEmployeeExt' => $client->getResponsibleEmployeeInternalNumber(),
-            'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
-        ]);
+            ] : [
+                'name' => $client->getName(),
+                'url' => $client->getUrl(),
+                'urlText' => $client->getUrlText(),
+                'newEntity' => false,
+                'responsibleEmployeeExt' => $client->getResponsibleEmployeeInternalNumber(),
+                'responsibleEmployeeEmail' => $client->getResponsibleEmployeeEmail()
+            ];
     }
 
     /**

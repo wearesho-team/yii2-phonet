@@ -10,7 +10,7 @@ use Wearesho\Phonet;
  */
 class User extends \yii\web\User implements Phonet\Yii\IdentityInterface, \yii\web\IdentityInterface
 {
-    public function getName(): ?string
+    public function getName(): string
     {
         return 'name';
     }
