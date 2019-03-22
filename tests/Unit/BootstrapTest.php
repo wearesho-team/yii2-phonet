@@ -11,6 +11,23 @@ use Wearesho\Phonet\Yii\Bootstrap;
  */
 class BootstrapTest extends TestCase
 {
+    /** @var array */
+    protected $aliases;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->aliases = \Yii::$aliases;
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        \Yii::$aliases = $this->aliases;
+    }
+
     public function testBootstrapApp(): void
     {
         $bootstrap = new Bootstrap();
@@ -19,7 +36,7 @@ class BootstrapTest extends TestCase
 
         $this->assertEquals(
             \Yii::getAlias('@vendor/wearesho-team/yii2-phonet/src'),
-            \Yii::getAlias('@Wearesho\Phonet\Yii')
+            \Yii::getAlias('@Wearesho/Phonet/Yii')
         );
         $this->assertTrue(\Yii::$container->has(Repository::class));
     }
