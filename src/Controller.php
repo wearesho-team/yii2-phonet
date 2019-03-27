@@ -163,8 +163,8 @@ class Controller extends base\Controller
         ]);
 
         if (!$call->save()) {
-            $message = 'Failed handle call.dial event, call data validation errors. ';
-            \Yii::error($message . \implode(PHP_EOL, $call->getErrorSummary(true)), static::LOG_CATEGORY);
+            $message = 'Failed handle call.dial event, call data validation errors';
+            \Yii::error("$message: " . \implode(', ', $call->getErrorSummary(true)), static::LOG_CATEGORY);
             throw new web\HttpException(400, $message);
         }
 
@@ -181,8 +181,8 @@ class Controller extends base\Controller
                 ]);
 
                 if (!$target->save()) {
-                    $message = 'Failed handle call.dial event, target (leg2) validation errors. ';
-                    \Yii::error($message . \implode(PHP_EOL, $target->getErrorSummary(true)), static::LOG_CATEGORY);
+                    $message = 'Failed handle call.dial event, target (leg2) validation errors';
+                    \Yii::error("$message: " . \implode(', ', $target->getErrorSummary(true)), static::LOG_CATEGORY);
                     throw new web\HttpException(400, $message);
                 }
             }
@@ -205,8 +205,8 @@ class Controller extends base\Controller
             ]);
 
             if (!$externalData->save()) {
-                $message = 'Failed handle call.dial event, subjects (otherLegs) validation errors. ';
-                \Yii::error($message . \implode(PHP_EOL, $externalData->getErrorSummary(true)), static::LOG_CATEGORY);
+                $message = 'Failed handle call.dial event, subjects (otherLegs) validation errors';
+                \Yii::error("$message: " . \implode(', ', $externalData->getErrorSummary(true)), static::LOG_CATEGORY);
                 throw new web\HttpException(400, $message);
             }
         }
