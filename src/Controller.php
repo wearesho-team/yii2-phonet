@@ -161,7 +161,13 @@ class Controller extends base\Controller
         ]);
 
         if (!$call->save()) {
-            throw new web\HttpException(400, 'Failed handle call.dial event, call data validation errors');
+            throw new web\HttpException(
+                400,
+                'Failed handle call.dial event, call data validation errors: ' . \implode(
+                    ', ',
+                    $call->getErrorSummary(true)
+                )
+            );
         }
 
         if ($type->equals(Phonet\Yii\Call\Type::INTERNAL())) {
@@ -177,7 +183,13 @@ class Controller extends base\Controller
                 ]);
 
                 if (!$target->save()) {
-                    throw new web\HttpException(400, 'Failed handle call.dial event, target (leg2) validation errors');
+                    throw new web\HttpException(
+                        400,
+                        'Failed handle call.dial event, target (leg2) validation errors: ' . \implode(
+                            ', ',
+                            $target->getErrorSummary(true)
+                        )
+                    );
                 }
             }
 
@@ -201,7 +213,10 @@ class Controller extends base\Controller
             if (!$externalData->save()) {
                 throw new web\HttpException(
                     400,
-                    'Failed handle call.dial event, subjects (otherLegs) validation errors'
+                    'Failed handle call.dial event, subjects (otherLegs) validation errors: ' . \implode(
+                        ', ',
+                        $externalData->getErrorSummary(true)
+                    )
                 );
             }
         }
