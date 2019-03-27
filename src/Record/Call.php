@@ -46,16 +46,6 @@ class Call extends db\ActiveRecord
                 'class' => CarbonBehavior::class,
                 'createdAtAttribute' => false,
             ],
-            'dial_ts' => [
-                'class' => CarbonBehavior::class,
-                'attributes' => [
-                    static::EVENT_BEFORE_INSERT => 'dial_at',
-                    static::EVENT_BEFORE_UPDATE => 'dial_at',
-                ],
-                'value' => function () {
-                    return $this->dial_at;
-                }
-            ]
         ];
     }
 
