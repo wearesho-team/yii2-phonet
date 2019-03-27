@@ -16,8 +16,6 @@ use Wearesho\Phonet;
  */
 class Controller extends base\Controller
 {
-    public const LOG_CATEGORY = 'phonet/controller';
-
     /** @var Phonet\Yii\IdentityInterface */
     public $identity = Phonet\Yii\IdentityInterface::class;
 
@@ -163,9 +161,13 @@ class Controller extends base\Controller
         ]);
 
         if (!$call->save()) {
-            $message = 'Failed handle call.dial event, call data validation errors';
-            \Yii::error("$message: " . \implode(', ', $call->getErrorSummary(true)), static::LOG_CATEGORY);
-            throw new web\HttpException(400, $message);
+            throw new web\HttpException(
+                400,
+                'Failed handle call.dial event, call data validation errors: ' . \implode(
+                    ', ',
+                    $call->getErrorSummary(true)
+                )
+            );
         }
 
         if ($type->equals(Phonet\Yii\Call\Type::INTERNAL())) {
@@ -181,9 +183,13 @@ class Controller extends base\Controller
                 ]);
 
                 if (!$target->save()) {
-                    $message = 'Failed handle call.dial event, target (leg2) validation errors';
-                    \Yii::error("$message: " . \implode(', ', $target->getErrorSummary(true)), static::LOG_CATEGORY);
-                    throw new web\HttpException(400, $message);
+                    throw new web\HttpException(
+                        400,
+                        'Failed handle call.dial event, target (leg2) validation errors: ' . \implode(
+                            ', ',
+                            $target->getErrorSummary(true)
+                        )
+                    );
                 }
             }
 
@@ -205,9 +211,13 @@ class Controller extends base\Controller
             ]);
 
             if (!$externalData->save()) {
-                $message = 'Failed handle call.dial event, subjects (otherLegs) validation errors';
-                \Yii::error("$message: " . \implode(', ', $externalData->getErrorSummary(true)), static::LOG_CATEGORY);
-                throw new web\HttpException(400, $message);
+                throw new web\HttpException(
+                    400,
+                    'Failed handle call.dial event, subjects (otherLegs) validation errors: ' . \implode(
+                        ', ',
+                        $externalData->getErrorSummary(true)
+                    )
+                );
             }
         }
 
