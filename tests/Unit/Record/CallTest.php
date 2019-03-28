@@ -18,7 +18,6 @@ class CallTest extends Yii\Tests\Unit\TestCase
     protected const UUID = 'test-uuid';
     protected const DOMAIN = 'test-domain';
     protected const DIAL_AT = '2018-03-12 03:03:03';
-    protected const UPDATED_AT = '2018-03-12 04:03:03';
     protected const DISPLAY_NAME = 'test-display-name';
     protected const INTERNAL_NUMBER = 'test-internal-number';
     protected const OPERATOR_ID = 1;
@@ -51,7 +50,6 @@ class CallTest extends Yii\Tests\Unit\TestCase
             'dial_at' => Carbon::make(static::DIAL_AT)->toDateTimeString(),
             'type' => Yii\Call\Type::INTERNAL()->getKey(),
             'pause' => Yii\Call\Pause::OFF()->getKey(),
-            'updated_at' => Carbon::make(static::UPDATED_AT)->toDateTimeString(),
             'operator_id' => $operator->id,
             'bridge_at' => Carbon::make(static::BRIDGE_AT)->toDateTimeString(),
             'state' => Event::DIAL,
@@ -107,11 +105,6 @@ class CallTest extends Yii\Tests\Unit\TestCase
     public function testGetPause(): void
     {
         $this->assertEquals(Yii\Call\Pause::OFF()->getKey(), $this->call->pause);
-    }
-
-    public function testGetUpdatedAt(): void
-    {
-        $this->assertEquals(static::UPDATED_AT, $this->call->updated_at);
     }
 
     public function testGetOperatorId(): void

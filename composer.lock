@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eeb7259aca38b86c9a95d3682270c7ca",
+    "content-hash": "596f3709ec2ea6b749cfc26eadcb85f5",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -543,6 +543,48 @@
             "time": "2018-10-30T13:03:02+00:00"
         },
         {
+            "name": "horat1us/yii2-carbon-behavior",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Horat1us/yii2-carbon-behavior.git",
+                "reference": "01ff9f93775b9bebcc686fdc6ea69da67602a5a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Horat1us/yii2-carbon-behavior/zipball/01ff9f93775b9bebcc686fdc6ea69da67602a5a1",
+                "reference": "01ff9f93775b9bebcc686fdc6ea69da67602a5a1",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^1.36 | ^2.0",
+                "php": ">=7.2",
+                "yiisoft/yii2": "^2.0.15"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Horat1us\\Yii\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Letnikow",
+                    "email": "reclamme@gmail.com"
+                }
+            ],
+            "description": "Yii2 Carbon Timestamps Behavior",
+            "time": "2019-03-19T04:32:00+00:00"
+        },
+        {
             "name": "myclabs/php-enum",
             "version": "1.6.6",
             "source": {
@@ -1074,16 +1116,16 @@
         },
         {
             "name": "wearesho-team/phonet",
-            "version": "1.0.0-RC1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "d1f55d660aafc5ff4ceba00d1892876a0f714475"
+                "reference": "47a4f3f2591b8c1b5aada775de684bb0b7bb9c9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/d1f55d660aafc5ff4ceba00d1892876a0f714475",
-                "reference": "d1f55d660aafc5ff4ceba00d1892876a0f714475",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/47a4f3f2591b8c1b5aada775de684bb0b7bb9c9a",
+                "reference": "47a4f3f2591b8c1b5aada775de684bb0b7bb9c9a",
                 "shasum": ""
             },
             "require": {
@@ -1107,25 +1149,7 @@
                     "Wearesho\\Phonet\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Wearesho\\Phonet\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "lint": [
-                    "phpcs --standard=PSR2 ./src ./tests"
-                ],
-                "phpcbf": [
-                    "phpcbf --standard=PSR2 ./src ./tests"
-                ],
-                "cover": [
-                    "phpunit --coverage-clover=coverage.xml"
-                ],
-                "test": [
-                    "phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1136,11 +1160,7 @@
                 }
             ],
             "description": "Phonet Api Integration",
-            "support": {
-                "source": "https://github.com/wearesho-team/phonet/tree/1.0.0-RC1",
-                "issues": "https://github.com/wearesho-team/phonet/issues"
-            },
-            "time": "2019-02-28T09:18:22+00:00"
+            "time": "2019-03-28T13:59:35+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -3331,7 +3351,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "wearesho-team/phonet": 5,
+        "wearesho-team/phonet": 20,
         "yiisoft/yii2-phpunit": 20
     },
     "prefer-stable": false,

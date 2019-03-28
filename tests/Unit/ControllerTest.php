@@ -201,8 +201,8 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
             "accountDomain" => "qwerty.phonet.com.ua",
             "uuid" => "47a968893984475b8c20e29dec144ce3",
             "parentUuid" => null,
-            "dialAt" => 1431686100,
-            "bridgeAt" => 1431686112,
+            "dialAt" => "1431686100",
+            "bridgeAt" => "1431686112",
             "lgDirection" => 2,
             "leg" => ["id" => 36, "ext" => "001", "displayName" => "Иван Иванов"],
             "leg2" => null,
@@ -365,6 +365,47 @@ class ControllerTest extends Phonet\Yii\Tests\Unit\TestCase
 
         $this->assertNotNull($call);
         $this->assertEquals(Phonet\Call\Event::HANGUP(), $call->state);
+    }
+
+    public function testEmptyTrunks(): void
+    {
+        $controller = new Phonet\Yii\Controller('id', $this->createMock(Module::class), [
+            'identity' => Phonet\Yii\Tests\Mock\User::class,
+        ]);
+
+        $bodyParams = [
+            "event" => "call.dial",
+            "accountDomain" => "qwerty.phonet.com.ua",
+            "uuid" => "47a968893984475b8c20e29dec144ce3",
+            "parentUuid" => null,
+            "dialAt" => 1431686100,
+            "bridgeAt" => null,
+            "lgDirection" => 2,
+            "leg" => ["id" => 36, "ext" => "001", "displayName" => "Иван Иванов"],
+            "leg2" => null,
+            "otherLegs" => [
+                [
+                    "id" => 1,
+                    "name" => "Анастасия Березкина",
+                    "num" => "+380000000000",
+                    "companyName" => "Тестовая компания",
+                    "url" => "http =>//phonet.com.ua/contacts/1"
+                ]
+            ],
+            "trunkNum" => null,
+            "trunkName" => null,
+        ];
+
+        \Yii::$app->request->setBodyParams($bodyParams);
+
+        $_SERVER['REMOTE_ADDR'] = '00.000.00.000';
+
+        $this->assertEmpty($controller->actionIndex());
+
+        $call = Phonet\Yii\Record\Call::find()->andWhere(['uuid' => '47a968893984475b8c20e29dec144ce3'])->one();
+
+        $this->assertNotNull($call);
+        $this->assertEquals(Phonet\Call\Event::DIAL(), $call->state);
     }
 
     public function testHandleInternalCall(): void

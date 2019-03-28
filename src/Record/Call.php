@@ -2,6 +2,7 @@
 
 namespace Wearesho\Phonet\Yii\Record;
 
+use Horat1us\Yii\CarbonBehavior;
 use Wearesho\Phonet;
 use yii\db;
 
@@ -38,6 +39,16 @@ class Call extends db\ActiveRecord
         return 'phonet_call';
     }
 
+    public function behaviors()
+    {
+        return [
+            'ts' => [
+                'class' => CarbonBehavior::class,
+                'createdAtAttribute' => false,
+            ],
+        ];
+    }
+
     public function rules(): array
     {
         return [
@@ -48,7 +59,6 @@ class Call extends db\ActiveRecord
                     'dial_at',
                     'type',
                     'pause',
-                    'updated_at',
                     'operator_id',
                     'state',
                 ],
@@ -63,7 +73,7 @@ class Call extends db\ActiveRecord
                 'string'
             ],
             [
-                ['dial_at', 'bridge_at', 'updated_at'],
+                ['bridge_at'],
                 'datetime',
                 'format' => 'php:Y-m-d H:i:s'
             ],

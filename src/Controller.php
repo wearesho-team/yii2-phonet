@@ -154,9 +154,8 @@ class Controller extends base\Controller
             'type' => $type->getKey(),
             'operator_id' => $operator->id,
             'pause' => Phonet\Yii\Call\Pause::OFF()->getKey(),
-            'dial_at' => Carbon::createFromTimestamp($request->post('dialAt'))->toDateTimeString(),
+            'dial_at' => Carbon::createFromTimestampMs($request->post('dialAt'))->toDateTimeString(),
             'bridge_at' => null,
-            'updated_at' => $this->fetchServerTime($request),
             'state' => Phonet\Call\Event::DIAL()->getValue(),
         ]);
 
@@ -241,8 +240,7 @@ class Controller extends base\Controller
             );
         }
 
-        $call->updated_at = $this->fetchServerTime($request);
-        $call->bridge_at = Carbon::createFromTimestamp($request->post('bridgeAt'))->toDateTimeString();
+        $call->bridge_at = Carbon::createFromTimestampMs($request->post('bridgeAt'))->toDateTimeString();
         $call->state = Phonet\Call\Event::BRIDGE()->getValue();
         $direction = $request->post('lgDirection');
 
@@ -281,7 +279,6 @@ class Controller extends base\Controller
             );
         }
 
-        $call->updated_at = $this->fetchServerTime($request);
         $call->state = Phonet\Call\Event::HANGUP();
 
         try {
@@ -293,17 +290,10 @@ class Controller extends base\Controller
         $job = new Phonet\Yii\Job\Call\Complete\Receive(
             $uuid,
             Carbon::make($call->dial_at),
-            Carbon::make($request->post('serverTime')) ?? Carbon::now()
+            Carbon::createFromTimestampMs($request->post('serverTime')) ?? Carbon::now()
         );
 
         $this->queue->push($job);
-    }
-
-    protected function fetchServerTime(web\Request $request): ?string
-    {
-        $serverTime = $request->post('serverTime');
-
-        return ($serverTime ? Carbon::createFromTimestamp($serverTime) : Carbon::now())->toDateTimeString();
     }
 
     protected function getCall(string $uuid): ?Phonet\Yii\Record\Call
