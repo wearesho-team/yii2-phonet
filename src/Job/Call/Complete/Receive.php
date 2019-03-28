@@ -92,8 +92,8 @@ class Receive implements JobInterface
      */
     protected function getCalls(Phonet\Repository $repository, $offset = 0): Phonet\Call\Complete\Collection
     {
-        $from = Carbon::make($this->createdAt)->subHour();
-        $to = Carbon::make($this->hangupAt)->addHour();
+        $from = Carbon::make($this->createdAt)->subMinutes(10);
+        $to = Carbon::make($this->hangupAt)->addMinutes(10);
         $directions = new Phonet\Call\Direction\Collection([
             Phonet\Call\Direction::INTERNAL(),
             Phonet\Call\Direction::OUT(),
