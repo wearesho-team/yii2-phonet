@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e630c0add575975097483d0de81a87a",
+    "content-hash": "7ba536664c038c02757110757dcb989b",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -1116,16 +1116,16 @@
         },
         {
             "name": "wearesho-team/phonet",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wearesho-team/phonet.git",
-                "reference": "47a4f3f2591b8c1b5aada775de684bb0b7bb9c9a"
+                "reference": "12be778974ab8126cc951cb6843b1a827df395dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/47a4f3f2591b8c1b5aada775de684bb0b7bb9c9a",
-                "reference": "47a4f3f2591b8c1b5aada775de684bb0b7bb9c9a",
+                "url": "https://api.github.com/repos/wearesho-team/phonet/zipball/12be778974ab8126cc951cb6843b1a827df395dc",
+                "reference": "12be778974ab8126cc951cb6843b1a827df395dc",
                 "shasum": ""
             },
             "require": {
@@ -1160,7 +1160,7 @@
                 }
             ],
             "description": "Phonet Api Integration",
-            "time": "2019-03-28T13:59:35+00:00"
+            "time": "2019-04-01T18:16:32+00:00"
         },
         {
             "name": "yiisoft/yii2",
