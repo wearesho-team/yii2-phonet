@@ -15,8 +15,18 @@ class Bootstrap implements BootstrapInterface
 {
     use BootstrapMigrations;
 
-    /** @var string */
-    protected $repository = [
+    /** @var string|array|Phonet\Authorization\ProviderInterface */
+    public $provider = [
+        'class' => Phonet\Authorization\Provider::class
+    ];
+
+    /** @var string|array|Phonet\ConfigInterface */
+    public $config = [
+        'class' => Phonet\EnvironmentConfig::class
+    ];
+
+    /** @var string|array|Phonet\Repository */
+    public $repository = [
         'class' => Phonet\Repository::class,
     ];
 
@@ -28,9 +38,14 @@ class Bootstrap implements BootstrapInterface
             $this->appendMigrations($app, 'Wearesho\\Phonet\\Yii\\Migrations');
         }
 
+        $this->configureContainer();
+    }
+
+    protected function configureContainer(): void
+    {
         \Yii::$container->setDefinitions([
-            Phonet\Authorization\ProviderInterface::class => Phonet\Authorization\Provider::class,
-            Phonet\ConfigInterface::class => Phonet\EnvironmentConfig::class,
+            Phonet\Authorization\ProviderInterface::class => $this->provider,
+            Phonet\ConfigInterface::class => $this->config,
             Phonet\Repository::class => $this->repository,
         ]);
     }

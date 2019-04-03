@@ -43,6 +43,9 @@ return [
     'bootstrap' => [
         'phonet' => [
             'class' => \Wearesho\Phonet\Yii\Bootstrap::class,
+            'config' => \Wearesho\Phonet\EnvironmentConfig::class,
+            'provider' => \Wearesho\Phonet\Authorization\Provider::class,
+            'repository' => \Wearesho\Phonet\Repository::class,
         ]
     ]
 ];
