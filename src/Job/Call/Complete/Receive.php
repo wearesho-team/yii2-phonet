@@ -100,19 +100,13 @@ class Receive implements JobInterface
             Phonet\Call\Direction::IN(),
         ]);
 
-        try {
-            return $repository->companyCalls(
-                $from,
-                $to,
-                $directions,
-                50,
-                $offset
-            );
-        } catch (Phonet\Exception $exception) {
-            \Yii::error($exception->getMessage(), static::CONTEXT);
-
-            throw $exception;
-        }
+        return $repository->companyCalls(
+            $from,
+            $to,
+            $directions,
+            50,
+            $offset
+        );
     }
 
     protected function fetchNeedCall(Phonet\Call\Complete\Collection $calls): ?Phonet\Call\Complete
