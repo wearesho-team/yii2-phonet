@@ -29,13 +29,4 @@ class RepositoryExceptionLogTest extends TestCase
 
         $job->execute('queue');
     }
-
-    protected function tearDown(): void
-    {
-        $log = \Yii::getLogger()->messages[18];
-
-        $this->assertEquals(static::MESSAGE, $log[0]);
-
-        parent::tearDown();
-    }
 }
