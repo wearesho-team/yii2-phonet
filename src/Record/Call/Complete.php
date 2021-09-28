@@ -64,6 +64,6 @@ class Complete extends db\ActiveRecord
 
     public function getCall(): db\ActiveQuery
     {
-        return $this->hasOne(Phonet\Yii\Record\Call::class, ['id' => 'call_id']);
+        return $this->hasOne(Phonet\Yii\Record\Call::class, ['uuid' => 'uuid']);
     }
 }
